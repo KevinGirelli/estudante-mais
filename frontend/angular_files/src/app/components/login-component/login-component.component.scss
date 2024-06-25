@@ -1,0 +1,129 @@
+.container {
+  display: flex;
+  background-color: #EEE;
+  height: 100vh;
+  align-items: center;
+
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10vw;
+    padding: 20px;
+    background-color: #FFFFFF;
+    height: 100vh;
+    min-width: 30vw;
+    align-items: center;
+    box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.1);
+
+    .logo {
+      margin-top: 15vh;
+      display: flex;
+      align-items: center;
+      gap: 0.5vw;
+
+      img {
+        width: 70px;
+        height: 70px;
+      }
+
+      h1 {
+        font-size: 32px;
+        font-weight: 300;
+      }
+    }
+
+    h2 {
+      margin-top: 5vh;
+      font-size: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      margin-top: 20px;
+      
+      .label {
+        font-size: 16px;
+        color: #555555;
+        margin-top: 1vh;
+      }
+
+      .input-container {
+        width: 100%;
+        margin-bottom: 10px;
+        display: flex;
+      }
+
+      .input-field {
+        width: 100%;
+        padding: 10px;
+        padding-right: 40px;
+        border: 1px solid #CCC;
+        border-radius: 8px 0 0 8px;
+        background-color: #EEE;
+      }
+
+      .input-icon {
+        display: flex;
+        align-items: center;
+        background-color: #9747FF;
+        padding: 10px;
+        border-radius: 0 8px 8px 0;
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    a {
+      font-size: 14px;
+      margin-top: 1vh;
+      align-self: flex-end;
+      transition: 0.5s;
+      color: #1E2772;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      margin-top: 3vh;
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #9747FF;
+      border: none;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 500;
+      transition: 0.5s;
+    }
+
+    .btn:hover {
+      background-color: #6a3ce9;
+    }
+  }
+
+  .image-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+
+    h2 {
+      margin-bottom: 7vh;
+      font-size: 32px;
+      font-weight: 400;
+    }
+
+    img {
+      width: 40vw;
+    }
+  }
+}
