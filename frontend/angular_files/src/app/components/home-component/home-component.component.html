@@ -1,1 +1,98 @@
-<p>home-component works!</p>
+<p-stepper>
+  <p-stepperPanel>
+    <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+      <div class="slide-container">
+        <div class="image-container">
+          <img src="../../../assets/images/home/slide-1.png" alt="slide-1">
+        </div>
+        <div class="text-container">
+          <div class="text">
+            <h2>Bem-vindo ao Estudante+</h2>
+            <p>
+              Organize seus estudos de forma prática e tenha todas
+              as suas informações escolares na palma da sua mão.
+            </p>
+          </div>
+          <div class="button-container">
+            <button class="button-back" disabled>
+              <img src="../../../assets/images/home/arrow-back.png" alt="Back" />
+            </button>
+            <div class="triple-buttons">
+              <span class="slide-active"></span>
+              <span class="slide-inactive"></span>
+              <span class="slide-inactive"></span>
+            </div>
+            <button class="button-next" (click)="nextCallback.emit()">
+              <img src="../../../assets/images/home/arrow-next.png" alt="Next" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-stepperPanel>
+  
+  <p-stepperPanel>
+    <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
+      <div class="slide-container">
+        <div class="image-container">
+          <img src="../../../assets/images/home/slide-2.png" alt="slide-2">
+        </div>
+        <div class="text-container">
+          <div class="text">
+            <h2>Gerencie suas atividades !</h2>
+            <p>
+              Nunca mais esqueça de uma tarefa! 
+              O Estudante+ permite que você gerencie suas atividades 
+              escolares de forma simples e eficiente.
+            </p>
+          </div>
+          <div class="button-container">
+            <button class="button-back" (click)="prevCallback.emit()">
+              <img src="../../../assets/images/home/arrow-back.png" alt="Back" />
+            </button>
+            <div class="triple-buttons">
+              <span class="slide-inactive"></span>
+              <span class="slide-active"></span>
+              <span class="slide-inactive"></span>
+            </div>
+            <button class="button-next" (click)="nextCallback.emit()">
+              <img src="../../../assets/images/home/arrow-next.png" alt="Next" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-stepperPanel>
+
+  <p-stepperPanel>
+    <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
+      <div class="slide-container">
+        <div class="image-container">
+          <img src="../../../assets/images/home/slide-3.png" alt="slide-3">
+        </div>
+        <div class="text-container">
+          <div class="text">
+            <h2>Acompanhe a educação do seu filho !</h2>
+            <p>
+              Acompanhe suas notas, frequência e atividades
+              escolares de maneira simples e conveniente.
+            </p>
+          </div>
+          <div class="button-container">
+            <button class="button-back" (click)="prevCallback.emit()">
+              <img src="../../../assets/images/home/arrow-back.png" alt="Back" />
+            </button>
+            <div class="triple-buttons">
+              <span class="slide-inactive"></span>
+              <span class="slide-inactive"></span>
+              <span class="slide-active"></span>
+            </div>
+            <a href="/login" class="button-next">
+              <img src="../../../assets/images/home/arrow-next.png" alt="Next" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-stepperPanel>
+</p-stepper>

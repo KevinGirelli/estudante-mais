@@ -1,0 +1,128 @@
+* {
+  font-size: 0px;
+}
+
+.slide-container {
+  display: flex;
+  background-color: #EEEEEE;
+  height: 100vh;
+
+  .image-container {
+    align-items: center;
+    display: flex;
+    width: 45%;
+    
+    img {
+      margin: auto;
+      width: 30vw;
+    }
+  }
+
+  .text-container {
+    padding: 20px;
+    background-color: #FFFFFF;
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.1);
+
+    .text {
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h2 {
+        font-size: 32px;
+        font-weight: 500;
+        color: #292F47;
+        max-width: 40vw;
+      }
+      p {
+        margin: 7vh;
+        font-size: 18px;
+        font-weight: 300;
+        color: #566B76;
+        max-width: 27vw;
+      }
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 5vw;
+
+      .button-next {
+        background-color: #9747FF;
+        border: none;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 33px;
+        transition: 0.5s;
+
+      }
+
+      .button-next:hover {
+        background-color: #6a3ce9;
+      }
+      
+      .button-back {
+        background-color: #EEEEEE;
+        border: none;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 33px;
+        transition: background-color 0.3s;
+
+      }
+
+      .button-back:hover {
+        background-color: #cacaca;
+      }
+
+      .button-back[disabled], .button-back[disabled]:hover{
+        opacity: 0.5; 
+        cursor: not-allowed;
+        background-color: #EEEEEE;
+      }
+
+      .button-next img, .button-back img {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+      }
+    }
+
+    .triple-buttons {
+      display: flex;
+      align-items: center;
+
+      .slide-active {
+        background-color: #9747FF;
+        width: 14px;
+        height: 14px;
+        border: none;
+        border-radius: 100%;
+        margin: 5px;
+      }
+
+      .slide-inactive {
+        background-color: #cacaca;
+        width: 14px;
+        height: 14px;
+        border: none;
+        border-radius: 100%;
+        margin: 5px;
+      }
+    }
+  }
+}
