@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule
   ],
+  providers: [LoginService],
   templateUrl: './login-component.component.html',
   styleUrl: './login-component.component.scss'
 })
