@@ -35,13 +35,13 @@ public class adminController {
 
   @PostMapping("/registerStudent")
   public ResponseEntity registerNewStudent(@RequestBody registerStudentDTO registerStudent){
-    UserDetails studentAlreadyExist = studentRepository.findBystudentEmail(registerStudent.email());
+    UserDetails studentAlreadyExist = studentRepository.findBystudentEmailOrStudentRegistration(registerStudent.email(), registerStudent.email());
     if(studentAlreadyExist != null){
       return ResponseEntity.badRequest().body("User already exist");
     }else{
       student newStudent = new student(
-              registerStudent.email(),this.passwordEncoder.encode(registerStudent.password()), registerStudent.firstName(),
-              registerStudent.lastName(), registerStudent.cpf(), registerStudent.age(), UserRoles.STUDENT
+              registerStudent.email(),this.passwordEncoder.encode(registerStudent.password()),
+              registerStudent.Fullname(), registerStudent.cpf(), registerStudent.age(), UserRoles.STUDENT, registerStudent.registration()
       );
       this.studentRepository.save(newStudent);
 

@@ -22,7 +22,7 @@ export class LoginComponentComponent {
 
   login(){
     const dados = {
-      matricula: this.matricula,
+      emailOrCode: this.matricula,
       password: this.password
     }
 

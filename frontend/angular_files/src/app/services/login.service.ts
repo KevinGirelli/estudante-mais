@@ -13,6 +13,6 @@ export class LoginService {
     const httpOptions = {headers: new HttpHeaders({
       "Content-type": "application/json"
     })}
-    return this.httpClient.post("http://localhost:8080/login", login, httpOptions);
+    return this.httpClient.post("http://localhost:8080/auth/login", JSON.stringify(login), httpOptions);
   }
 }

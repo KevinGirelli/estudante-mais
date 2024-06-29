@@ -25,6 +25,54 @@ public class teacher implements UserDetails {
     @Column(name = "teacherName", nullable = false)
     private String teacherName;
 
+    public UUID getTeacherID() {
+        return teacherID;
+    }
+
+    public void setTeacherID(UUID teacherID) {
+        this.teacherID = teacherID;
+    }
+
+    public String getTeacherEmail() {
+        return teacherEmail;
+    }
+
+    public void setTeacherEmail(String teacherEmail) {
+        this.teacherEmail = teacherEmail;
+    }
+
+    public String getTeacherPassword() {
+        return teacherPassword;
+    }
+
+    public void setTeacherPassword(String teacherPassword) {
+        this.teacherPassword = teacherPassword;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getTeacherSubject() {
+        return teacherSubject;
+    }
+
+    public void setTeacherSubject(String teacherSubject) {
+        this.teacherSubject = teacherSubject;
+    }
+
+    public UserRoles getRole() {
+        return role;
+    }
+
+    public void setRole(UserRoles role) {
+        this.role = role;
+    }
+
     @Column(name = "teacherSubject", nullable = false)
     private String teacherSubject;
 

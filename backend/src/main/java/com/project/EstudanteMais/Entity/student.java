@@ -7,12 +7,77 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class student implements UserDetails {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Long studentID;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID studentID;
+
+  public UUID getStudentID() {
+    return studentID;
+  }
+
+  public void setStudentID(UUID studentID) {
+    this.studentID = studentID;
+  }
+
+  public String getStudentEmail() {
+    return studentEmail;
+  }
+
+  public void setStudentEmail(String studentEmail) {
+    this.studentEmail = studentEmail;
+  }
+
+  public String getStudentPassword() {
+    return studentPassword;
+  }
+
+  public void setStudentPassword(String studentPassword) {
+    this.studentPassword = studentPassword;
+  }
+
+  public UserRoles getRole() {
+    return role;
+  }
+
+  public void setRole(UserRoles role) {
+    this.role = role;
+  }
+
+  public String getRegistration() {
+    return studentRegistration;
+  }
+
+  public void setRegistration(String registration) {
+    this.studentRegistration = registration;
+  }
+
+  public String getStudentFullname() {
+    return studentFullname;
+  }
+
+  public void setStudentFullname(String studentFullname) {
+    this.studentFullname = studentFullname;
+  }
+
+  public String getStudentCPF() {
+    return studentCPF;
+  }
+
+  public void setStudentCPF(String studentCPF) {
+    this.studentCPF = studentCPF;
+  }
+
+  public String getStudentAge() {
+    return studentAge;
+  }
+
+  public void setStudentAge(String studentAge) {
+    this.studentAge = studentAge;
+  }
 
   @Column(name = "studentEmail", nullable = false)
   private String studentEmail;
@@ -23,11 +88,11 @@ public class student implements UserDetails {
   @Column(name = "role",nullable = false)
   private UserRoles role;
 
-  @Column(name = "studentFirstName",nullable = false)
-  private String studentFirstName;
+  @Column(name = "studentRegistration", nullable = false)
+  private String studentRegistration;
 
-  @Column(name = "studentLastName",nullable = false)
-  private String studentLastName;
+  @Column(name = "studentFullname",nullable = false)
+  private String studentFullname;
 
   @Column(name = "studentCPF",nullable = false)
   private String studentCPF;
@@ -39,15 +104,15 @@ public class student implements UserDetails {
     super();
   }
   public student(String studentEmail
-  , String studentPassword,String studentFirstName,String studentLastName
-  ,String studentCPF, String studentAge, UserRoles role){
+  , String studentPassword,String studentFullname
+  ,String studentCPF, String studentAge, UserRoles role, String registration){
     this.studentEmail = studentEmail;
     this.studentPassword = studentPassword;
-    this.studentFirstName = studentFirstName;
-    this.studentLastName = studentLastName;
+    this.studentFullname = studentFullname;
     this.studentCPF = studentCPF;
     this.studentAge = studentAge;
     this.role = role;
+    this.studentRegistration = registration;
   }
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -39,7 +39,7 @@ public class internalFilter extends OncePerRequestFilter {
     if(token != null){
        var subject = tokenService.validateToken(token);
         UserDetails admin = this.adminRepository.findBydirectorEmail(subject);
-        UserDetails student = this.studentRepository.findBystudentEmail(subject);
+        UserDetails student = this.studentRepository.findBystudentEmailOrStudentRegistration(subject,subject);
         UserDetails teacher = this.teacherRepository.findByteacherEmail(subject);
         if(admin != null){
             var auth = new UsernamePasswordAuthenticationToken(admin.getUsername(), admin.getUsername(),admin.getAuthorities());

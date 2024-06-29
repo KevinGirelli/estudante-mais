@@ -43,7 +43,7 @@ public class authController {
   @PostMapping("/login")
   public ResponseEntity loginRequest(@RequestBody loginDTO loginData){
     var adminUser = adminRepository.findBydirectorEmail(loginData.emailOrCode());
-    var studentUser = studentRepository.findBystudentEmail(loginData.emailOrCode());
+    var studentUser = studentRepository.findBystudentEmailOrStudentRegistration(loginData.emailOrCode(), loginData.emailOrCode());
     var teacherUser = teacherRepository.findByteacherEmail(loginData.emailOrCode());
 
     if(adminUser != null){
