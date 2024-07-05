@@ -1,7 +1,7 @@
 <div class="nav">
   <div class="logo">
     <a href="admin">
-      <img src="../../../assets/images/logo_estudante_mais.png">
+      <img src="../../../assets/images/logo_estudante_mais.png" alt="Logo">
       <h2>Estudante+</h2>
     </a>
   </div>
@@ -21,3 +21,54 @@
     </ul>
   </div>
 </div>
+
+<p-stepper>
+  <p-stepperPanel>
+    <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+      <div class="slide-container">
+        <div class="container">
+          <button class="button-back pi pi-arrow-left" disabled></button>
+          <div class="form-container">
+            <div class="text">
+              <h2>Cadastro Alunos</h2>
+              <div class="form-group">
+                <div class="form-item">
+                  <label class="label" for="studentFullname">Nome Completo</label>
+                  <input class="input-field" type="text" [(ngModel)]="studentFullname" id="studentFullname">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="studentEmail">Email</label>
+                  <input class="input-field" type="email" [(ngModel)]="studentEmail" id="studentEmail">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="studentPassword">Senha</label>
+                  <input class="input-field" type="password" [(ngModel)]="studentPassword" id="studentPassword">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="studentCPF">CPF</label>
+                  <input class="input-field" type="text" [(ngModel)]="studentCPF" id="studentCPF">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="studentAge">Data de Nascimento</label>
+                  <input class="input-field" type="date" [(ngModel)]="studentAge" id="studentAge">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="classes">Turma</label>
+                  <input class="input-field" type="text" [(ngModel)]="classes" id="classes">
+                </div>
+              </div>
+              <button class="submit-button" (click)="cadastrarAluno()" type="submit">Cadastrar</button>
+
+              <div class="triple-buttons">
+                <span class="slide-active"></span>
+                <span class="slide-inactive"></span>
+                <span class="slide-inactive"></span>
+              </div>
+            </div>
+          </div>
+          <button class="button-next pi pi-arrow-right" (click)="nextCallback()"></button>
+        </div>
+      </div>
+    </ng-template>
+  </p-stepperPanel>
+</p-stepper>
