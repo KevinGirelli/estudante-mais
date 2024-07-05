@@ -25,6 +25,12 @@ public class teacher implements UserDetails {
     @Column(name = "teacherName", nullable = false)
     private String teacherName;
 
+    @Column(name = "teacherSubject", nullable = false)
+    private String teacherSubject;
+
+    @Column(name = "role")
+    private UserRoles role;
+
     public UUID getTeacherID() {
         return teacherID;
     }
@@ -72,12 +78,6 @@ public class teacher implements UserDetails {
     public void setRole(UserRoles role) {
         this.role = role;
     }
-
-    @Column(name = "teacherSubject", nullable = false)
-    private String teacherSubject;
-
-    @Column(name = "role")
-    private UserRoles role;
 
     public teacher(){
         super();

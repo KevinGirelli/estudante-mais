@@ -100,6 +100,15 @@ public class student implements UserDetails {
   @Column(name = "studentAge",nullable = false)
   private String studentAge;
 
+  @ManyToOne
+  classes classes;
+
+  @Column(name = "gradeType",nullable = false)
+  private String gradeType;
+
+  @Column(name = "gradeNumber",nullable = false)
+  private int gradeNumber;
+
   public student(){
     super();
   }

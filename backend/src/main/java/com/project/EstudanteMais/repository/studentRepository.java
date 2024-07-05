@@ -10,5 +10,4 @@ import java.util.UUID;
 
 public interface studentRepository extends JpaRepository<student, UUID> {
     UserDetails findBystudentEmailOrStudentRegistration(String email, String registration);
-
 }
