@@ -66,9 +66,59 @@
               </div>
             </div>
           </div>
-          <button class="button-next pi pi-arrow-right" (click)="nextCallback()"></button>
+          <button class="button-next pi pi-arrow-right" (click)="nextCallback.emit()"></button>
         </div>
       </div>
     </ng-template>
   </p-stepperPanel>
+
+  <p-stepperPanel>
+    <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
+      <div class="slide-container">
+        <div class="container">
+          <button class="button-back pi pi-arrow-left" (click)="prevCallback.emit()"></button>
+          <div class="form-container">
+            <div class="text">
+              <h2>Cadastro Professores</h2>
+              <div class="form-group">
+                <div class="form-item">
+                  <label class="label" for="teacherName">Nome Completo</label>
+                  <input class="input-field" type="text" [(ngModel)]="teacherName" id="teacherName">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="teacherEmail">Email</label>
+                  <input class="input-field" type="email" [(ngModel)]="teacherEmail" id="teacherEmail">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="teacherPassword">Senha</label>
+                  <input class="input-field" type="password" [(ngModel)]="teacherPassword" id="teacherPassword">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="teacherCPF">CPF</label>
+                  <input class="input-field" type="text" [(ngModel)]="teacherCPF" id="teacherCPF">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="teacherSubject">Disciplina</label>
+                  <input class="input-field" type="text" [(ngModel)]="teacherSubject" id="teacherSubject">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="turmas">Turmas</label>
+                  <input class="input-field" type="text" [(ngModel)]="turmas" id="turmas">
+                </div>
+              </div>
+              <button class="submit-button" (click)="cadastrarProfessor()" type="submit">Cadastrar</button>
+  
+              <div class="triple-buttons">
+                <span class="slide-inactive"></span>
+                <span class="slide-active"></span>
+                <span class="slide-inactive"></span>
+              </div>
+            </div>
+          </div>
+          <button class="button-next pi pi-arrow-right" (click)="nextCallback.emit()"></button>
+        </div>
+      </div>
+    </ng-template>
+  </p-stepperPanel>
+  
 </p-stepper>

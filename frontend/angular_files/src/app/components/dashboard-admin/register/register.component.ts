@@ -17,19 +17,19 @@ import { StepperModule } from 'primeng/stepper';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+  
+  isMenuOpen = false;
 
+  // Cadastro Alunos
   studentFullname!: string;
   studentEmail!: string;
   studentPassword!: string;
   studentCPF!: string;
   studentAge!: Date;
   classes!: string;
-
-  isMenuOpen = false;
-
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
 
   cadastrarAluno() {
     const dados = {
@@ -40,7 +40,26 @@ export class RegisterComponent {
       studentAge: this.studentAge,
       classes: this.classes
     };
-
-    
   }
+
+  // Cadastro de Professores 
+
+  teacherName!: string;
+  teacherEmail!: string;
+  teacherPassword!: string;
+  teacherSubject!: string;
+  teacherCPF!: string;
+  turmas!: string[];
+
+  cadastrarProfessor() {
+    const dados = {
+      teacherEmail: this.teacherEmail,
+      teacherPassword: this.teacherPassword,
+      teacherName: this.teacherName,
+      teacherSubject: this.teacherSubject,
+      teacherCPF: this.teacherCPF,
+      turmas: this.turmas
+    };
+  }
+
 }
