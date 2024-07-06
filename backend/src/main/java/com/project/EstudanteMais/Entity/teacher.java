@@ -16,7 +16,7 @@ public class teacher implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID teacherID;
 
-    @Column(name = "teacherEmail", nullable = false)
+    @Column(name = "teacherEmail", nullable = false, unique = true)
     private String teacherEmail;
 
     @Column(name = "teacherPassword", nullable = false)
@@ -27,6 +27,12 @@ public class teacher implements UserDetails {
 
     @Column(name = "teacherSubject", nullable = false)
     private String teacherSubject;
+
+    @Column(name = "teacherCPF", nullable = false)
+    private String teacherCPF;
+
+    @Column(name = "teacherRegistration", nullable = false,unique = true)
+    private String teacherRegistration;
 
     @Column(name = "role")
     private UserRoles role;
@@ -82,11 +88,13 @@ public class teacher implements UserDetails {
     public teacher(){
         super();
     }
-    public teacher(String teacherEmail, String teacherPassword, String teacherName, String teacherSubject, UserRoles role){
+    public teacher(String teacherEmail, String teacherPassword, String teacherName, String teacherSubject,String teacherCPF, String teacherRegistration, UserRoles role){
         this.teacherEmail = teacherEmail;
         this.teacherPassword = teacherPassword;
         this.teacherName = teacherName;
         this.teacherSubject = teacherSubject;
+        this.teacherCPF = teacherCPF;
+        this.teacherRegistration = teacherRegistration;
         this.role = role;
     }
 

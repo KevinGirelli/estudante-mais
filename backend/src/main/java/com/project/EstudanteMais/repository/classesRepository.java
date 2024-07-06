@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface classesRepository extends JpaRepository<classes, UUID> {
+  classes findByclassName(String className);
+  classes findByclassID(UUID id);
 }

@@ -15,4 +15,10 @@ public class TeacherClasses {
 
   @ManyToOne
   classes classes;
+  public TeacherClasses(){}
+
+  public TeacherClasses(teacher teacher, classes classes){
+    this.teacher = teacher;
+    this.classes = classes;
+  }
 }

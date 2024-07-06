@@ -83,12 +83,12 @@ public class student implements UserDetails {
   private String studentEmail;
 
   @Column(name = "studentPassword",nullable = false)
-  private String studentPassword;
+      private String studentPassword;
 
   @Column(name = "role",nullable = false)
   private UserRoles role;
 
-  @Column(name = "studentRegistration", nullable = false)
+  @Column(name = "studentRegistration", nullable = false,unique = true)
   private String studentRegistration;
 
   @Column(name = "studentFullname",nullable = false)
@@ -103,25 +103,20 @@ public class student implements UserDetails {
   @ManyToOne
   classes classes;
 
-  @Column(name = "gradeType",nullable = false)
-  private String gradeType;
-
-  @Column(name = "gradeNumber",nullable = false)
-  private int gradeNumber;
 
   public student(){
     super();
   }
   public student(String studentEmail
   , String studentPassword,String studentFullname
-  ,String studentCPF, String studentAge, UserRoles role, String registration){
+  ,String studentCPF, String studentAge, UserRoles role, classes classes){
     this.studentEmail = studentEmail;
     this.studentPassword = studentPassword;
     this.studentFullname = studentFullname;
     this.studentCPF = studentCPF;
     this.studentAge = studentAge;
+    this.classes = classes;
     this.role = role;
-    this.studentRegistration = registration;
   }
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

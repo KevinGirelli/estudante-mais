@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface teacherClassesRepository extends JpaRepository<TeacherClasses, UUID> {
+  TeacherClasses findBytcID(UUID id);
 }

@@ -30,6 +30,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/admin/registerTeacher").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET,"/admin/dataManager/getStudent").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/admin/dataManager/getTeacher").hasAuthority("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/admin/registerClass").hasAuthority("ADMIN")
                     .anyRequest().authenticated())
             .addFilterBefore(internalFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
