@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
+import { RegisterService } from '../../../services/register/register.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -11,16 +13,14 @@ import { StepperModule } from 'primeng/stepper';
     StepperModule,
     ButtonModule,
     NgClass,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
+  providers:[RegisterService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-  
   isMenuOpen = false;
 
   // Cadastro Alunos
@@ -31,19 +31,7 @@ export class RegisterComponent {
   studentAge!: Date;
   classes!: string;
 
-  cadastrarAluno() {
-    const dados = {
-      studentFullname: this.studentFullname,
-      studentEmail: this.studentEmail,
-      studentPassword: this.studentPassword,
-      studentCPF: this.studentCPF,
-      studentAge: this.studentAge,
-      classes: this.classes
-    };
-  }
-
   // Cadastro de Professores 
-
   teacherName!: string;
   teacherEmail!: string;
   teacherPassword!: string;
@@ -51,8 +39,37 @@ export class RegisterComponent {
   teacherCPF!: string;
   turmas!: string[];
 
+  // Cadastro de Turmas
+  className!: string;
+  gradeType!: string;
+  gradeNumber!: number;
+  classMonitor!: string;
+
+  constructor(private registerService: RegisterService) {}
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  cadastrarAluno() {
+    const studentData = {
+      studentFullname: this.studentFullname,
+      studentEmail: this.studentEmail,
+      studentPassword: this.studentPassword,
+      studentCPF: this.studentCPF,
+      studentAge: this.studentAge,
+      classes: this.classes
+    };
+
+    this.registerService.registerStudent(studentData).subscribe(response => {
+      console.log('Aluno registrado:', response);
+    }, error => {
+      console.error('Erro ao registrar aluno:', error);
+    });
+  }
+
   cadastrarProfessor() {
-    const dados = {
+    const teacherData = {
       teacherEmail: this.teacherEmail,
       teacherPassword: this.teacherPassword,
       teacherName: this.teacherName,
@@ -60,21 +77,26 @@ export class RegisterComponent {
       teacherCPF: this.teacherCPF,
       turmas: this.turmas
     };
+
+    this.registerService.registerTeacher(teacherData).subscribe(response => {
+      console.log('Professor registrado:', response);
+    }, error => {
+      console.error('Erro ao registrar professor:', error);
+    });
   }
 
-  // Cadastro de Turmas
-  className!: string;
-  gradeType!: string;
-  gradeNumber!: number;
-  classMonitor!: string;
-
   cadastrarTurma() {
-    const dados = {
+    const classData = {
       className: this.className,
       gradeType: this.gradeType,
       gradeNumber: this.gradeNumber,
       classMonitor: this.classMonitor
     };
-    console.log('Dados da turma:', dados);
+
+    this.registerService.registerClass(classData).subscribe(response => {
+      console.log('Turma registrada:', response);
+    }, error => {
+      console.error('Erro ao registrar turma:', error);
+    });
   }
 }
