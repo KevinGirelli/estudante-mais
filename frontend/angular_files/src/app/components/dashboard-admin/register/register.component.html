@@ -121,4 +121,44 @@
     </ng-template>
   </p-stepperPanel>
   
+  <p-stepperPanel>
+    <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
+      <div class="slide-container">
+        <div class="container">
+          <button class="button-back pi pi-arrow-left" (click)="prevCallback.emit()"></button>
+          <div class="form-container">
+            <div class="text">
+              <h2>Cadastro Turmas</h2>
+              <div class="form-group">
+                <div class="form-item">
+                  <label class="label" for="className">Nome da Turma</label>
+                  <input class="input-field" type="text" [(ngModel)]="className" id="className">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="gradeType">Tipo de Ensino</label>
+                  <input class="input-field" type="text" [(ngModel)]="gradeType" id="gradeType">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="gradeNumber">Número da Série</label>
+                  <input class="input-field" type="text" [(ngModel)]="gradeNumber" id="gradeNumber">
+                </div>
+                <div class="form-item">
+                  <label class="label" for="classMonitor">Regente da Turma</label>
+                  <input class="input-field" type="text" [(ngModel)]="classMonitor" id="classMonitor">
+                </div>
+              </div>
+              <button class="submit-button" (click)="cadastrarTurma()" type="submit">Cadastrar</button>
+  
+              <div class="triple-buttons">
+                <span class="slide-inactive"></span>
+                <span class="slide-inactive"></span>
+                <span class="slide-active"></span>
+              </div>
+            </div>
+          </div>
+          <button class="button-next pi pi-arrow-right" disabled></button>
+        </div>
+      </div>
+    </ng-template>
+  </p-stepperPanel>
 </p-stepper>

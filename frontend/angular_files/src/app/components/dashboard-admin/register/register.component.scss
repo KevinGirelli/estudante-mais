@@ -36,7 +36,8 @@ p-stepper {
       border-radius: 100%;
     }
 
-    .button-back[disabled], .button-back[disabled]:hover {
+    .button-back[disabled], 
+    .button-next[disabled]{
       opacity: 0.7;
       cursor: not-allowed;
     }

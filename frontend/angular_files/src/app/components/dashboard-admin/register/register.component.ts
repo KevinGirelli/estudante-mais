@@ -62,4 +62,19 @@ export class RegisterComponent {
     };
   }
 
+  // Cadastro de Turmas
+  className!: string;
+  gradeType!: string;
+  gradeNumber!: number;
+  classMonitor!: string;
+
+  cadastrarTurma() {
+    const dados = {
+      className: this.className,
+      gradeType: this.gradeType,
+      gradeNumber: this.gradeNumber,
+      classMonitor: this.classMonitor
+    };
+    console.log('Dados da turma:', dados);
+  }
 }
