@@ -4,6 +4,7 @@ import com.project.EstudanteMais.Entity.UserRoles;
 import com.project.EstudanteMais.Entity.dto.loginDTO;
 import com.project.EstudanteMais.Entity.dto.registerStudentDTO;
 import com.project.EstudanteMais.Entity.dto.registerTeacherDTO;
+import com.project.EstudanteMais.Entity.dto.tokenDTO;
 import com.project.EstudanteMais.Entity.student;
 import com.project.EstudanteMais.Entity.teacher;
 import com.project.EstudanteMais.infra.security.TokenService;
@@ -53,8 +54,9 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(adminUser);
+        tokenDTO returnToken = new tokenDTO(token);
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(returnToken);
       }else{
         return ResponseEntity.badRequest().body("Invalid credentials, please check the credentials.");
       }
@@ -67,8 +69,9 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(studentUser);
+        tokenDTO returnToken = new tokenDTO(token);
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(returnToken);
       }else{
         return ResponseEntity.badRequest().body("Invalid credentials, please check the credentials.");
       }
@@ -81,8 +84,9 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(teacherUser);
+        tokenDTO returnToken = new tokenDTO(token);
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(returnToken);
       }else{
         return ResponseEntity.badRequest().body("Invalid credentials, please check the credentials.");
       }
