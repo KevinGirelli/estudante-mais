@@ -34,27 +34,27 @@
               <div class="form-group">
                 <div class="form-item">
                   <label class="label" for="studentFullname">Nome Completo</label>
-                  <input class="input-field" type="text" [(ngModel)]="studentFullname" id="studentFullname">
+                  <input class="input-field" type="text" [(ngModel)]="Fullname" id="Fullname">
                 </div>
                 <div class="form-item">
                   <label class="label" for="studentEmail">Email</label>
-                  <input class="input-field" type="email" [(ngModel)]="studentEmail" id="studentEmail">
+                  <input class="input-field" type="email" [(ngModel)]="email" id="email">
                 </div>
                 <div class="form-item">
                   <label class="label" for="studentPassword">Senha</label>
-                  <input class="input-field" type="password" [(ngModel)]="studentPassword" id="studentPassword">
+                  <input class="input-field" type="password" [(ngModel)]="password" id="password">
                 </div>
                 <div class="form-item">
                   <label class="label" for="studentCPF">CPF</label>
-                  <input class="input-field" type="text" [(ngModel)]="studentCPF" id="studentCPF">
+                  <input class="input-field" type="text" [(ngModel)]="cpf" id="cpf">
                 </div>
                 <div class="form-item">
                   <label class="label" for="studentAge">Data de Nascimento</label>
-                  <input class="input-field" type="date" [(ngModel)]="studentAge" id="studentAge">
+                  <input class="input-field" type="date" [(ngModel)]="age" id="age">
                 </div>
                 <div class="form-item">
                   <label class="label" for="classes">Turma</label>
-                  <input class="input-field" type="text" [(ngModel)]="classes" id="classes">
+                  <input class="input-field" type="text" [(ngModel)]="classID" id="classID">
                 </div>
               </div>
               <button class="submit-button" (click)="cadastrarAluno()" type="submit">Cadastrar</button>

@@ -24,12 +24,12 @@ export class RegisterComponent {
   isMenuOpen = false;
 
   // Cadastro Alunos
-  studentFullname!: string;
-  studentEmail!: string;
-  studentPassword!: string;
-  studentCPF!: string;
-  studentAge!: Date;
-  classes!: string;
+  Fullname!: string;
+  email!: string;
+  password!: string;
+  cpf!: string;
+  age!: Date;
+  classID!: String;
 
   // Cadastro de Professores 
   teacherName!: string;
@@ -37,8 +37,8 @@ export class RegisterComponent {
   teacherPassword!: string;
   teacherSubject!: string;
   teacherCPF!: string;
-  turmas!: string[];
-
+  turmas!: []
+  
   // Cadastro de Turmas
   className!: string;
   gradeType!: string;
@@ -53,12 +53,12 @@ export class RegisterComponent {
 
   cadastrarAluno() {
     const studentData = {
-      studentFullname: this.studentFullname,
-      studentEmail: this.studentEmail,
-      studentPassword: this.studentPassword,
-      studentCPF: this.studentCPF,
-      studentAge: this.studentAge,
-      classes: this.classes
+      Fullname: this.Fullname,
+      email: this.email,
+      password: this.password,
+      cpf: this.cpf,
+      age: this.age,
+      classID: this.classID
     };
 
     this.registerService.registerStudent(studentData).subscribe(response => {
@@ -77,7 +77,7 @@ export class RegisterComponent {
       teacherCPF: this.teacherCPF,
       turmas: this.turmas
     };
-
+    
     this.registerService.registerTeacher(teacherData).subscribe(response => {
       console.log('Professor registrado:', response);
     }, error => {

@@ -18,15 +18,14 @@ public class classes {
 
   @Column(name = "gradeNumber",nullable = false)
   private int gradeNumber;
+  @ManyToOne
+  private teacher classMonitor;
 
-  @Column(name = "classMonitor", nullable = false)
-  private String classMonitor;
-
-  public String getClassMonitor() {
+  public teacher getClassMonitor() {
     return classMonitor;
   }
 
-  public void setClassMonitor(String classMonitor) {
+  public void setClassMonitor(teacher classMonitor) {
     this.classMonitor = classMonitor;
   }
 
@@ -64,9 +63,10 @@ public class classes {
 
   public classes(){}
 
-  public classes(String className, String gradeType, int gradeNumber){
+  public classes(String className, String gradeType, int gradeNumber, teacher classMonitor){
     this.className = className;
     this.gradeType = gradeType;
     this.gradeNumber = gradeNumber;
+    this.classMonitor = classMonitor;
   }
 }

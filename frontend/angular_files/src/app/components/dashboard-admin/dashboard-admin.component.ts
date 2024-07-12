@@ -15,7 +15,7 @@ export class DashboardAdminComponent implements OnInit {
 
   ngOnInit(): void {
     //verificar token
-    fetch("http://localhost:8080/auth/verifyStudentToken",{
+    fetch("http://localhost:8080/auth/verifyAdminToken",{
       method: "POST",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")

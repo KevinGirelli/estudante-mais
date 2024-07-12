@@ -22,7 +22,7 @@ export class DashboardStudentComponent implements OnInit {
       }).then(res => {
         if(res.status == 403){
           //redirecionar para pagina de não autorizado.
-          console.log("REDIRECT")
+          console.log("REDIRECT");
         }
       })
   }

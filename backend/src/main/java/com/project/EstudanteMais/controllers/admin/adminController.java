@@ -1,6 +1,8 @@
 package com.project.EstudanteMais.controllers.admin;
 
 import com.project.EstudanteMais.Entity.*;
+import com.project.EstudanteMais.Entity.dto.MessageDTO;
+import com.project.EstudanteMais.Entity.dto.registerClassesDTO;
 import com.project.EstudanteMais.Entity.dto.registerStudentDTO;
 import com.project.EstudanteMais.Entity.dto.registerTeacherDTO;
 import com.project.EstudanteMais.repository.*;
@@ -47,19 +49,26 @@ public class adminController {
   @Autowired
   genRegistrationCodeService genRegistrationCodeService;
 
+  private MessageDTO SucessMessage = new MessageDTO("User created sucessfuly");
+
   @PostMapping("/registerStudent")
   public ResponseEntity registerNewStudent(@RequestBody registerStudentDTO registerStudent){
     UserDetails studentAlreadyExist = studentRepository.findBystudentEmailOrStudentRegistration(registerStudent.email(), registerStudent.email());
     if(studentAlreadyExist != null){
       return ResponseEntity.badRequest().body("User already exist");
     }else{
-      student newStudent = new student(
-              registerStudent.email(),this.passwordEncoder.encode(registerStudent.password()),
-              registerStudent.Fullname(), registerStudent.cpf(), registerStudent.age(), UserRoles.STUDENT, registerStudent.classes()
-      );
-      newStudent.setRegistration(this.genRegistrationCodeService.genCode(newStudent.getStudentFullname()));
-      this.studentRepository.save(newStudent);
-      return ResponseEntity.ok("User created sucessfuly");
+      classes studentClass = this.classesRepository.findByclassID(UUID.fromString(registerStudent.classID()));
+      if(studentClass != null){
+        student newStudent = new student(
+                registerStudent.email(),this.passwordEncoder.encode(registerStudent.password()),
+                registerStudent.Fullname(), registerStudent.cpf(), registerStudent.age(), UserRoles.STUDENT, studentClass
+        );
+        newStudent.setRegistration(this.genRegistrationCodeService.genCode(newStudent.getStudentFullname()));
+        this.studentRepository.save(newStudent);
+        return ResponseEntity.ok(this.SucessMessage);
+      }else{
+        return ResponseEntity.badRequest().body("class not found.");
+      }
     }
   }
 
@@ -81,8 +90,11 @@ public class adminController {
         if(uuidString.length() == 32) {
           uuidString = uuidString.replaceFirst("([0-9a-fA-F]{8})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]{12})", "$1-$2-$3-$4-$5");
         }
+
         classes aClass = this.classesRepository.findByclassID(UUID.fromString(uuidString));
-        allClasses.add(aClass);
+        if(aClass != null){
+          allClasses.add(aClass);
+        }
       });
 
       this.teacherRepository.save(newTeacher);
@@ -97,19 +109,25 @@ public class adminController {
         return ResponseEntity.internalServerError().body("Error on saving teacher");
       }
 
-      return ResponseEntity.ok("User created sucessfuly");
+      return ResponseEntity.ok(this.SucessMessage);
     }
   }
 
   @PostMapping("/registerClass")
-  public ResponseEntity registerNewClass(@RequestBody classes classesToRegister){
-   if(this.classesRepository.findByclassName(classesToRegister.getClassName()) != null){
+  public ResponseEntity registerNewClass(@RequestBody registerClassesDTO classesToRegister){
+   if(this.classesRepository.findByclassName(classesToRegister.className()) != null){
      return ResponseEntity.badRequest().body("class already exist");
    }else{
-     classes newClass = new classes(classesToRegister.getClassName(), classesToRegister.getGradeType(), classesToRegister.getGradeNumber());
-     this.classesRepository.save(newClass);
-     this.configService.setClassesChanged(true);
-     return ResponseEntity.ok("class created sucessfuly");
+     teacher teacherMonitor = this.teacherRepository.findByteacherID(UUID.fromString(classesToRegister.classMonitor()));
+     if(teacherMonitor != null){
+       classes newClass = new classes(classesToRegister.className(), classesToRegister.gradeType(), classesToRegister.gradeNumber(),teacherMonitor);
+       this.classesRepository.save(newClass);
+       this.configService.setClassesChanged(true);
+       return ResponseEntity.ok(this.SucessMessage);
+     }else{
+       return ResponseEntity.badRequest().body("teacher not found.");
+     }
+
    }
   }
 }

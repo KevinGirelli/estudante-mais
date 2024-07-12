@@ -11,6 +11,7 @@ export class RegisterService {
 
   private httpOptions = {
     headers: new HttpHeaders({
+      'Authorization': "Bearer " + localStorage.getItem("token"),
       'Content-type': 'application/json'
     })
   };

@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.UUID;
 
 public interface teacherRepository extends JpaRepository<teacher, UUID> {
+
+    teacher findByteacherID(UUID id);
     UserDetails findByteacherEmail(String email);
 
     teacher findByteacherRegistration(String registration);
