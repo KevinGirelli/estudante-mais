@@ -16,6 +16,20 @@ public class classes {
   @Column(name = "gradeType",nullable = false)
   private String gradeType;
 
+  @Column(name = "gradeNumber",nullable = false)
+  private int gradeNumber;
+
+  @Column(name = "classMonitor", nullable = false)
+  private String classMonitor;
+
+  public String getClassMonitor() {
+    return classMonitor;
+  }
+
+  public void setClassMonitor(String classMonitor) {
+    this.classMonitor = classMonitor;
+  }
+
   public UUID getClassID() {
     return classID;
   }
@@ -47,9 +61,6 @@ public class classes {
   public void setGradeNumber(int gradeNumber) {
     this.gradeNumber = gradeNumber;
   }
-
-  @Column(name = "gradeNumber",nullable = false)
-  private int gradeNumber;
 
   public classes(){}
 

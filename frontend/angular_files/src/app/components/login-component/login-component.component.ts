@@ -36,7 +36,15 @@ export class LoginComponentComponent {
         
         //se foi guardado corretamente, entao redireciona
         if(localStorage.getItem("token")){
-          this.router.navigate(["admin"]);
+          if(res.type == 100){
+            this.router.navigate(["admin"]);
+          }
+          if(res.type == 0o10){
+            this.router.navigate(["student"]);
+          }
+          if(res.type == 0o1){
+            this.router.navigate(["teacher"]);
+          }
         }
       },
       (err: any) => {

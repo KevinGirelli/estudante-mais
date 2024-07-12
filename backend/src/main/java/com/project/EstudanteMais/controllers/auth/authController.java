@@ -54,7 +54,7 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(adminUser);
-        tokenDTO returnToken = new tokenDTO(token);
+        tokenDTO returnToken = new tokenDTO(token,100);
 
         return ResponseEntity.ok(returnToken);
       }else{
@@ -69,7 +69,7 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(studentUser);
-        tokenDTO returnToken = new tokenDTO(token);
+        tokenDTO returnToken = new tokenDTO(token,010);
 
         return ResponseEntity.ok(returnToken);
       }else{
@@ -84,7 +84,7 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(teacherUser);
-        tokenDTO returnToken = new tokenDTO(token);
+        tokenDTO returnToken = new tokenDTO(token,001);
 
         return ResponseEntity.ok(returnToken);
       }else{
@@ -94,4 +94,16 @@ public class authController {
     return ResponseEntity.notFound().build();
   }
 
+  @PostMapping("/verifyStudentToken")
+  public ResponseEntity studentTokenVerify(){
+    return ResponseEntity.accepted().build();
+  }
+  @PostMapping("/verifyTeacherToken")
+  public ResponseEntity teacherTokenVerify(){
+    return ResponseEntity.accepted().build();
+  }
+  @PostMapping("/verifyAdminToken")
+  public ResponseEntity adminTokenVerify(){
+    return ResponseEntity.accepted().build();
+  }
 }

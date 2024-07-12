@@ -10,6 +10,11 @@ public class configService {
   //General system config
   private boolean isClassesChanged = false;
 
+
+  //Admin preferences config
+  private int quarterType = 3;
+  private boolean enableQuarterRegistration = false;
+
   public boolean isClassesChanged() {
     return isClassesChanged;
   }
@@ -33,8 +38,4 @@ public class configService {
   public void setEnableQuarterRegistration(boolean enableQuarterRegistration) {
     this.enableQuarterRegistration = enableQuarterRegistration;
   }
-
-  //Admin preferences config
-  private int quarterType = 3;
-  private boolean enableQuarterRegistration = false;
 }
