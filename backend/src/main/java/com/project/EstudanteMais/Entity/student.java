@@ -103,6 +103,9 @@ public class student implements UserDetails {
   @ManyToOne
   classes classes;
 
+  @Column(name = "twostepverificaiton")
+  Boolean twostepverification;
+
 
   public student(){
     super();

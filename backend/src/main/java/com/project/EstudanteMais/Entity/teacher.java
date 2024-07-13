@@ -37,6 +37,9 @@ public class teacher implements UserDetails {
     @Column(name = "role")
     private UserRoles role;
 
+    @Column(name = "twostepverificaiton")
+    Boolean twostepverification;
+
     public UUID getTeacherID() {
         return teacherID;
     }

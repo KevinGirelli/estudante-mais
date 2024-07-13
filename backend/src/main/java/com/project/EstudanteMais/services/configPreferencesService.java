@@ -1,12 +1,9 @@
 package com.project.EstudanteMais.services;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service
-public class configService {
+public class configPreferencesService {
   //General system config
   private boolean isClassesChanged = false;
 

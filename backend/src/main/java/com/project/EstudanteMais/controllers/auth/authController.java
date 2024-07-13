@@ -11,6 +11,7 @@ import com.project.EstudanteMais.infra.security.TokenService;
 import com.project.EstudanteMais.repository.adminRepository;
 import com.project.EstudanteMais.repository.studentRepository;
 import com.project.EstudanteMais.repository.teacherRepository;
+import com.project.EstudanteMais.services.emailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +23,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/auth")
 public class authController {
   @Autowired
   private TokenService tokenService;
+
+  @Autowired
+  private EmailService emailService;
 
   @Autowired
   private adminRepository adminRepository;
@@ -50,7 +55,6 @@ public class authController {
     if(adminUser != null){
       if(this.passwordEncoder.matches(loginData.password(),adminUser.getPassword()) == true){
         var usernamepassword = new UsernamePasswordAuthenticationToken(adminUser.getUsername(),null,adminUser.getAuthorities());
-
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(adminUser);

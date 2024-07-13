@@ -1,4 +1,4 @@
-package com.project.EstudanteMais.infra.security;
+package com.project.EstudanteMais.infra.security.config;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

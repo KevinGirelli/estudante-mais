@@ -6,7 +6,7 @@ import com.project.EstudanteMais.Entity.dto.registerClassesDTO;
 import com.project.EstudanteMais.Entity.dto.registerStudentDTO;
 import com.project.EstudanteMais.Entity.dto.registerTeacherDTO;
 import com.project.EstudanteMais.repository.*;
-import com.project.EstudanteMais.services.configService;
+import com.project.EstudanteMais.services.configPreferencesService;
 import com.project.EstudanteMais.services.genRegistrationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin")
-public class adminController {
+public class registerController {
 
   @Autowired
   private adminRepository adminRepository;
@@ -44,7 +44,7 @@ public class adminController {
   PasswordEncoder passwordEncoder;
 
   @Autowired
-  configService configService;
+  configPreferencesService configService;
 
   @Autowired
   genRegistrationCodeService genRegistrationCodeService;
