@@ -1,0 +1,77 @@
+:host ::ng-deep {
+  .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #eee;
+
+    p-dialog {
+      .p-dialog-header {
+        background-color: #9747FF;
+        color: #ffffff;
+        font-size: 1.25rem;
+        font-weight: 600;
+        padding: 1rem;
+        border-radius: 15px 15px 0 0;
+      }
+
+      .p-dialog-content {
+        padding: 2rem;
+        background-color: #ffffff;
+        border-radius: 0 0 15px 15px;
+
+        .verification-code-container {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          margin-top: 3vh;
+          margin-bottom: 5vh;
+    
+          .verification-input {
+            width: 3rem;
+            height: 3rem;
+            text-align: center;
+            font-size: 1.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #eee;
+            transition: border-color 0.3s ease;
+            color: #292F47;
+    
+            &:focus {
+              border-color: #80bdff;
+              outline: none;
+            }
+          }
+        }
+
+        .text-secondary {
+          color: #6c757d;
+          font-size: 18px;
+        }
+
+        .modal-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .modal-btn-verify {
+            background-color: #9747FF;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.5s;
+
+            &:hover {
+              background-color: #6a3ce9;
+            }
+          }
+        }
+      }
+    }
+  }
+}
