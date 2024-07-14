@@ -36,8 +36,8 @@ p-stepper {
       border-radius: 100%;
     }
 
-    .button-back[disabled], 
-    .button-next[disabled]{
+    .button-back[disabled],
+    .button-next[disabled] {
       opacity: 0.7;
       cursor: not-allowed;
     }
@@ -100,6 +100,17 @@ p-stepper {
             border: 1px solid #CCC;
             border-radius: 4px;
             background-color: #EEE;
+
+            ::ng-deep .p-inputmask {
+              border: none;
+              width: 100%;
+              height: 100%;
+              background-color: inherit;
+
+              &:focus-visible {
+                outline: none;
+              }
+            }
           }
         }
 

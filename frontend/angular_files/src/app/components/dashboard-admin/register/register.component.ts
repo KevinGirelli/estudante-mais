@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { RegisterService } from '../../../services/register/register.service';
 import { HttpClientModule } from '@angular/common/http';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,8 @@ import { HttpClientModule } from '@angular/common/http';
     ButtonModule,
     NgClass,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    InputMaskModule
   ],
   providers:[RegisterService],
   templateUrl: './register.component.html',
