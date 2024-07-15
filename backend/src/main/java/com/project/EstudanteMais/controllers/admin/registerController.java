@@ -38,6 +38,9 @@ public class registerController {
   classesRepository classesRepository;
 
   @Autowired
+  teacherSubjectRepository teacherSubjectRepository;
+
+  @Autowired
   teacherClassesRepository teacherClassesRepository;
 
   @Autowired
@@ -80,33 +83,19 @@ public class registerController {
     }else{
       String teacherRegistration = this.genRegistrationCodeService.genCode(registerTeacher.teacherName());
       teacher newTeacher = new teacher(
-              registerTeacher.teacherEmail(),this.passwordEncoder.encode(registerTeacher.teacherPassword()), registerTeacher.teacherName(),
-              registerTeacher.teacherSubject(), registerTeacher.teacherCPF(), teacherRegistration, UserRoles.TEACHER
+              registerTeacher.teacherEmail(),this.passwordEncoder.encode(registerTeacher.teacherPassword()), registerTeacher.teacherName()
+              , registerTeacher.teacherCPF(), teacherRegistration, UserRoles.TEACHER
       );
 
-      List<classes> allClasses = new ArrayList<>();
-      registerTeacher.turmas().forEach(turma -> {
-        String uuidString = turma;
-        if(uuidString.length() == 32) {
-          uuidString = uuidString.replaceFirst("([0-9a-fA-F]{8})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]{12})", "$1-$2-$3-$4-$5");
-        }
-
-        classes aClass = this.classesRepository.findByclassID(UUID.fromString(uuidString));
-        if(aClass != null){
-          allClasses.add(aClass);
-        }
-      });
-
       this.teacherRepository.save(newTeacher);
-
-      teacher getTeacherAgain = this.teacherRepository.findByteacherRegistration(teacherRegistration);
-      if(getTeacherAgain != null){
-        allClasses.forEach(classes -> {
-          TeacherClasses newRegistration = new TeacherClasses(getTeacherAgain,classes);
-          this.teacherClassesRepository.save(newRegistration);
+      teacher getTeacher = this.teacherRepository.findByteacherRegistration(teacherRegistration);
+      if(getTeacher != null){
+        registerTeacher.subjects().forEach(subject ->{
+            teacherSubject newRegistry = new teacherSubject(subject,getTeacher);
+            this.teacherSubjectRepository.save(newRegistry);
         });
       }else{
-        return ResponseEntity.internalServerError().body("Error on saving teacher");
+        return ResponseEntity.internalServerError().build();
       }
 
       return ResponseEntity.ok(this.SucessMessage);

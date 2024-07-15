@@ -126,11 +126,10 @@ public class teacher implements UserDetails {
     public teacher(){
         super();
     }
-    public teacher(String teacherEmail, String teacherPassword, String teacherName, String teacherSubject,String teacherCPF, String teacherRegistration, UserRoles role){
+    public teacher(String teacherEmail, String teacherPassword, String teacherName,String teacherCPF, String teacherRegistration, UserRoles role){
         this.teacherEmail = teacherEmail;
         this.teacherPassword = teacherPassword;
         this.teacherName = teacherName;
-        this.teacherSubject = teacherSubject;
         this.teacherCPF = teacherCPF;
         this.teacherRegistration = teacherRegistration;
         this.role = role;
