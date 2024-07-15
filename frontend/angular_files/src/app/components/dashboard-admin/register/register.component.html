@@ -136,11 +136,17 @@
                 </div>
                 <div class="form-item">
                   <label class="label" for="gradeType">Tipo de Ensino</label>
-                  <input class="input-field" type="text" [(ngModel)]="gradeType" id="gradeType">
+                  <select class="input-field" [(ngModel)]="gradeType" (change)="updateGradeNumbers()" id="gradeType">
+                    <option value="Fundamental 1">Fundamental I</option>
+                    <option value="Fundamental 2">Fundamental II</option>
+                    <option value="Ensino Médio">Ensino Médio</option>
+                  </select>
                 </div>
                 <div class="form-item">
                   <label class="label" for="gradeNumber">Número da Série</label>
-                  <input class="input-field" type="text" [(ngModel)]="gradeNumber" id="gradeNumber">
+                  <select class="input-field" [(ngModel)]="gradeNumber" id="gradeNumber" [disabled]="!gradeType">
+                    <option *ngFor="let number of gradeNumbers" [value]="number">{{number}}</option>
+                  </select>
                 </div>
                 <div class="form-item">
                   <label class="label" for="classMonitor">Regente da Turma</label>

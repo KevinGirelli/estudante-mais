@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -16,7 +16,8 @@ import { InputMaskModule } from 'primeng/inputmask';
     NgClass,
     FormsModule,
     HttpClientModule,
-    InputMaskModule
+    InputMaskModule,
+    NgFor
   ],
   providers:[RegisterService],
   templateUrl: './register.component.html',
@@ -47,10 +48,22 @@ export class RegisterComponent {
   gradeNumber!: number;
   classMonitor!: string;
 
+  gradeNumbers: string[] = [];
+  
   constructor(private registerService: RegisterService) {}
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  updateGradeNumbers() {
+    if (this.gradeType === 'Fundamental 1') {
+      this.gradeNumbers = ['Primeiro', 'Segundo', 'Terceiro', 'Quarto', 'Quinto'];
+    } else if (this.gradeType === 'Fundamental 2') {
+      this.gradeNumbers = ['Sexto', 'Sétimo', 'Oitavo', 'Nono'];
+    } else if (this.gradeType === 'Ensino Médio') {
+      this.gradeNumbers = ['Primeiro Médio', 'Segundo Médio', 'Terceiro Médio'];
+    }
   }
 
   cadastrarAluno() {
