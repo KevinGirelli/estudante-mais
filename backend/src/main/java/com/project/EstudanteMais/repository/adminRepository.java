@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface adminRepository extends JpaRepository<schoolAdmin, UUID> {
   UserDetails findBydirectorEmail(String email);
+
+  UserDetails findBytwoStepCode(String code);
 }

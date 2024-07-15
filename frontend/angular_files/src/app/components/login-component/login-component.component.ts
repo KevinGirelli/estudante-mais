@@ -30,22 +30,28 @@ export class LoginComponentComponent {
     }
 
     this.loginService.login(dados).subscribe(
-      (res: any) => {
-        //Recebe o token e guarda no cash(localstorage)
-        localStorage.setItem("token", res.token);
-        
-        //se foi guardado corretamente, entao redireciona
-        if(localStorage.getItem("token")){
-          if(res.type == 100){
-            this.router.navigate(["admin"]);
+      (res: HttpResponse<any>) =>{
+        if(res.status == 200){
+          //Recebe o token e guarda no cash(localstorage)
+          localStorage.setItem("token", res.body.token);
+          
+          //se foi guardado corretamente, entao redireciona
+          if(localStorage.getItem("token")){
+            if(res.body.type == 100){
+              this.router.navigate(["admin"]);
+            }
+            if(res.body.type == 0o10){
+              this.router.navigate(["student"]);
+            }
+            if(res.body.type == 0o1){
+              this.router.navigate(["teacher"]);
+            }
           }
-          if(res.type == 0o10){
-            this.router.navigate(["student"]);
-          }
-          if(res.type == 0o1){
-            this.router.navigate(["teacher"]);
-          }
-        }
+       }else if(res.status == 400){
+        console.log("Credencias invalidas")
+       }else if(res.status == 202){
+        this.router.navigate(["two"]);
+       }
       },
       (err: any) => {
         console.log(err);

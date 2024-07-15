@@ -13,4 +13,6 @@ public interface teacherRepository extends JpaRepository<teacher, UUID> {
     UserDetails findByteacherEmail(String email);
 
     teacher findByteacherRegistration(String registration);
+
+    UserDetails findBytwoStepCode(String code);
 }

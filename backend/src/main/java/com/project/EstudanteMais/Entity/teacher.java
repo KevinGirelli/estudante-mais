@@ -37,8 +37,43 @@ public class teacher implements UserDetails {
     @Column(name = "role")
     private UserRoles role;
 
-    @Column(name = "twostepverificaiton")
+    @Column(name = "twostepverificaiton",nullable = false)
     Boolean twostepverification;
+
+    @Column(name = "twoStepCode", nullable = true)
+    String twoStepCode;
+
+    public String getTeacherCPF() {
+        return teacherCPF;
+    }
+
+    public void setTeacherCPF(String teacherCPF) {
+        this.teacherCPF = teacherCPF;
+    }
+
+    public String getTeacherRegistration() {
+        return teacherRegistration;
+    }
+
+    public void setTeacherRegistration(String teacherRegistration) {
+        this.teacherRegistration = teacherRegistration;
+    }
+
+    public Boolean getTwostepverification() {
+        return twostepverification;
+    }
+
+    public void setTwostepverification(Boolean twostepverification) {
+        this.twostepverification = twostepverification;
+    }
+
+    public String getTwoStepCode() {
+        return twoStepCode;
+    }
+
+    public void setTwoStepCode(String twoStepCode) {
+        this.twoStepCode = twoStepCode;
+    }
 
     public UUID getTeacherID() {
         return teacherID;

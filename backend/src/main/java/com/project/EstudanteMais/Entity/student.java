@@ -83,7 +83,7 @@ public class student implements UserDetails {
   private String studentEmail;
 
   @Column(name = "studentPassword",nullable = false)
-      private String studentPassword;
+  private String studentPassword;
 
   @Column(name = "role",nullable = false)
   private UserRoles role;
@@ -97,14 +97,49 @@ public class student implements UserDetails {
   @Column(name = "studentCPF",nullable = false)
   private String studentCPF;
 
+  public String getStudentRegistration() {
+    return studentRegistration;
+  }
+
+  public void setStudentRegistration(String studentRegistration) {
+    this.studentRegistration = studentRegistration;
+  }
+
+  public com.project.EstudanteMais.Entity.classes getClasses() {
+    return classes;
+  }
+
+  public void setClasses(com.project.EstudanteMais.Entity.classes classes) {
+    this.classes = classes;
+  }
+
+  public Boolean getTwostepverification() {
+    return twostepverification;
+  }
+
+  public void setTwostepverification(Boolean twostepverification) {
+    this.twostepverification = twostepverification;
+  }
+
   @Column(name = "studentAge",nullable = false)
   private String studentAge;
 
   @ManyToOne
   classes classes;
 
-  @Column(name = "twostepverificaiton")
+  public String getTwoStepCode() {
+    return twoStepCode;
+  }
+
+  public void setTwoStepCode(String twoStepCode) {
+    this.twoStepCode = twoStepCode;
+  }
+
+  @Column(name = "twostepverificaiton",nullable = false)
   Boolean twostepverification;
+
+  @Column(name = "twoStepCode", nullable = true)
+  String twoStepCode;
 
 
   public student(){

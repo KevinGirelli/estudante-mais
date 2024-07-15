@@ -28,8 +28,63 @@ public class schoolAdmin implements UserDetails {
   @Column(name = "role")
   private UserRoles role;
 
-  @Column(name = "authenticationCode")
-  private int adminCode;
+  @Column(name = "twostepverificaiton",nullable = false)
+  Boolean twostepverification;
+
+  @Column(name = "twoStepCode", nullable = true)
+  String twoStepCode;
+
+  public String getTwoStepCode() {
+    return twoStepCode;
+  }
+
+  public void setTwoStepCode(String twoStepCode) {
+    this.twoStepCode = twoStepCode;
+  }
+
+  public UUID getAdminID() {
+    return adminID;
+  }
+
+  public void setAdminID(UUID adminID) {
+    this.adminID = adminID;
+  }
+
+  public String getDirectorEmail() {
+    return directorEmail;
+  }
+
+  public void setDirectorEmail(String directorEmail) {
+    this.directorEmail = directorEmail;
+  }
+
+  public String getLoginCode() {
+    return loginCode;
+  }
+
+  public void setLoginCode(String loginCode) {
+    this.loginCode = loginCode;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public UserRoles getRole() {
+    return role;
+  }
+
+  public void setRole(UserRoles role) {
+    this.role = role;
+  }
+
+  public Boolean getTwostepverification() {
+    return twostepverification;
+  }
+
+  public void setTwostepverification(Boolean twostepverification) {
+    this.twostepverification = twostepverification;
+  }
 
   public schoolAdmin(){
     super();

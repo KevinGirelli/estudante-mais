@@ -28,6 +28,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/auth/twoStepVerify").permitAll()
                     .requestMatchers(HttpMethod.POST,"/auth/verifyAdminToken").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.POST,"/auth/verifyStudentToken").hasAuthority("STUDENT")
                     .requestMatchers(HttpMethod.POST,"/auth/verifyTeacherToken").hasAuthority("TEACHER")
