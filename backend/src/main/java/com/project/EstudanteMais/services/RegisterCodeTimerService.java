@@ -25,10 +25,14 @@ public class RegisterCodeTimerService {
   @Autowired
   RandomCodeService randomCodeService;
 
-  @Async("AsyncThread")
-  public void StartTRegisterTimer(String codeToRemove) throws Exception{
-      Thread.sleep(200000);
+  @Async
+  public void StartTRegisterTimer(String codeToRemove){
+    try {
+      Thread.sleep(100000);
       this.configPreferencesService.getActiveCodes().remove(codeToRemove);
+    }catch (InterruptedException e){
+      Thread.currentThread().interrupt();
+    }
     }
   }
 

@@ -83,7 +83,7 @@ export class TwoFactorAuthModalComponent implements OnInit {
       }
 
       if(res.status == 404){
-        console.log("ERRO: codigo nao encontrado")
+        console.log("Codigo expirado")
       }
     })
 

@@ -151,6 +151,10 @@ public class authController {
     var studentUser = (student) studentRepository.findBytwoStepCode(code.code());
     var teacherUser = (teacher) teacherRepository.findBytwoStepCode(code.code());
 
+    System.out.println(adminUser);
+    System.out.println(studentUser);
+    System.out.println(teacherUser);
+
     if(adminUser != null){
       if(this.configPreferencesService.getActiveCodes().contains(code.code())){
         if(adminUser.getTwoStepCode() == code.code()){
@@ -161,8 +165,6 @@ public class authController {
           tokenDTO returnToken = new tokenDTO(token,100);
 
           return ResponseEntity.accepted().body(returnToken);
-        }else{
-          return ResponseEntity.badRequest().build();
         }
       }else{
         return ResponseEntity.notFound().build();
@@ -170,8 +172,6 @@ public class authController {
     }
     if(studentUser != null){
       if(this.configPreferencesService.getActiveCodes().contains(code.code())){
-        System.out.println("STUDNET CODE: " + studentUser.getTwoStepCode());
-        System.out.println("CODE SENDED: " + code.code());
         if(studentUser.getTwoStepCode().equals(code.code())){
           var usernamepassword = new UsernamePasswordAuthenticationToken(studentUser.getUsername(),null,studentUser.getAuthorities());
           Authentication auth = usernamepassword;
@@ -180,8 +180,6 @@ public class authController {
           tokenDTO returnToken = new tokenDTO(token,010);
 
           return ResponseEntity.accepted().body(returnToken);
-        }else{
-          return ResponseEntity.badRequest().build();
         }
       }else{
         return ResponseEntity.notFound().build();
@@ -198,14 +196,12 @@ public class authController {
           tokenDTO returnToken = new tokenDTO(token,001);
 
           return ResponseEntity.accepted().body(returnToken);
-        }else{
-          return ResponseEntity.badRequest().build();
         }
       }else{
         return ResponseEntity.notFound().build();
       }
     }
-    return ResponseEntity.internalServerError().build();
+    return ResponseEntity.badRequest().build();
   }
   @PostMapping("/verifyStudentToken")
   public ResponseEntity studentTokenVerify(){
