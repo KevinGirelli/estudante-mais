@@ -18,6 +18,17 @@ public class grade {
   @ManyToOne
   private teacher teacher;
 
+  @ManyToOne
+  private student student;
+
+  public com.project.EstudanteMais.Entity.student getStudent() {
+    return student;
+  }
+
+  public void setStudent(com.project.EstudanteMais.Entity.student student) {
+    this.student = student;
+  }
+
   @Column(name = "registrationDate",nullable = false)
   private Date date;
 

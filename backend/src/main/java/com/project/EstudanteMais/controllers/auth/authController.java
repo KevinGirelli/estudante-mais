@@ -124,7 +124,7 @@ public class authController {
 
           teacherUser.setTwoStepCode(codeToAdd);
           this.emailService.sendSimpleMailMessage("Codigo de autenticacao",teacherUser.getUsername(),UUID.randomUUID().toString(),codeToAdd);
-          System.out.println("CHEGOU");
+
           return ResponseEntity.status(HttpStatus.CONTINUE).build();
         }
 
@@ -150,10 +150,6 @@ public class authController {
     var adminUser = (schoolAdmin) adminRepository.findBytwoStepCode(code.code());
     var studentUser = (student) studentRepository.findBytwoStepCode(code.code());
     var teacherUser = (teacher) teacherRepository.findBytwoStepCode(code.code());
-
-    System.out.println(adminUser);
-    System.out.println(studentUser);
-    System.out.println(teacherUser);
 
     if(adminUser != null){
       if(this.configPreferencesService.getActiveCodes().contains(code.code())){
