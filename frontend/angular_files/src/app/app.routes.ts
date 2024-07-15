@@ -18,7 +18,5 @@ export const routes: Routes = [
 
   {path: "teacher", component: DashboardTeacherComponent},
 
-  {path: "student", component: DashboardStudentComponent},
-
-  {path: "two", component: TwoFactorAuthModalComponent}
+  {path: "student", component: DashboardStudentComponent}
 ];

@@ -7,7 +7,7 @@ import { RegisterService } from '../../../services/register/register.service';
 import { HttpClientModule } from '@angular/common/http';
 import { InputMaskModule } from 'primeng/inputmask';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { TreeSelectModule } from 'primeng/treeselect';  // Import TreeSelectModule
+import { TreeSelectModule } from 'primeng/treeselect';
 import { TreeNode } from 'primeng/api';
 
 interface Subject {
@@ -27,7 +27,7 @@ interface Subject {
     InputMaskModule,
     NgFor,
     MultiSelectModule,
-    TreeSelectModule  // Add TreeSelectModule to imports
+    TreeSelectModule
   ],
   providers: [RegisterService],
   templateUrl: './register.component.html',
