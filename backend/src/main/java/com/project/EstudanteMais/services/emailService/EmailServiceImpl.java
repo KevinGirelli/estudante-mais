@@ -80,6 +80,7 @@ public class EmailServiceImpl implements EmailService {
     try {
       MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
+      helper.setFrom(fromEmail);
       helper.setTo(to);
       helper.setSubject(name);
       helper.setText(htmlContent, true); // true indica que o conteúdo é HTML

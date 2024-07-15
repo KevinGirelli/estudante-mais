@@ -160,7 +160,7 @@ export class RegisterComponent implements OnInit{
     const classData = {
       className: this.className,
       gradeType: this.gradeType,
-      gradeNumber: this.gradeNumber,
+      gradeNumber: this.gradeNumber
     };
 
     this.registerService.registerClass(classData).subscribe(response => {

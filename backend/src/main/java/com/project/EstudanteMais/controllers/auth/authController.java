@@ -16,6 +16,8 @@ import com.project.EstudanteMais.services.UUIDformatter;
 import com.project.EstudanteMais.services.configPreferencesService;
 import com.project.EstudanteMais.services.emailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +26,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @RestController
@@ -59,6 +63,9 @@ public class authController {
   @Autowired
   UUIDformatter uuiDformatter;
 
+  @Autowired
+  private ResourceLoader resourceLoader;
+
   @PostMapping("/login")
   public ResponseEntity loginRequest(@RequestBody loginDTO loginData) throws Exception {
     var adminUser = (schoolAdmin) adminRepository.findBydirectorEmail(loginData.emailOrCode());
@@ -72,8 +79,18 @@ public class authController {
           String codeToAdd = this.randomCodeService.verifyCode(code);
           this.registerCodeTimer.StartTRegisterTimer(codeToAdd);
 
-          adminUser.setTwoStepCode(codeToAdd);
-          this.emailService.sendSimpleMailMessage("Codigo de autenticacao",adminUser.getDirectorEmail(),UUID.randomUUID().toString(),codeToAdd);
+          Resource resource = resourceLoader.getResource("classpath:static/mail.html");
+          String htmlContent = new String(Files.readAllBytes(Paths.get(resource.getURI())));
+          htmlContent = htmlContent.replace("BigDog","Admin")
+                  .replace("value=1","value=" + codeToAdd.charAt(0))
+                  .replace("value=2","value=" + codeToAdd.charAt(1))
+                  .replace("value=3","value=" + codeToAdd.charAt(2))
+                  .replace("value=4","value=" + codeToAdd.charAt(3))
+                  .replace("value=5","value=" + codeToAdd.charAt(4))
+                  .replace("value=6","value=" + codeToAdd.charAt(5));
+
+          this.adminRepository.updateTwoStepCode(codeToAdd,UUID.fromString(this.uuiDformatter.formatUuid(adminUser.getAdminID())));
+          this.emailService.sendHtmlEmail("Codigo de autenticacao",adminUser.getDirectorEmail(),htmlContent);
           return ResponseEntity.status(HttpStatus.CONTINUE).build();
         }
 
@@ -96,8 +113,21 @@ public class authController {
           String codeToAdd = this.randomCodeService.verifyCode(code);
           this.registerCodeTimer.StartTRegisterTimer(codeToAdd);
 
+
+          Resource resource = resourceLoader.getResource("classpath:static/mail.html");
+          String htmlContent = new String(Files.readAllBytes(Paths.get(resource.getURI())));
+          htmlContent = htmlContent.replace("BigDog",studentUser.getStudentFullname())
+                  .replace("value=1","value=" + codeToAdd.charAt(0))
+                  .replace("value=2","value=" + codeToAdd.charAt(1))
+                  .replace("value=3","value=" + codeToAdd.charAt(2))
+                  .replace("value=4","value=" + codeToAdd.charAt(3))
+                  .replace("value=5","value=" + codeToAdd.charAt(4))
+                  .replace("value=6","value=" + codeToAdd.charAt(5));
+
+
+
           this.studentRepository.updateTwoStepCode(codeToAdd,UUID.fromString(this.uuiDformatter.formatUuid(studentUser.getStudentID())));
-          this.emailService.sendHtmlEmail("Codigo de autenticacao",studentUser.getUsername(),UUID.randomUUID().toString());
+          this.emailService.sendHtmlEmail("Codigo de autenticacao",studentUser.getUsername(),htmlContent);
 
           return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         }
@@ -122,8 +152,18 @@ public class authController {
           String codeToAdd = this.randomCodeService.verifyCode(code);
           this.registerCodeTimer.StartTRegisterTimer(codeToAdd);
 
-          teacherUser.setTwoStepCode(codeToAdd);
-          this.emailService.sendSimpleMailMessage("Codigo de autenticacao",teacherUser.getUsername(),UUID.randomUUID().toString(),codeToAdd);
+          Resource resource = resourceLoader.getResource("classpath:static/mail.html");
+          String htmlContent = new String(Files.readAllBytes(Paths.get(resource.getURI())));
+          htmlContent = htmlContent.replace("BigDog",teacherUser.getTeacherName())
+                  .replace("value=1","value=" + codeToAdd.charAt(0))
+                  .replace("value=2","value=" + codeToAdd.charAt(1))
+                  .replace("value=3","value=" + codeToAdd.charAt(2))
+                  .replace("value=4","value=" + codeToAdd.charAt(3))
+                  .replace("value=5","value=" + codeToAdd.charAt(4))
+                  .replace("value=6","value=" + codeToAdd.charAt(5));
+
+          this.teacherRepository.updateTwoStepCode(codeToAdd,UUID.fromString(this.uuiDformatter.formatUuid(teacherUser.getTeacherID())));
+          this.emailService.sendHtmlEmail("Codigo de autenticacão",teacherUser.getTeacherName(),htmlContent);
 
           return ResponseEntity.status(HttpStatus.CONTINUE).build();
         }

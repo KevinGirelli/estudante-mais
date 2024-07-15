@@ -1,7 +1,10 @@
 package com.project.EstudanteMais.repository;
 
 import com.project.EstudanteMais.Entity.teacher;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,4 +18,9 @@ public interface teacherRepository extends JpaRepository<teacher, UUID> {
     teacher findByteacherRegistration(String registration);
 
     UserDetails findBytwoStepCode(String code);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE teacher set two_step_code = ?1 WHERE teacherid = ?2",nativeQuery = true)
+    void updateTwoStepCode(String code,UUID teacherID);
 }
