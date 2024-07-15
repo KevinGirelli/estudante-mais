@@ -4,13 +4,15 @@ import { LoginService } from '../../services/login/login.service';
 import { HttpClientModule, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DashboardAdminComponent } from '../dashboard-admin/dashboard-admin.component';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-login-component',
   standalone: true,
   imports: [
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CheckboxModule
   ],
   providers: [LoginService],
   templateUrl: './login-component.component.html',
@@ -20,13 +22,15 @@ export class LoginComponentComponent {
   matricula!: String;
   password!: String;
 
+  checked: boolean = false;
+
   constructor(private loginService: LoginService,private router: Router) {};
   
-
   login(){
     const dados = {
       emailOrCode: this.matricula,
-      password: this.password
+      password: this.password,
+      keepMeLogged: this.checked
     }
 
     this.loginService.login(dados).subscribe(

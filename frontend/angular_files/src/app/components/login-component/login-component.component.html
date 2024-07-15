@@ -18,7 +18,13 @@
         <span class="input-icon pi pi-lock"></span>
       </div>
     </div>
-    <a href="" class="">Esqueceu sua senha?</a>
+    <div class="small-fields">
+      <div class="keep-me-logged">
+        <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary" class="custom-checkbox"/>
+        <h6>Lembre-se de mim</h6>
+      </div>
+      <a href="" class="">Esqueceu sua senha?</a>
+    </div>
     <button class="btn" (click)="login()">Entrar</button>
   </div>
   <div class="image-container">
