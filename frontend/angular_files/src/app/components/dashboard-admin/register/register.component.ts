@@ -7,6 +7,8 @@ import { RegisterService } from '../../../services/register/register.service';
 import { HttpClientModule } from '@angular/common/http';
 import { InputMaskModule } from 'primeng/inputmask';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { TreeSelectModule } from 'primeng/treeselect';  // Import TreeSelectModule
+import { TreeNode } from 'primeng/api';
 
 interface Subject {
   name: string,
@@ -24,13 +26,14 @@ interface Subject {
     HttpClientModule,
     InputMaskModule,
     NgFor,
-    MultiSelectModule
+    MultiSelectModule,
+    TreeSelectModule  // Add TreeSelectModule to imports
   ],
   providers: [RegisterService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterComponent{
+export class RegisterComponent {
   isMenuOpen = false;
 
   // Cadastro Alunos
@@ -40,6 +43,9 @@ export class RegisterComponent{
   cpf!: string;
   age!: Date;
   classID!: string;
+  
+  classNodes: TreeNode[] = [];
+  selectedClassNode: TreeNode | undefined;
 
   // Cadastro de Professores
   teacherName!: string;
@@ -57,6 +63,9 @@ export class RegisterComponent{
   classMonitor!: string;
 
   gradeNumbers: string[] = [];
+
+  classMonitorNodes: TreeNode[] = [];
+  selectedClassMonitorNode: TreeNode | undefined;
 
   constructor(private registerService: RegisterService) {
     this.subjects = [
@@ -104,7 +113,7 @@ export class RegisterComponent{
       password: this.password,
       cpf: this.cpf,
       age: this.age,
-      classID: this.classID
+      classID: this.selectedClassNode?.key
     };
 
     this.registerService.registerStudent(studentData).subscribe(response => {

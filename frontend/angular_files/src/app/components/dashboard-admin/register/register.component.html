@@ -54,7 +54,11 @@
                 </div>
                 <div class="form-item">
                   <label class="label" for="classes">Turma</label>
-                  <input class="input-field" type="text" [(ngModel)]="classID" id="classID">
+                  <p-treeSelect
+                  [(ngModel)]="selectedClassNode" 
+                  [options]="classNodes" 
+                  placeholder="Selecione a Turma">
+                </p-treeSelect>
                 </div>
               </div>
               <button class="submit-button" (click)="cadastrarAluno()" type="submit">Cadastrar</button>
@@ -152,7 +156,11 @@
                 </div>
                 <div class="form-item">
                   <label class="label" for="classMonitor">Regente da Turma</label>
-                  <input class="input-field" type="text" [(ngModel)]="classMonitor" id="classMonitor">
+                  <p-treeSelect
+                  [(ngModel)]="selectedClassMonitorNode" 
+                  [options]="classMonitorNodes" 
+                  placeholder="Selecione o regente de turma">
+                </p-treeSelect>
                 </div>
               </div>
               <button class="submit-button" (click)="cadastrarTurma()" type="submit">Cadastrar</button>
