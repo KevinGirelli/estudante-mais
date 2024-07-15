@@ -25,8 +25,6 @@ public class teacher implements UserDetails {
     @Column(name = "teacherName", nullable = false)
     private String teacherName;
 
-    @Column(name = "teacherSubject", nullable = false)
-    private String teacherSubject;
 
     @Column(name = "teacherCPF", nullable = false)
     private String teacherCPF;
@@ -107,14 +105,6 @@ public class teacher implements UserDetails {
         this.teacherName = teacherName;
     }
 
-    public String getTeacherSubject() {
-        return teacherSubject;
-    }
-
-    public void setTeacherSubject(String teacherSubject) {
-        this.teacherSubject = teacherSubject;
-    }
-
     public UserRoles getRole() {
         return role;
     }
@@ -126,12 +116,13 @@ public class teacher implements UserDetails {
     public teacher(){
         super();
     }
-    public teacher(String teacherEmail, String teacherPassword, String teacherName,String teacherCPF, String teacherRegistration, UserRoles role){
+    public teacher(String teacherEmail, String teacherPassword, String teacherName,String teacherCPF, String teacherRegistration, boolean twostepverification, UserRoles role){
         this.teacherEmail = teacherEmail;
         this.teacherPassword = teacherPassword;
         this.teacherName = teacherName;
         this.teacherCPF = teacherCPF;
         this.teacherRegistration = teacherRegistration;
+        this.twostepverification = twostepverification;
         this.role = role;
     }
 

@@ -9,8 +9,12 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { MultiSelectModule } from 'primeng/multiselect';
 
 interface Subject {
-  name: string,
-  code: string
+  name: string
+}
+
+interface classes {
+  id: string;
+  name: string;
 }
 
 @Component({
@@ -24,14 +28,33 @@ interface Subject {
     HttpClientModule,
     InputMaskModule,
     NgFor,
-    MultiSelectModule
+    MultiSelectModule,
   ],
   providers: [RegisterService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterComponent{
+export class RegisterComponent implements OnInit{
   isMenuOpen = false;
+  classesSelected: string = "";
+
+  allClasses: classes[] = [];
+
+  ngOnInit(): void {
+    const allClasses = localStorage.getItem("classes");
+    
+    if(allClasses){
+      const parsedData= JSON.parse(allClasses)
+    
+      const keys = Object.keys(parsedData);
+      let index = 0
+      keys.forEach(key => {
+        const value = parsedData[key];
+        const addClass: classes = {id: value.classID, name: value.className}
+        this.allClasses.push(addClass);
+      });
+    };
+  }
 
   // Cadastro Alunos
   Fullname!: string;
@@ -53,27 +76,28 @@ export class RegisterComponent{
   // Cadastro de Turmas
   className!: string;
   gradeType!: string;
-  gradeNumber!: string;
+  gradeNumber!: Array<number>;
   classMonitor!: string;
 
-  gradeNumbers: string[] = [];
+  gradeNumbers: number[] = [];
 
   constructor(private registerService: RegisterService) {
     this.subjects = [
-      { name: 'Arte', code: 'ART' },
-      { name: 'Biologia', code: 'BIO' },
-      { name: 'Educação Física', code: 'EDF' },
-      { name: 'Ensino Religioso', code: 'REL' },
-      { name: 'Filosofia', code: 'FIL' },
-      { name: 'Física', code: 'FIS' },
-      { name: 'Geografia', code: 'GEO' },
-      { name: 'História', code: 'HIS' },
-      { name: 'Língua Inglesa', code: 'LEI' },
-      { name: 'Língua Portuguesa', code: 'LPT' },
-      { name: 'Matemática', code: 'MAT' },
-      { name: 'Química', code: 'QUI' },
-      { name: 'Sociologia', code: 'SOC' }
+      { name: 'Arte'},
+      { name: 'Biologia'},
+      { name: 'Educação Física'},
+      { name: 'Ensino Religioso'},
+      { name: 'Filosofia'},
+      { name: 'Física'},
+      { name: 'Geografia'},
+      { name: 'História'},
+      { name: 'Língua Inglesa'},
+      { name: 'Língua Portuguesa'},
+      { name: 'Matemática'},
+      { name: 'Química'},
+      { name: 'Sociologia'}
     ];
+    
   }
 
   toggleMenu() {
@@ -81,15 +105,16 @@ export class RegisterComponent{
   }
 
   updateGradeNumbers() {
+
     if (this.gradeType === 'Fundamental 1') {
-      this.gradeNumbers = ['Primeiro', 'Segundo', 'Terceiro', 'Quarto', 'Quinto'];
+      this.gradeNumbers = [1, 2, 3, 4, 5];
     } else if (this.gradeType === 'Fundamental 2') {
-      this.gradeNumbers = ['Sexto', 'Sétimo', 'Oitavo', 'Nono'];
+      this.gradeNumbers = [6, 7, 8, 9];
     } else if (this.gradeType === 'Ensino Médio') {
-      this.gradeNumbers = ['Primeirão', 'Segundão', 'Terceirão'];
+      this.gradeNumbers = [1, 2, 3];
     } else {
       this.gradeNumbers = [];
-      this.gradeNumber = '';
+      this.gradeNumber = [];
     }
   }
 
@@ -104,7 +129,7 @@ export class RegisterComponent{
       password: this.password,
       cpf: this.cpf,
       age: this.age,
-      classID: this.classID
+      classID: this.classesSelected
     };
 
     this.registerService.registerStudent(studentData).subscribe(response => {
@@ -115,13 +140,13 @@ export class RegisterComponent{
   }
 
   cadastrarProfessor() {
+    const subjectsToSend = this.selectedSubjects.map(subject => subject.name);
     const teacherData = {
       teacherEmail: this.teacherEmail,
       teacherPassword: this.teacherPassword,
       teacherName: this.teacherName,
       teacherCPF: this.teacherCPF,
-      turmas: this.turmas,
-      subjects: this.selectedSubjects
+      subjects: subjectsToSend
     };
 
     this.registerService.registerTeacher(teacherData).subscribe(response => {
@@ -136,7 +161,6 @@ export class RegisterComponent{
       className: this.className,
       gradeType: this.gradeType,
       gradeNumber: this.gradeNumber,
-      classMonitor: this.classMonitor
     };
 
     this.registerService.registerClass(classData).subscribe(response => {

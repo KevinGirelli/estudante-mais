@@ -64,7 +64,7 @@ public class registerController {
       if(studentClass != null){
         student newStudent = new student(
                 registerStudent.email(),this.passwordEncoder.encode(registerStudent.password()),
-                registerStudent.Fullname(), registerStudent.cpf(), registerStudent.age(), UserRoles.STUDENT, studentClass
+                registerStudent.Fullname(), registerStudent.cpf(), registerStudent.age(),false, UserRoles.STUDENT, studentClass
         );
         newStudent.setRegistration(this.genRegistrationCodeService.genCode(newStudent.getStudentFullname()));
         this.studentRepository.save(newStudent);
@@ -84,7 +84,7 @@ public class registerController {
       String teacherRegistration = this.genRegistrationCodeService.genCode(registerTeacher.teacherName());
       teacher newTeacher = new teacher(
               registerTeacher.teacherEmail(),this.passwordEncoder.encode(registerTeacher.teacherPassword()), registerTeacher.teacherName()
-              , registerTeacher.teacherCPF(), teacherRegistration, UserRoles.TEACHER
+              , registerTeacher.teacherCPF(), teacherRegistration, false, UserRoles.TEACHER
       );
 
       this.teacherRepository.save(newTeacher);
@@ -107,11 +107,11 @@ public class registerController {
    if(this.classesRepository.findByclassName(classesToRegister.className()) != null){
      return ResponseEntity.badRequest().body("class already exist");
    }else{
-     teacher teacherMonitor = this.teacherRepository.findByteacherID(UUID.fromString(classesToRegister.classMonitor()));
+     teacher teacherMonitor = this.teacherRepository.findByteacherID(UUID.fromString("06f01105-4b4f-450c-abb7-497cc2dae671"));
      if(teacherMonitor != null){
        classes newClass = new classes(classesToRegister.className(), classesToRegister.gradeType(), classesToRegister.gradeNumber(),teacherMonitor);
        this.classesRepository.save(newClass);
-       this.configService.setClassesChanged(true);
+
        return ResponseEntity.ok(this.SucessMessage);
      }else{
        return ResponseEntity.badRequest().body("teacher not found.");

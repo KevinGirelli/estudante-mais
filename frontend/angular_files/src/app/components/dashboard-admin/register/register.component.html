@@ -54,7 +54,9 @@
                 </div>
                 <div class="form-item">
                   <label class="label" for="classes">Turma</label>
-                  <input class="input-field" type="text" [(ngModel)]="classID" id="classID">
+                  <select class="input-field" [(ngModel)]="classesSelected" id="classes">
+                    <option *ngFor="let class of allClasses" [value]="class.id">{{class.name}}</option>
+                  </select>
                 </div>
               </div>
               <button class="submit-button" (click)="cadastrarAluno()" type="submit">Cadastrar</button>
@@ -149,10 +151,6 @@
                   <select class="input-field" [(ngModel)]="gradeNumber" id="gradeNumber" [disabled]="!gradeType">
                     <option *ngFor="let number of gradeNumbers" [value]="number">{{number}}</option>
                   </select>
-                </div>
-                <div class="form-item">
-                  <label class="label" for="classMonitor">Regente da Turma</label>
-                  <input class="input-field" type="text" [(ngModel)]="classMonitor" id="classMonitor">
                 </div>
               </div>
               <button class="submit-button" (click)="cadastrarTurma()" type="submit">Cadastrar</button>

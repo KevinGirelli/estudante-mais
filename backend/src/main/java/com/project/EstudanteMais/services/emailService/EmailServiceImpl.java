@@ -1,9 +1,19 @@
 package com.project.EstudanteMais.services.emailService;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -39,7 +49,23 @@ public class EmailServiceImpl implements EmailService {
 
   @Override
   public void sendMimeMessageWithEmbbedImages(String name, String to, String token) {
+    MimeMessage message = emailSender.createMimeMessage();
+    try{
+      MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
+      helper.setSubject(name);
+      helper.setTo(to);
+      helper.setFrom(fromEmail);
+      helper.setText("Codigo", true);
+
+
+      ClassPathResource file = new ClassPathResource("static/emailCode.png");
+      helper.addAttachment("emailCode.png", file);
+
+      emailSender.send(message);
+    }catch (Exception erro){
+      System.out.println(erro);
+    }
   }
 
   @Override
@@ -48,8 +74,23 @@ public class EmailServiceImpl implements EmailService {
   }
 
   @Override
-  public void sendHtmlEmail(String name, String to, String token) {
+  public void sendHtmlEmail(String name, String to, String htmlContent) {
+    MimeMessage message = emailSender.createMimeMessage();
 
+    try {
+      MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+      helper.setTo(to);
+      helper.setSubject(name);
+      helper.setText(htmlContent, true); // true indica que o conteúdo é HTML
+
+      emailSender.send(message);
+      System.out.println("Email enviado com sucesso!");
+
+    } catch (MessagingException e) {
+      e.printStackTrace();
+      System.out.println("Erro ao enviar email: " + e.getMessage());
+    }
   }
 
   @Override

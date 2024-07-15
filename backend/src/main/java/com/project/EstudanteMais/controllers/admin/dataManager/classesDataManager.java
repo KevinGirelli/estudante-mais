@@ -29,7 +29,6 @@ public class classesDataManager {
 
   @GetMapping("/getClassesAsync")
   public ResponseEntity getClasses(){
-    if(this.configService.isClassesChanged() == true){
       var allClasses = this.classesRepository.findAll();
       List<classesDTO> allClassesDTO = new ArrayList<>();
 
@@ -37,11 +36,6 @@ public class classesDataManager {
           classesDTO classesDTO = new classesDTO(uuiDformatter.formatUuid(classes.getClassID()),classes.getClassName());
           allClassesDTO.add(classesDTO);
       });
-
-      this.configService.setClassesChanged(false);
       return ResponseEntity.ok(allClassesDTO);
-    }else{
-      return ResponseEntity.noContent().build();
     }
-  }
 }

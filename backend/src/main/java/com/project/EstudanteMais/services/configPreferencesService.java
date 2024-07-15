@@ -8,8 +8,6 @@ import java.util.List;
 @Service
 public class configPreferencesService {
   //General system config
-  private boolean isClassesChanged = false;
-
   private List<String> activeCodes = new ArrayList<String>();
 
 
@@ -23,14 +21,6 @@ public class configPreferencesService {
 
   public void setActiveCodes(List<String> activeCodes) {
     this.activeCodes = activeCodes;
-  }
-
-  public boolean isClassesChanged() {
-    return isClassesChanged;
-  }
-
-  public void setClassesChanged(boolean classesChanged) {
-    isClassesChanged = classesChanged;
   }
 
   public int getQuarterType() {

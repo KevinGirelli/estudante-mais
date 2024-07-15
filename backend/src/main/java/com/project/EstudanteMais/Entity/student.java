@@ -147,12 +147,13 @@ public class student implements UserDetails {
   }
   public student(String studentEmail
   , String studentPassword,String studentFullname
-  ,String studentCPF, String studentAge, UserRoles role, classes classes){
+  ,String studentCPF, String studentAge, boolean twostepverification, UserRoles role, classes classes){
     this.studentEmail = studentEmail;
     this.studentPassword = studentPassword;
     this.studentFullname = studentFullname;
     this.studentCPF = studentCPF;
     this.studentAge = studentAge;
+    this.twostepverification = twostepverification;
     this.classes = classes;
     this.role = role;
   }

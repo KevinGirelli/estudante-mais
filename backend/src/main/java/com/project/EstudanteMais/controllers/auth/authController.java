@@ -97,7 +97,7 @@ public class authController {
           this.registerCodeTimer.StartTRegisterTimer(codeToAdd);
 
           this.studentRepository.updateTwoStepCode(codeToAdd,UUID.fromString(this.uuiDformatter.formatUuid(studentUser.getStudentID())));
-          this.emailService.sendSimpleMailMessage("Codigo de autenticacao",studentUser.getUsername(),UUID.randomUUID().toString(),codeToAdd);
+          this.emailService.sendHtmlEmail("Codigo de autenticacao",studentUser.getUsername(),UUID.randomUUID().toString());
 
           return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         }

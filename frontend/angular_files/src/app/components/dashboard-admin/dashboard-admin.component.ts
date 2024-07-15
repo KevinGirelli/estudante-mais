@@ -34,10 +34,10 @@ export class DashboardAdminComponent implements OnInit {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
     }).then(res => {
-      console.log(res.status)
       if(res.status == 200){
         res.json().then(data => {
-          localStorage.setItem("classes", data)
+          console.log(data)
+          localStorage.setItem("classes",JSON.stringify(data))
           console.log("Classes data loaded sucessfuly.")
         })
       }
