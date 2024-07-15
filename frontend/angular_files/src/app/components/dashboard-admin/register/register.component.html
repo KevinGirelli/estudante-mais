@@ -98,12 +98,14 @@
                   <p-inputMask class="input-field" mask="999.999.999-99" placeholder="___.___.___-__" type="text" [(ngModel)]="teacherCPF" id="teacherCPF"/>
                 </div>
                 <div class="form-item">
-                  <label class="label" for="teacherSubject">Disciplina</label>
-                  <input class="input-field" type="text" [(ngModel)]="teacherSubject" id="teacherSubject">
-                </div>
-                <div class="form-item">
-                  <label class="label" for="turmas">Turmas</label>
-                  <input class="input-field" type="text" [(ngModel)]="turmas" id="turmas">
+                  <label class="label" for="teacherSubjects">Disciplinas</label>
+                  <p-multiSelect 
+                    [options]="subjects" 
+                    [(ngModel)]="selectedSubjects" 
+                    optionLabel="name"
+                    [maxSelectedLabels]="5"
+                    placeholder="Selecione as Disciplinas">
+                  </p-multiSelect>
                 </div>
               </div>
               <button class="submit-button" (click)="cadastrarProfessor()" type="submit">Cadastrar</button>

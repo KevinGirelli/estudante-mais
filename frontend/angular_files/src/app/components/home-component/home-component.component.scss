@@ -1,7 +1,7 @@
-* {
-  font-size: 0px;
+::ng-deep .p-stepper-header {
+  display: none;
+  
 }
-
 .slide-container {
   display: flex;
   background-color: #EEEEEE;
@@ -127,3 +127,4 @@
     }
   }
 }
+

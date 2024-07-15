@@ -1,11 +1,17 @@
 import { NgClass, NgFor } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { RegisterService } from '../../../services/register/register.service';
 import { HttpClientModule } from '@angular/common/http';
 import { InputMaskModule } from 'primeng/inputmask';
+import { MultiSelectModule } from 'primeng/multiselect';
+
+interface Subject {
+  name: string,
+  code: string
+}
 
 @Component({
   selector: 'app-register',
@@ -17,13 +23,14 @@ import { InputMaskModule } from 'primeng/inputmask';
     FormsModule,
     HttpClientModule,
     InputMaskModule,
-    NgFor
+    NgFor,
+    MultiSelectModule
   ],
-  providers:[RegisterService],
+  providers: [RegisterService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterComponent {
+export class RegisterComponent{
   isMenuOpen = false;
 
   // Cadastro Alunos
@@ -32,25 +39,42 @@ export class RegisterComponent {
   password!: string;
   cpf!: string;
   age!: Date;
-  classID!: String;
+  classID!: string;
 
-  // Cadastro de Professores 
+  // Cadastro de Professores
   teacherName!: string;
   teacherEmail!: string;
   teacherPassword!: string;
-  teacherSubject!: string;
   teacherCPF!: string;
-  turmas!: []
-  
+  turmas!: string[];
+  subjects!: Subject[];
+  selectedSubjects: Subject[] = [];
+
   // Cadastro de Turmas
   className!: string;
   gradeType!: string;
-  gradeNumber!: number;
+  gradeNumber!: string;
   classMonitor!: string;
 
   gradeNumbers: string[] = [];
-  
-  constructor(private registerService: RegisterService) {}
+
+  constructor(private registerService: RegisterService) {
+    this.subjects = [
+      { name: 'Arte', code: 'ART' },
+      { name: 'Biologia', code: 'BIO' },
+      { name: 'Educação Física', code: 'EDF' },
+      { name: 'Ensino Religioso', code: 'REL' },
+      { name: 'Filosofia', code: 'FIL' },
+      { name: 'Física', code: 'FIS' },
+      { name: 'Geografia', code: 'GEO' },
+      { name: 'História', code: 'HIS' },
+      { name: 'Língua Inglesa', code: 'LEI' },
+      { name: 'Língua Portuguesa', code: 'LPT' },
+      { name: 'Matemática', code: 'MAT' },
+      { name: 'Química', code: 'QUI' },
+      { name: 'Sociologia', code: 'SOC' }
+    ];
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -62,8 +86,15 @@ export class RegisterComponent {
     } else if (this.gradeType === 'Fundamental 2') {
       this.gradeNumbers = ['Sexto', 'Sétimo', 'Oitavo', 'Nono'];
     } else if (this.gradeType === 'Ensino Médio') {
-      this.gradeNumbers = ['Primeiro Médio', 'Segundo Médio', 'Terceiro Médio'];
+      this.gradeNumbers = ['Primeirão', 'Segundão', 'Terceirão'];
+    } else {
+      this.gradeNumbers = [];
+      this.gradeNumber = '';
     }
+  }
+
+  isFormValid(): boolean {
+    return !!this.gradeType && !!this.gradeNumber;
   }
 
   cadastrarAluno() {
@@ -88,11 +119,11 @@ export class RegisterComponent {
       teacherEmail: this.teacherEmail,
       teacherPassword: this.teacherPassword,
       teacherName: this.teacherName,
-      teacherSubject: this.teacherSubject,
       teacherCPF: this.teacherCPF,
-      turmas: this.turmas
+      turmas: this.turmas,
+      subjects: this.selectedSubjects
     };
-    
+
     this.registerService.registerTeacher(teacherData).subscribe(response => {
       console.log('Professor registrado:', response);
     }, error => {

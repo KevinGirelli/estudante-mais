@@ -1,5 +1,7 @@
 p-stepper {
-  font-size: 0px;
+  ::ng-deep .p-stepper-header {
+    display: none;
+  }
 
   .slide-container {
     display: flex;
@@ -9,7 +11,7 @@ p-stepper {
     background-color: #EEE;
     height: 85vh;
     justify-content: center;
-    position: relative;
+    position: relative; 
   }
 
   .container {
@@ -92,24 +94,44 @@ p-stepper {
             color: #555555;
             margin-bottom: 5px;
           }
-
-          .input-field {
+          
+          ::ng-deep .p-multiselect {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #CCC;
             border-radius: 4px;
             background-color: #EEE;
+            
+            .p-multiselect-filter-icon {
+              display: none;
+            }
+          }
 
+          ::ng-deep .p-multiselect:focus {
+            outline: none;
+            box-shadow: none;
+          }
+          
+          .input-field {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #CCC;
+            border-radius: 4px;
+            background-color: #EEE;
+            
             ::ng-deep .p-inputmask {
               border: none;
               width: 100%;
               height: 100%;
               background-color: inherit;
+            }
 
-              &:focus-visible {
-                outline: none;
-              }
+            ::ng-deep .p-inputmask:focus {
+              outline: none;
+              box-shadow: none;
             }
           }
         }
