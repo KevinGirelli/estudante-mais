@@ -100,7 +100,7 @@ export class RegisterComponent implements OnInit{
       { name: 'Química'},
       { name: 'Sociologia'}
     ];
-    
+
   }
 
   toggleMenu() {

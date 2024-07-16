@@ -5,7 +5,7 @@ import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-
 import { RegisterComponent } from './components/dashboard-admin/register/register.component';
 import { DashboardStudentComponent } from './components/dashboard-student/dashboard-student.component';
 import { DashboardTeacherComponent } from './components/dashboard-teacher/dashboard-teacher.component';
-import { TwoFactorAuthModalComponent } from './components/login-component/two-factor-auth-modal/two-factor-auth-modal.component';
+import { ClassesComponent } from './components/dashboard-admin/classes/classes.component';
 
 export const routes: Routes = [
   {path: "", component: HomeComponentComponent},
@@ -15,6 +15,8 @@ export const routes: Routes = [
   {path: "admin", component: DashboardAdminComponent},
 
   {path: "admin/register", component: RegisterComponent},
+
+  {path: "admin/classes", component: ClassesComponent},
 
   {path: "teacher", component: DashboardTeacherComponent},
 
