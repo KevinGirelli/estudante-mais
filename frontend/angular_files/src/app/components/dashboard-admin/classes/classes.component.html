@@ -39,7 +39,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-class>
-            <tr>
+            <tr (click)="navigateToStudents(class)">
                 <td>{{ class.className }}</td>
                 <td>{{ class.gradeType }}</td>
                 <td>{{ class.gradeNumber }}</td>

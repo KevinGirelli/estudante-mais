@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
+import { Router } from '@angular/router';
 
 interface Class {
   className: string;
@@ -23,6 +24,8 @@ export class ClassesComponent implements OnInit {
   isMenuOpen = false;
   classes: Class[] = [];
 
+  constructor(private router: Router) {}
+
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
@@ -42,32 +45,24 @@ export class ClassesComponent implements OnInit {
 
 
     const allClasses = localStorage.getItem("classes");
-    
-    if(allClasses){
-      const parsedData= JSON.parse(allClasses)
-    
+
+    if (allClasses) {
+      const parsedData = JSON.parse(allClasses);
       const keys = Object.keys(parsedData);
-      let index = 0
       keys.forEach(key => {
         const value = parsedData[key];
-        if(value.classMonitor == undefined){
-          let addClass: Class = {
-            className: value.className,
-            gradeType: value.gradeType,
-            gradeNumber: value.gradeNumber,
-            classMonitor: "A definir"
-          }
-          this.classes.push(addClass);
-        }else{
-          let addClass: Class = {
-            className: value.className,
-            gradeType: value.gradeType,
-            gradeNumber: value.gradeNumber,
-            classMonitor: value.classMonitor
-          }
-          this.classes.push(addClass);
-        }
+        let addClass: Class = {
+          className: value.className,
+          gradeType: value.gradeType,
+          gradeNumber: value.gradeNumber,
+          classMonitor: value.classMonitor || "A definir"
+        };
+        this.classes.push(addClass);
       });
-    };
+    }
   }
+
+  navigateToStudents(classItem: Class) {
+    this.router.navigate(['/admin/classes', classItem.className]);
+  }  
 }
