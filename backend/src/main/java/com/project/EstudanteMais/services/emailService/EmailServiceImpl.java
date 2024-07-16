@@ -86,8 +86,6 @@ public class EmailServiceImpl implements EmailService {
       helper.setText(htmlContent, true); // true indica que o conteúdo é HTML
 
       emailSender.send(message);
-      System.out.println("Email enviado com sucesso!");
-
     } catch (MessagingException e) {
       e.printStackTrace();
       System.out.println("Erro ao enviar email: " + e.getMessage());

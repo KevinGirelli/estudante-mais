@@ -44,6 +44,20 @@ export class RegisterComponent implements OnInit{
   allClasses: classes[] = [];
 
   ngOnInit(): void {
+    fetch("http://localhost:8080/auth/verifyAdminToken",{
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    }).then(res => {
+      if(res.status == 403){
+        //redirecionar para pagina de não autorizado.
+        console.log("REDIRECT")
+      }
+    })
+
+
+
     const allClasses = localStorage.getItem("classes");
     
     if(allClasses){
