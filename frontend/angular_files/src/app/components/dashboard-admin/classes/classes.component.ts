@@ -5,7 +5,7 @@ import { TableModule } from 'primeng/table';
 interface Class {
   className: string;
   gradeType: string;
-  gradeNumber: number[];
+  gradeNumber: number;
   classMonitor: string;
 }
 
@@ -28,19 +28,33 @@ export class ClassesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.classes = [
-      {
-        className: '351',
-        gradeType: 'Ensino médio',
-        gradeNumber: [3],
-        classMonitor: 'Kévin'
-      },
-      {
-        className: '352',
-        gradeType: 'Ensino médio',
-        gradeNumber: [3],
-        classMonitor: 'Zaymã'
-      }
-    ];
+    const allClasses = localStorage.getItem("classes");
+    
+    if(allClasses){
+      const parsedData= JSON.parse(allClasses)
+    
+      const keys = Object.keys(parsedData);
+      let index = 0
+      keys.forEach(key => {
+        const value = parsedData[key];
+        if(value.classMonitor == undefined){
+          let addClass: Class = {
+            className: value.className,
+            gradeType: value.gradeType,
+            gradeNumber: value.gradeNumber,
+            classMonitor: "A definir"
+          }
+          this.classes.push(addClass);
+        }else{
+          let addClass: Class = {
+            className: value.className,
+            gradeType: value.gradeType,
+            gradeNumber: value.gradeNumber,
+            classMonitor: value.classMonitor
+          }
+          this.classes.push(addClass);
+        }
+      });
+    };
   }
 }

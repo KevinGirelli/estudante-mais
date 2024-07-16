@@ -112,17 +112,17 @@ public class authController {
           String code = this.randomCodeService.GenerateCode();
           String codeToAdd = this.randomCodeService.verifyCode(code);
           this.registerCodeTimer.StartTRegisterTimer(codeToAdd);
-
+          System.out.println(codeToAdd);
 
           Resource resource = resourceLoader.getResource("classpath:static/mail.html");
           String htmlContent = new String(Files.readAllBytes(Paths.get(resource.getURI())));
           htmlContent = htmlContent.replace("BigDog",studentUser.getStudentFullname())
-                  .replace("value=1","value=" + codeToAdd.charAt(0))
-                  .replace("value=2","value=" + codeToAdd.charAt(1))
-                  .replace("value=3","value=" + codeToAdd.charAt(2))
-                  .replace("value=4","value=" + codeToAdd.charAt(3))
-                  .replace("value=5","value=" + codeToAdd.charAt(4))
-                  .replace("value=6","value=" + codeToAdd.charAt(5));
+                  .replace("value=a","value=" + codeToAdd.charAt(0))
+                  .replace("value=b","value=" + codeToAdd.charAt(1))
+                  .replace("value=c","value=" + codeToAdd.charAt(2))
+                  .replace("value=d","value=" + codeToAdd.charAt(3))
+                  .replace("value=e","value=" + codeToAdd.charAt(4))
+                  .replace("value=f","value=" + codeToAdd.charAt(5));
 
 
 

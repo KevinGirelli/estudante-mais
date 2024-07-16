@@ -1,16 +1,15 @@
 package com.project.EstudanteMais.repository;
 
+import com.project.EstudanteMais.Entity.dto.studentDataDTO;
 import com.project.EstudanteMais.Entity.student;
-import com.project.EstudanteMais.services.UUIDformatter;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public interface studentRepository extends JpaRepository<student, UUID> {
@@ -22,4 +21,6 @@ public interface studentRepository extends JpaRepository<student, UUID> {
     @Transactional
     @Query(value = "UPDATE student set two_step_code = ?1 WHERE studentID = ?2",nativeQuery = true)
     void updateTwoStepCode(String code,UUID studentID);
+    @Query(value = "SELECT student_fullname,student_email,studentcpf,student_age from student WHERE classes_classid = ?1",nativeQuery = true)
+    List<Object> getAllStudentFromClass(UUID classID);
 }
