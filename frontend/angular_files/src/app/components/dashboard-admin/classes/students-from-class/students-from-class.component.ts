@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
+import { DataSaverService } from '../../../../services/tempDataSaver/data-saver.service';
 
 interface Student {
   studentID: string
@@ -21,6 +22,8 @@ interface Student {
   styleUrls: ['./students-from-class.component.scss']
 })
 export class StudentsFromClassComponent implements OnInit {
+
+  constructor(private datasaver: DataSaverService) {}
   
   isMenuOpen = false;
   students: Student[] = [];
@@ -42,7 +45,7 @@ export class StudentsFromClassComponent implements OnInit {
       }
     })
     
-    fetch("http://localhost:8080/admin/classesDataManager/getAllStudentsFromClass/beb98588-6632-4d82-900e-f0c0a6f7f911",{
+    fetch("http://localhost:8080/admin/classesDataManager/getAllStudentsFromClass/" + this.datasaver.getData(),{
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
@@ -50,17 +53,17 @@ export class StudentsFromClassComponent implements OnInit {
     }).then(res =>{
       if(res.status == 200){
         res.json().then(data =>{
-          console.log(data)
-          for(let i = 0; i <= data.length - 1; i++){
-            let addStudent: Student = {
-              studentID: data[i][0],
-              fullname: data[i][1],
-              email: data[i][2],
-              cpf: data[i][3],
-              age: data[i][4]
+          const keys = Object.keys(data)
+          
+          for(let i = 0; i <= keys.length-1; i++){
+            const addClass: Student = {
+              studentID: data[i].studentID,
+              fullname: data[i].student_fullname,
+              email: data[i].student_email,
+              cpf: data[i].studentcpf,
+              age: data[i].student_age
             }
-
-            this.students.push(addStudent);
+            this.students.push(addClass)
           }
         })
       }

@@ -4,8 +4,10 @@ import { TableModule } from 'primeng/table';
 import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { DataSaverService } from '../../../services/tempDataSaver/data-saver.service';
 
 interface Class {
+  classID: string
   className: string;
   gradeType: string;
   gradeNumber: number;
@@ -30,7 +32,7 @@ export class ClassesComponent implements OnInit {
   visible: boolean = false;
   selectedClass: Class | null = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private datasaver: DataSaverService) {}
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -57,6 +59,7 @@ export class ClassesComponent implements OnInit {
       keys.forEach(key => {
         const value = parsedData[key];
         let addClass: Class = {
+          classID: value.classID,
           className: value.className,
           gradeType: value.gradeType,
           gradeNumber: value.gradeNumber,
@@ -74,12 +77,14 @@ export class ClassesComponent implements OnInit {
 
   navigateToStudents() {
     if (this.selectedClass) {
+      this.datasaver.setData(this.selectedClass.classID)
       this.router.navigate(['admin/class/students', this.selectedClass.className]);
     }
   }
   
   navigateToTeachers() {
     if (this.selectedClass) {
+
       this.router.navigate(['admin/class/teacher', this.selectedClass.className]);
     }
   }

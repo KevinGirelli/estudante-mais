@@ -1,5 +1,6 @@
 package com.project.EstudanteMais.Entity;
 
+import com.project.EstudanteMais.Entity.dto.studentDataDTO;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,24 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@SqlResultSetMapping(
+        name = "StudentDataMapping",
+        classes = @ConstructorResult(
+                targetClass = studentDataDTO.class,
+                columns = {
+                        @ColumnResult(name = "studentid", type = UUID.class),
+                        @ColumnResult(name = "student_fullname"),
+                        @ColumnResult(name = "student_email"),
+                        @ColumnResult(name = "studentcpf"),
+                        @ColumnResult(name = "student_age")
+                }
+        )
+)
+@NamedNativeQuery(
+        name = "Student.getAllStudentFromClass",
+        query = "SELECT studentid, student_fullname, student_email, studentcpf, student_age FROM student WHERE classes_classid = ?1",
+        resultSetMapping = "StudentDataMapping"
+)
 public class student implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
