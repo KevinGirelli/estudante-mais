@@ -6,7 +6,6 @@ import { RegisterComponent } from './components/dashboard-admin/register/registe
 import { DashboardStudentComponent } from './components/dashboard-student/dashboard-student.component';
 import { DashboardTeacherComponent } from './components/dashboard-teacher/dashboard-teacher.component';
 import { ClassesComponent } from './components/dashboard-admin/classes/classes.component';
-import { TwoFactorAuthModalComponent } from './components/login-component/two-factor-auth-modal/two-factor-auth-modal.component';
 import { StudentsFromClassComponent } from './components/dashboard-admin/classes/students-from-class/students-from-class.component';
 
 export const routes: Routes = [
@@ -25,7 +24,5 @@ export const routes: Routes = [
   {path: "teacher", component: DashboardTeacherComponent},
 
   {path: "student", component: DashboardStudentComponent},
-
-  {path: "two", component: TwoFactorAuthModalComponent}
 
 ];

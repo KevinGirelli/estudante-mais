@@ -154,3 +154,78 @@
     }
   }
 }
+
+:host ::ng-deep {
+  .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #eee;
+
+    p-dialog {
+      .p-dialog-header {
+        background-color: #9747FF;
+        color: #ffffff;
+        font-size: 1.25rem;
+        font-weight: 600;
+        padding: 1rem;
+        border-radius: 15px 15px 0 0;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .p-dialog-content {
+        padding: 2rem;
+        background-color: #ffffff;
+        border-radius: 0 0 15px 15px;
+
+        .verification-code-container {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 1rem;
+
+          .verification-input {
+            width: 3rem;
+            height: 4rem;
+            text-align: center;
+            font-size: 2rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            transition: 0.3s;
+            color: #292F47;
+
+            &:focus {
+              border-color: #9747FF;
+              outline: none;
+              background-color: #ffffff;
+            }
+          }
+        }
+
+        .modal-btn {
+          display: flex;
+          justify-content: center;
+          margin-top: 1rem;
+
+          .modal-btn-verify {
+            background-color: #9747FF;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+
+            &:hover {
+              background-color: #6a3ce9;
+            }
+          }
+        }
+      }
+    }
+  }
+}
