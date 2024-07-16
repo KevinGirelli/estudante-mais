@@ -39,7 +39,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-class>
-            <tr (click)="navigateToStudents(class)">
+            <tr (click)="openModalSwitch(class)">
                 <td>{{ class.className }}</td>
                 <td>{{ class.gradeType }}</td>
                 <td>{{ class.gradeNumber }}</td>
@@ -48,4 +48,20 @@
         </ng-template>
     </p-table>
   </div>
+</div>
+
+<div class="card">
+  <p-dialog header="Estudante+"
+            [modal]="true" [(visible)]="visible"
+            [style]="{ 'width': '35vw'}"
+            [closable]="true"
+            [draggable]="false">
+    <span class="text-secondary">
+      Você deseja ir para a lista de alunos ou professores?
+    </span>
+    <div class="modal-btn">
+      <button pButton class="modal-btn-switch" (click)="navigateToStudents()">Alunos</button>
+      <button pButton class="modal-btn-switch" (click)="navigateToTeachers()">Professores</button>
+    </div>    
+  </p-dialog>
 </div>

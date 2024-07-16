@@ -2,9 +2,10 @@ import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Router } from '@angular/router';
+import { DialogModule } from 'primeng/dialog';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 interface Class {
-  classID: string
   className: string;
   gradeType: string;
   gradeNumber: number;
@@ -16,14 +17,18 @@ interface Class {
   standalone: true,
   imports: [
     NgClass,
-    TableModule
+    TableModule,
+    DialogModule
   ],
+  providers: [provideAnimations()],
   templateUrl: './classes.component.html',
   styleUrls: ['./classes.component.scss']
 })
 export class ClassesComponent implements OnInit {
   isMenuOpen = false;
   classes: Class[] = [];
+  visible: boolean = false;
+  selectedClass: Class | null = null;
 
   constructor(private router: Router) {}
 
@@ -52,7 +57,6 @@ export class ClassesComponent implements OnInit {
       keys.forEach(key => {
         const value = parsedData[key];
         let addClass: Class = {
-          classID: value.classID,
           className: value.className,
           gradeType: value.gradeType,
           gradeNumber: value.gradeNumber,
@@ -63,7 +67,21 @@ export class ClassesComponent implements OnInit {
     }
   }
 
-  navigateToStudents(classItem: Class) {
-    this.router.navigate(['/admin/classes', classItem.className]);
+  openModalSwitch(selectedClass: Class) {
+    this.selectedClass = selectedClass;
+    this.visible = true;
   }  
+
+  navigateToStudents() {
+    if (this.selectedClass) {
+      this.router.navigate(['admin/class/students', this.selectedClass.className]);
+    }
+  }
+  
+  navigateToTeachers() {
+    if (this.selectedClass) {
+      this.router.navigate(['admin/class/teacher', this.selectedClass.className]);
+    }
+  }
+  
 }
