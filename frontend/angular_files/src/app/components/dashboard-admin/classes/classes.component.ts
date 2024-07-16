@@ -4,6 +4,7 @@ import { TableModule } from 'primeng/table';
 import { Router } from '@angular/router';
 
 interface Class {
+  classID: string
   className: string;
   gradeType: string;
   gradeNumber: number;
@@ -43,7 +44,6 @@ export class ClassesComponent implements OnInit {
       }
     })
 
-
     const allClasses = localStorage.getItem("classes");
 
     if (allClasses) {
@@ -52,6 +52,7 @@ export class ClassesComponent implements OnInit {
       keys.forEach(key => {
         const value = parsedData[key];
         let addClass: Class = {
+          classID: value.classID,
           className: value.className,
           gradeType: value.gradeType,
           gradeNumber: value.gradeNumber,

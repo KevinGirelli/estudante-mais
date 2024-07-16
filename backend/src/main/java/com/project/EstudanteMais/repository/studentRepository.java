@@ -22,5 +22,5 @@ public interface studentRepository extends JpaRepository<student, UUID> {
     @Query(value = "UPDATE student set two_step_code = ?1 WHERE studentID = ?2",nativeQuery = true)
     void updateTwoStepCode(String code,UUID studentID);
     @Query(value = "SELECT studentid, student_fullname,student_email,studentcpf,student_age from student WHERE classes_classid = ?1",nativeQuery = true)
-    List<Object> getAllStudentFromClass(UUID classID);
+    List<studentDataDTO> getAllStudentFromClass(UUID classID);
 }

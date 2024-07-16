@@ -26,22 +26,7 @@ export class DashboardAdminComponent implements OnInit {
         console.log("REDIRECT")
       }
     })
-    
-    //Pegar turmas do banco
-    fetch("http://localhost:8080/admin/classesDataManager/getClassesAsync",{
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    }).then(res => {
-      if(res.status == 200){
-        res.json().then(data => {
-          console.log(data)
-          localStorage.setItem("classes",JSON.stringify(data))
-          console.log("Classes data loaded sucessfuly.")
-        })
-      }
-    })
+     
 }
 
   toggleMenu() {

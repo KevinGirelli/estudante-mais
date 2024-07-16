@@ -56,6 +56,20 @@ export class RegisterComponent implements OnInit{
       }
     })
 
+    fetch("http://localhost:8080/admin/classesDataManager/getClassesAsync",{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    }).then(res => {
+      if(res.status == 200){
+        res.json().then(data => {
+          console.log(data)
+          localStorage.setItem("classes",JSON.stringify(data))
+          console.log("data loaded sucessfuly.")
+        })
+      }
+    })
 
 
     const allClasses = localStorage.getItem("classes");
