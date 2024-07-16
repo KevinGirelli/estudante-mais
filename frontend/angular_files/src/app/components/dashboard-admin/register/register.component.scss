@@ -46,10 +46,20 @@ p-stepper {
 
     .button-back {
       left: 20px;
+      transition: 0.5s;
+
+      &:hover {
+        background-color: #6a3ce9;
+      }
     }
 
     .button-next {
       right: 20px;
+      transition: 0.5s;
+
+      &:hover {
+        background-color: #6a3ce9;
+      }
     }
 
     .form-container {
@@ -94,24 +104,6 @@ p-stepper {
             color: #555555;
             margin-bottom: 5px;
           }
-
-          ::ng-deep p-treeSelect {
-            width: 100%;
-            margin-bottom: 15px;
-            padding: 0;
-          }
-        
-          ::ng-deep p-treeSelect .p-treeselect-label-container {
-            width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-            background-color: #EEE;
-          }
-        
-          ::ng-deep p-treeSelect .p-treeselect {
-            width: 100%;
-            background-color: #EEE;
-          }
           
           ::ng-deep .p-multiselect {
             width: 100%;
@@ -139,6 +131,13 @@ p-stepper {
             border: 1px solid #CCC;
             border-radius: 4px;
             background-color: #EEE;
+            font-size: 16px;
+            color: #555555;
+
+            &:focus {
+              outline: none;
+              box-shadow: none;
+            }
             
             ::ng-deep .p-inputmask {
               border: none;

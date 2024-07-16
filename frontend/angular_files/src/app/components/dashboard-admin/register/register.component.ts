@@ -7,6 +7,8 @@ import { RegisterService } from '../../../services/register/register.service';
 import { HttpClientModule } from '@angular/common/http';
 import { InputMaskModule } from 'primeng/inputmask';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ToastModule } from 'primeng/toast';
+import { MessageService} from 'primeng/api';
 
 interface Subject {
   name: string
@@ -29,8 +31,9 @@ interface classes {
     InputMaskModule,
     NgFor,
     MultiSelectModule,
+    ToastModule
   ],
-  providers: [RegisterService],
+  providers: [RegisterService, MessageService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -81,7 +84,7 @@ export class RegisterComponent implements OnInit{
 
   gradeNumbers: number[] = [];
 
-  constructor(private registerService: RegisterService) {
+  constructor(private registerService: RegisterService, private messageService: MessageService) {
     this.subjects = [
       { name: 'Arte'},
       { name: 'Biologia'},
@@ -134,8 +137,11 @@ export class RegisterComponent implements OnInit{
 
     this.registerService.registerStudent(studentData).subscribe(response => {
       console.log('Aluno registrado:', response);
+      this.messageService.add({ severity: 'success', summary: 'Cadastro concluído', detail: 'Aluno registrado com sucesso!' });
+      this.clearAlunoForm();
     }, error => {
       console.error('Erro ao registrar aluno:', error);
+      this.messageService.add({ severity: 'error', summary: 'Erro durante o cadastro', detail: 'Erro ao registrar aluno!' });
     });
   }
 
@@ -151,8 +157,11 @@ export class RegisterComponent implements OnInit{
 
     this.registerService.registerTeacher(teacherData).subscribe(response => {
       console.log('Professor registrado:', response);
+      this.messageService.add({ severity: 'success', summary: 'Cadastro concluído', detail: 'Professor registrado com sucesso!' });
+      this.clearProfessorForm();
     }, error => {
       console.error('Erro ao registrar professor:', error);
+      this.messageService.add({ severity: 'error', summary: 'Erro durante o cadastro', detail: 'Erro ao registrar professor!' });
     });
   }
 
@@ -165,8 +174,35 @@ export class RegisterComponent implements OnInit{
 
     this.registerService.registerClass(classData).subscribe(response => {
       console.log('Turma registrada:', response);
+      this.messageService.add({ severity: 'success', summary: 'Cadastro concluído', detail: 'Turma registrada com sucesso!' });
+      this.clearTurmaForm();
     }, error => {
       console.error('Erro ao registrar turma:', error);
+      this.messageService.add({ severity: 'error', summary: 'Erro durante o cadastro', detail: 'Erro ao registrar turma!' });
     });
+  }
+
+  clearAlunoForm() {
+    this.Fullname = '';
+    this.email = '';
+    this.password = '';
+    this.cpf = '';
+    this.age = new Date('0000-00-00');
+    this.classesSelected = '';
+  }
+
+
+  clearProfessorForm() {
+    this.teacherName = '';
+    this.teacherEmail = '';
+    this.teacherPassword = '';
+    this.teacherCPF = '';
+    this.selectedSubjects = [];
+  }
+
+  clearTurmaForm() {
+    this.className = '';
+    this.gradeType = '';
+    this.gradeNumber = [];
   }
 }
