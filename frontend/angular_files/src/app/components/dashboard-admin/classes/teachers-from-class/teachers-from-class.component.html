@@ -1,1 +1,51 @@
-<p>teachers-from-class works!</p>
+<div class="nav">
+  <div class="logo">
+    <a href="admin">
+      <img src="../../../assets/images/logo_estudante_mais.png" alt="Logo">
+      <h2>Estudante+</h2>
+    </a>
+  </div>
+  <a (click)="toggleMenu()" class="hamburger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </a>
+  <div class="overlay" [ngClass]="{'active': isMenuOpen}" (click)="toggleMenu()"></div>
+  <div class="menu" [ngClass]="{'active': isMenuOpen}">
+    <a (click)="toggleMenu()" class="close-menu">✖</a>
+    <ul>
+      <li><a href="admin/register">Cadastro</a></li>
+      <li><a href="admin/classes">Turmas</a></li>
+      <li>Professores</li>
+      <li>Horários</li>
+    </ul>
+  </div>
+</div>
+
+<div class="content">
+  <div class="card">
+    <p-table
+      [value]="teachers"
+      [paginator]="true"
+      [rows]="7"
+      [tableStyle]="{ 'min-width': '50rem' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:25%">Nome Completo</th>
+          <th style="width:25%">Email</th>
+          <th style="width:25%">CPF</th>
+          <th style="width:25%">Matérias</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-teacher>
+        <tr>
+          <td>{{ teacher.teacherName }}</td>
+          <td>{{ teacher.teacherEmail }}</td>
+          <td>{{ teacher.teacherCPF }}</td>
+          <td>{{ teacher.subjects }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
