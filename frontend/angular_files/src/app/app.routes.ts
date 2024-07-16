@@ -7,6 +7,7 @@ import { DashboardStudentComponent } from './components/dashboard-student/dashbo
 import { DashboardTeacherComponent } from './components/dashboard-teacher/dashboard-teacher.component';
 import { ClassesComponent } from './components/dashboard-admin/classes/classes.component';
 import { TwoFactorAuthModalComponent } from './components/login-component/two-factor-auth-modal/two-factor-auth-modal.component';
+import { StudentsFromClassComponent } from './components/dashboard-admin/classes/students-from-class/students-from-class.component';
 
 export const routes: Routes = [
   {path: "", component: HomeComponentComponent},
@@ -18,6 +19,8 @@ export const routes: Routes = [
   {path: "admin/register", component: RegisterComponent},
 
   {path: "admin/classes", component: ClassesComponent},
+
+  {path: "admin/classes/:className", component: StudentsFromClassComponent},
 
   {path: "teacher", component: DashboardTeacherComponent},
 
