@@ -62,6 +62,10 @@ export class RegisterComponent implements OnInit{
         Authorization: "Bearer " + localStorage.getItem("token")
       }
     }).then(res => {
+      if(res.status == 403){
+        console.log("REDIRECT")
+      }
+
       if(res.status == 200){
         res.json().then(data => {
           console.log(data)
@@ -70,7 +74,6 @@ export class RegisterComponent implements OnInit{
         })
       }
     })
-
 
     const allClasses = localStorage.getItem("classes");
     

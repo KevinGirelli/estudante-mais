@@ -1,10 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgClass, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Table, TableModule } from 'primeng/table';
 
 interface Teacher {
+  teacherID: string
   teacherName: string;
   teacherEmail: string;
   teacherCPF: string;
@@ -25,13 +26,43 @@ interface Teacher {
   templateUrl: './teachers.component.html',
   styleUrls: ['./teachers.component.scss']
 })
-export class TeachersComponent {
+export class TeachersComponent implements OnInit  {
   @ViewChild('dt2') dt2!: Table;
 
   isMenuOpen = false;
   teachers: Teacher[] = [
   ];
   searchValue = '';
+
+  ngOnInit(): void {
+    fetch("http://localhost:8080/admin/teacherDataManager/getAllTeachers",{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    }).then(res => {
+      if(res.status == 403){
+        console.log("REDIRECT")
+      }
+
+      if(res.status == 200){
+        res.json().then(data => {
+          const keys = Object.keys(data)
+
+          keys.forEach(key =>{
+              let addTeacher: Teacher = {
+                teacherID: data[key].teacherID,
+                teacherName: data[key].teacherName,
+                teacherEmail: data[key].teacherEmail,
+                teacherCPF: data[key].cpf,
+                subjects: data[key].subjects
+              }
+              this.teachers.push(addTeacher)
+          })
+        })
+      }
+    })
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

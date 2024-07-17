@@ -1,4 +1,6 @@
 package com.project.EstudanteMais.Entity.dto;
 
-public record teachersDTO(String teacherID,String teacherName) {
+import java.util.List;
+
+public record teachersDTO(String teacherID, String teacherName, String teacherEmail, String cpf, List<String> subjects) {
 }

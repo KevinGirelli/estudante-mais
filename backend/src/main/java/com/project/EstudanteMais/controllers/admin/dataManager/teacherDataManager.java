@@ -2,7 +2,9 @@ package com.project.EstudanteMais.controllers.admin.dataManager;
 
 import com.project.EstudanteMais.Entity.dto.teachersDTO;
 import com.project.EstudanteMais.Entity.teacher;
+import com.project.EstudanteMais.Entity.teacherSubject;
 import com.project.EstudanteMais.repository.teacherRepository;
+import com.project.EstudanteMais.repository.teacherSubjectRepository;
 import com.project.EstudanteMais.services.UUIDformatter;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class teacherDataManager {
   teacherRepository teacherRepository;
 
   @Autowired
+  teacherSubjectRepository teacherSubjectRepository;
+
+  @Autowired
   UUIDformatter uuiDformatter;
   @GetMapping("/getTeacher/{teacherEmail}")
   public ResponseEntity selectTeacher(@PathVariable(value = "teacherEmail")String email){
@@ -43,7 +48,15 @@ public class teacherDataManager {
     List<teachersDTO> allTeachers = new ArrayList<>();
 
     teachers.forEach(teacher ->{
-      teachersDTO addTeacher = new teachersDTO(this.uuiDformatter.formatUuid(teacher.getTeacherID()),teacher.getTeacherName());
+      List<teacherSubject> teacherSubjects = this.teacherSubjectRepository.findByteacher(teacher);
+      List<String> listSubjects = new ArrayList<>();
+
+      teacherSubjects.forEach(subject ->{
+        listSubjects.add(subject.getSubjectName());
+      });
+
+      teachersDTO addTeacher = new teachersDTO(this.uuiDformatter.formatUuid(teacher.getTeacherID()),teacher.getTeacherName()
+      ,teacher.getTeacherEmail(),teacher.getTeacherCPF(),listSubjects);
       allTeachers.add(addTeacher);
     });
     return ResponseEntity.ok(allTeachers);
