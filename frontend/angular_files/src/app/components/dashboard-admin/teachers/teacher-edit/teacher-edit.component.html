@@ -1,0 +1,23 @@
+<div class="nav">
+  <div class="logo">
+    <a href="admin">
+      <img src="../../../assets/images/logo_estudante_mais.png" alt="Logo">
+      <h2>Estudante+</h2>
+    </a>
+  </div>
+  <a (click)="toggleMenu()" class="hamburger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </a>
+  <div class="overlay" [ngClass]="{'active': isMenuOpen}" (click)="toggleMenu()"></div>
+  <div class="menu" [ngClass]="{'active': isMenuOpen}">
+    <a (click)="toggleMenu()" class="close-menu">✖</a>
+    <ul>
+      <li><a href="admin/register">Cadastro</a></li>
+      <li><a href="admin/classes">Turmas</a></li>
+      <li><a href="admin/teachers">Professores</a></li>
+      <li>Horários</li>
+    </ul>
+  </div>
+</div>

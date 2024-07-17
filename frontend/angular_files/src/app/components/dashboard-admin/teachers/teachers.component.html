@@ -49,7 +49,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-teacher>
-        <tr>
+        <tr (click)="teacherEdit(teacher)">
           <td>{{ teacher.teacherName }}</td>
           <td>{{ teacher.teacherEmail }}</td>
           <td>{{ teacher.teacherCPF }}</td>

@@ -9,6 +9,7 @@ import { ClassesComponent } from './components/dashboard-admin/classes/classes.c
 import { StudentsFromClassComponent } from './components/dashboard-admin/classes/students-from-class/students-from-class.component';
 import { TeachersFromClassComponent } from './components/dashboard-admin/classes/teachers-from-class/teachers-from-class.component';
 import { TeachersComponent } from './components/dashboard-admin/teachers/teachers.component';
+import { TeacherEditComponent } from './components/dashboard-admin/teachers/teacher-edit/teacher-edit.component';
 
 export const routes: Routes = [
   {path: "", component: HomeComponentComponent},
@@ -26,6 +27,8 @@ export const routes: Routes = [
   {path: "admin/class/teacher/:classTeacher", component: TeachersFromClassComponent},
 
   {path: "admin/teachers", component: TeachersComponent},
+
+  {path: "admin/teachers/:editTeacher", component: TeacherEditComponent},
 
   {path: "teacher", component: DashboardTeacherComponent},
 
