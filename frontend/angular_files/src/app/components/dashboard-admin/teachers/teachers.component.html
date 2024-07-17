@@ -25,17 +25,27 @@
 <div class="content">
   <div class="card">
     <p-table
+      #dt2
       [value]="teachers"
-      [paginator]="true"
+      dataKey="id"
       [rows]="7"
-      [tableStyle]="{ 'min-width': '50rem' }"
+      [paginator]="true"
+      [globalFilterFields]="['teacherName', 'teacherEmail', 'teacherCPF', 'subjects']"
     >
+      <ng-template pTemplate="caption">
+        <div class="search-bar">
+          <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" [(ngModel)]="searchValue" (input)="filterTeachers($event)" placeholder="Procure o professor" />
+          </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:25%">Nome Completo</th>
-          <th style="width:25%">Email</th>
-          <th style="width:25%">CPF</th>
-          <th style="width:25%">Matérias</th>
+          <th style="min-width:15rem">Nome</th>
+          <th style="min-width:15rem">Email</th>
+          <th style="min-width:15rem">CPF</th>
+          <th style="min-width:15rem">Disciplinas</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-teacher>
@@ -43,7 +53,12 @@
           <td>{{ teacher.teacherName }}</td>
           <td>{{ teacher.teacherEmail }}</td>
           <td>{{ teacher.teacherCPF }}</td>
-          <td>{{ teacher.subjects }}</td>
+          <td>{{ teacher.subjects.join(', ') }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4">Nenhum professor encontrado!</td>
         </tr>
       </ng-template>
     </p-table>
