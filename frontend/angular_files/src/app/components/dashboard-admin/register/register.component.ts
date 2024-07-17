@@ -9,12 +9,14 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ToastModule } from 'primeng/toast';
 import { MessageService} from 'primeng/api';
+import { DialogModule } from 'primeng/dialog';
+import { ListboxModule } from 'primeng/listbox';
 
 interface Subject {
-  name: string
+  name: string;
+  quantity: number;
 }
-
-interface classes {
+interface Class {
   id: string;
   name: string;
 }
@@ -31,17 +33,22 @@ interface classes {
     InputMaskModule,
     NgFor,
     MultiSelectModule,
-    ToastModule
+    ToastModule,
+    DialogModule,
+    ListboxModule
   ],
   providers: [RegisterService, MessageService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterComponent implements OnInit{
+export class RegisterComponent implements OnInit {
   isMenuOpen = false;
   classesSelected: string = "";
+  visible: boolean = false;
 
-  allClasses: classes[] = [];
+  allClasses: Class[] = [];
+  subjects: Subject[] = [];
+  subjectsClasses: Subject[] = [];
 
   ngOnInit(): void {
     fetch("http://localhost:8080/auth/verifyAdminToken",{
@@ -81,65 +88,60 @@ export class RegisterComponent implements OnInit{
       const parsedData= JSON.parse(allClasses)
     
       const keys = Object.keys(parsedData);
-      let index = 0
       keys.forEach(key => {
         const value = parsedData[key];
-        const addClass: classes = {id: value.classID, name: value.className}
+        const addClass: Class = {id: value.classID, name: value.className}
         this.allClasses.push(addClass);
       });
     };
+
+    this.subjects = [
+      { name: 'Arte', quantity: 0 },
+      { name: 'Biologia', quantity: 0 },
+      { name: 'Educação Física', quantity: 0 },
+      { name: 'Ensino Religioso', quantity: 0 },
+      { name: 'Filosofia', quantity: 0 },
+      { name: 'Física', quantity: 0 },
+      { name: 'Geografia', quantity: 0 },
+      { name: 'História', quantity: 0 },
+      { name: 'Língua Inglesa', quantity: 0 },
+      { name: 'Língua Portuguesa', quantity: 0 },
+      { name: 'Matemática', quantity: 0 },
+      { name: 'Química', quantity: 0 },
+      { name: 'Sociologia', quantity: 0 }
+    ];
   }
 
   // Cadastro Alunos
-  Fullname!: string;
-  email!: string;
-  password!: string;
-  cpf!: string;
-  age!: Date;
-  classID!: string;
+  Fullname: string = '';
+  email: string = '';
+  password: string = '';
+  cpf: string = '';
+  age: Date = new Date('0000-00-00');
+  classID: string = '';
 
   // Cadastro de Professores
-  teacherName!: string;
-  teacherEmail!: string;
-  teacherPassword!: string;
-  teacherCPF!: string;
-  turmas!: string[];
-  subjects!: Subject[];
+  teacherName: string = '';
+  teacherEmail: string = '';
+  teacherPassword: string = '';
+  teacherCPF: string = '';
   selectedSubjects: Subject[] = [];
 
   // Cadastro de Turmas
-  className!: string;
-  gradeType!: string;
-  gradeNumber!: Array<number>;
-  classMonitor!: string;
+  className: string = '';
+  gradeType: string = '';
+  gradeNumber: number[] = [];
+  classMonitor: string = '';
 
   gradeNumbers: number[] = [];
 
-  constructor(private registerService: RegisterService, private messageService: MessageService) {
-    this.subjects = [
-      { name: 'Arte'},
-      { name: 'Biologia'},
-      { name: 'Educação Física'},
-      { name: 'Ensino Religioso'},
-      { name: 'Filosofia'},
-      { name: 'Física'},
-      { name: 'Geografia'},
-      { name: 'História'},
-      { name: 'Língua Inglesa'},
-      { name: 'Língua Portuguesa'},
-      { name: 'Matemática'},
-      { name: 'Química'},
-      { name: 'Sociologia'}
-    ];
-
-  }
+  constructor(private registerService: RegisterService, private messageService: MessageService) {}
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
   updateGradeNumbers() {
-
     if (this.gradeType === 'Fundamental 1') {
       this.gradeNumbers = [1, 2, 3, 4, 5];
     } else if (this.gradeType === 'Fundamental 2') {
@@ -177,13 +179,12 @@ export class RegisterComponent implements OnInit{
   }
 
   cadastrarProfessor() {
-    const subjectsToSend = this.selectedSubjects.map(subject => subject.name);
     const teacherData = {
       teacherEmail: this.teacherEmail,
       teacherPassword: this.teacherPassword,
       teacherName: this.teacherName,
       teacherCPF: this.teacherCPF,
-      subjects: subjectsToSend
+      subjects: this.selectedSubjects
     };
 
     this.registerService.registerTeacher(teacherData).subscribe(response => {
@@ -222,7 +223,6 @@ export class RegisterComponent implements OnInit{
     this.classesSelected = '';
   }
 
-
   clearProfessorForm() {
     this.teacherName = '';
     this.teacherEmail = '';
@@ -235,5 +235,31 @@ export class RegisterComponent implements OnInit{
     this.className = '';
     this.gradeType = '';
     this.gradeNumber = [];
+  }
+
+  selecionarMateria() {
+    this.visible = true;
+  }
+
+  increaseQuantity(subject: Subject) {
+    subject.quantity++;
+  }
+
+  decreaseQuantity(subject: Subject) {
+    if (subject.quantity > 0) {
+      subject.quantity--;
+    }
+  }
+
+  confirmarMaterias() {
+    this.subjectsClasses = [];
+
+    this.subjects.forEach(subject => {
+      if (subject.quantity > 0) {
+        this.subjectsClasses.push({ name: subject.name, quantity: subject.quantity });
+      }
+    });
+    this.visible = false
+    console.log(this.subjectsClasses);
   }
 }
