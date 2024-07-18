@@ -10,6 +10,7 @@ interface Student {
   email: string;
   cpf: string;
   age: Date;
+  classID: string
 }
 
 @Component({
@@ -54,7 +55,8 @@ export class StudentsFromClassComponent implements OnInit {
               fullname: data[i].student_fullname,
               email: data[i].student_email,
               cpf: data[i].studentcpf,
-              age: data[i].student_age
+              age: data[i].student_age,
+              classID: this.datasaver.getData()
             }
             this.students.push(addClass)
           }

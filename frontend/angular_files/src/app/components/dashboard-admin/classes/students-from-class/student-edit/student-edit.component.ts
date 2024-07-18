@@ -87,10 +87,9 @@ export class StudentEditComponent implements OnInit {
       email: this.email,
       cpf: this.cpf,
       age: this.age,
-      classID: "6ad11c0d-4734-4eb2-8f15-7dc7bb479948"
+      classID: this.classesSelected
     }
-
-
+    
     fetch("http://localhost:8080/admin/studentDataManager/updateStudentPrimaryData",{
       method: "PATCH",
       headers: {
