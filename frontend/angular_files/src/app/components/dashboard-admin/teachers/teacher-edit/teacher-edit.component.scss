@@ -1,0 +1,101 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding: 20px;
+  width: 60vw;
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    h2 {
+      align-self: center;
+      font-size: 28px;
+      font-weight: 500;
+      color: #292F47;
+      margin: 2vh;
+    }
+
+    .form-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .form-item {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 45%;
+
+      .label {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 5px;
+      }
+
+      .input-field,
+      ::ng-deep .p-multiselect {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        background-color: #EEE;
+        font-size: 16px;
+        color: #555;
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
+      ::ng-deep .p-multiselect {
+        .p-multiselect-filter-icon {
+          display: none;
+        }
+      }
+
+      ::ng-deep .p-inputmask {
+        border: none;
+        background-color: inherit;
+        width: 100%;
+        height: 100%;
+      }
+
+      ::ng-deep .p-inputmask:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    .submit-button {
+      align-self: center;
+      margin-top: 20px;
+      width: 50%;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #9747FF;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.5s;
+
+      &:hover {
+        background-color: #6a3ce9;
+      }
+    }
+  }
+}

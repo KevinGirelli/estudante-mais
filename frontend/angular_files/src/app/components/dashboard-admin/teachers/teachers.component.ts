@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Table, TableModule } from 'primeng/table';
 import { Router } from '@angular/router';
+import { DataSaverService } from '../../../services/tempDataSaver/data-saver.service';
 
 interface Teacher {
   teacherID: string;
   teacherName: string;
   teacherEmail: string;
+  teacherPassword: string;
   teacherCPF: string;
   subjects: string[];
 }
@@ -34,7 +36,7 @@ export class TeachersComponent implements OnInit  {
   teachers: Teacher[] = [];
   searchValue = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private dataSaverService: DataSaverService) {}
 
   ngOnInit(): void {
     fetch("http://localhost:8080/admin/teacherDataManager/getAllTeachers", {
@@ -56,6 +58,7 @@ export class TeachersComponent implements OnInit  {
               teacherID: data[key].teacherID,
               teacherName: data[key].teacherName,
               teacherEmail: data[key].teacherEmail,
+              teacherPassword: data[key].teacherPassword,
               teacherCPF: data[key].cpf,
               subjects: data[key].subjects
             };
@@ -77,6 +80,7 @@ export class TeachersComponent implements OnInit  {
   }
 
   teacherEdit(teacher: Teacher) {
-    this.router.navigate(['/admin/teachers', teacher.teacherName]);
+    this.dataSaverService.setData(teacher);
+    this.router.navigate(['/admin/teachers', teacher.teacherID]);
   }
 }

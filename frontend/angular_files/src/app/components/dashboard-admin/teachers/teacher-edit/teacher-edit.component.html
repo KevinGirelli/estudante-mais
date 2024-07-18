@@ -21,3 +21,39 @@
     </ul>
   </div>
 </div>
+
+
+<div class="form-container">
+  <div class="text">
+    <h2>Editar Professor</h2>
+    <div class="form-group">
+      <div class="form-item">
+        <label class="label" for="teacherName">Nome Completo</label>
+        <input class="input-field" type="text" [(ngModel)]="teacherName" id="teacherName">
+      </div>
+      <div class="form-item">
+        <label class="label" for="teacherEmail">Email</label>
+        <input class="input-field" type="email" [(ngModel)]="teacherEmail" id="teacherEmail">
+      </div>
+      <div class="form-item">
+        <label class="label" for="teacherPassword">Senha</label>
+        <input class="input-field" type="password" [(ngModel)]="teacherPassword" id="teacherPassword">
+      </div>
+      <div class="form-item">
+        <label class="label" for="teacherCPF">CPF</label>
+        <p-inputMask class="input-field" mask="999.999.999-99" placeholder="___.___.___-__" type="text" [(ngModel)]="teacherCPF" id="teacherCPF"></p-inputMask>
+      </div>
+      <div class="form-item">
+        <label class="label" for="teacherSubjects">Disciplinas</label>
+        <p-multiSelect 
+          [options]="subjects" 
+          [(ngModel)]="selectedSubjects" 
+          optionLabel="name"
+          [maxSelectedLabels]="5"
+          placeholder="Selecione as Disciplinas">
+        </p-multiSelect>
+      </div>
+    </div>
+    <button class="submit-button" (click)="editarProfessor()" type="submit">Editar</button>
+  </div>
+</div>

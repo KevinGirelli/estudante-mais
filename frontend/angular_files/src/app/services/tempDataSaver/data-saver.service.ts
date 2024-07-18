@@ -14,5 +14,9 @@ export class DataSaverService {
     return this.dataToHold;
   }
 
+  clearData() {
+    this.dataToHold = null;
+  }
+
   constructor() { }
 }
