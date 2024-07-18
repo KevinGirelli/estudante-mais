@@ -16,7 +16,8 @@ interface Class {
   imports: [
     FormsModule,
     InputMaskModule,
-    NgClass
+    NgClass,
+    NgFor
   ],
   templateUrl: './student-edit.component.html',
   styleUrls: ['./student-edit.component.scss']
