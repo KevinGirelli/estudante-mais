@@ -1,0 +1,59 @@
+<div class="nav">
+  <div class="logo">
+    <a href="admin">
+      <img src="../../../assets/images/logo_estudante_mais.png" alt="Logo">
+      <h2>Estudante+</h2>
+    </a>
+  </div>
+  <a (click)="toggleMenu()" class="hamburger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </a>
+  <div class="overlay" [ngClass]="{'active': isMenuOpen}" (click)="toggleMenu()"></div>
+  <div class="menu" [ngClass]="{'active': isMenuOpen}">
+    <a (click)="toggleMenu()" class="close-menu">✖</a>
+    <ul>
+      <li><a href="admin/register">Cadastro</a></li>
+      <li><a href="admin/classes">Turmas</a></li>
+      <li><a href="admin/teachers">Professores</a></li>
+      <li>Horários</li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="form-container">
+  <div class="text">
+    <h2>Editar Aluno</h2>
+    <div class="form-group">
+      <div class="form-item">
+        <label class="label" for="studentFullname">Nome Completo</label>
+        <input class="input-field" type="text" [(ngModel)]="Fullname" id="Fullname">
+      </div>
+      <div class="form-item">
+        <label class="label" for="studentEmail">Email</label>
+        <input class="input-field" type="email" [(ngModel)]="email" id="email">
+      </div>
+      <div class="form-item">
+        <label class="label" for="studentPassword">Senha</label>
+        <input class="input-field" type="password" [(ngModel)]="password" id="password">
+      </div>
+      <div class="form-item">
+        <label class="label" for="studentCPF">CPF</label>
+        <p-inputMask class="input-field" mask="999.999.999-99" placeholder="___.___.___-__" type="text" [(ngModel)]="cpf" id="cpf"/>
+      </div> 
+      <div class="form-item">
+        <label class="label" for="studentAge">Data de Nascimento</label>
+        <p-inputMask class="input-field" mask="99/99/9999" placeholder="__/__/____" type="text" [(ngModel)]="age" id="age"/>
+      </div>
+      <div class="form-item">
+        <label class="label" for="classes">Turma</label>
+        <select class="input-field" [(ngModel)]="classesSelected" id="classes">
+          <option *ngFor="let class of allClasses" [value]="class.id">{{class.name}}</option>
+        </select>
+      </div>
+    </div>
+    <button class="submit-button" (click)="editarAluno()" type="submit">Editar</button>
+  </div>
+</div>

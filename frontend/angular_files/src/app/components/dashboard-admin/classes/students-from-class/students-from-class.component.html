@@ -39,7 +39,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-student>
-        <tr>
+        <tr (click)="studentEdit(student)">
           <td>{{ student.fullname }}</td>
           <td>{{ student.email }}</td>
           <td>{{ student.cpf }}</td>

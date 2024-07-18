@@ -10,6 +10,7 @@ import { StudentsFromClassComponent } from './components/dashboard-admin/classes
 import { TeachersFromClassComponent } from './components/dashboard-admin/classes/teachers-from-class/teachers-from-class.component';
 import { TeachersComponent } from './components/dashboard-admin/teachers/teachers.component';
 import { TeacherEditComponent } from './components/dashboard-admin/teachers/teacher-edit/teacher-edit.component';
+import { StudentEditComponent } from './components/dashboard-admin/classes/students-from-class/student-edit/student-edit.component';
 
 export const routes: Routes = [
   {path: "", component: HomeComponentComponent},
@@ -23,6 +24,8 @@ export const routes: Routes = [
   {path: "admin/classes", component: ClassesComponent},
 
   {path: "admin/class/students/:classStudent", component: StudentsFromClassComponent},
+
+  {path: "admin/class/students/:classStudent/:student", component: StudentEditComponent},
 
   {path: "admin/class/teacher/:classTeacher", component: TeachersFromClassComponent},
 

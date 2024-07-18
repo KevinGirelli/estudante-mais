@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { DataSaverService } from '../../../../services/tempDataSaver/data-saver.service';
+import { Router } from '@angular/router';
 
 interface Student {
   studentID: string
@@ -23,7 +24,7 @@ interface Student {
 })
 export class StudentsFromClassComponent implements OnInit {
 
-  constructor(private datasaver: DataSaverService) {}
+  constructor(private router: Router,private datasaver: DataSaverService) {}
   
   isMenuOpen = false;
   students: Student[] = [];
@@ -68,5 +69,10 @@ export class StudentsFromClassComponent implements OnInit {
         })
       }
     })
+  }
+
+  studentEdit(student: Student) {
+    this.datasaver.setData(student);
+    this.router.navigate(['admin/class/students/classStudent', student.fullname]);
   }
 }
