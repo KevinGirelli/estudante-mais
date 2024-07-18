@@ -52,7 +52,7 @@ public class teacherDataManager {
       List<String> listSubjects = new ArrayList<>();
 
       teacherSubjects.forEach(subject ->{
-        listSubjects.add(subject.getSubjectName());
+        listSubjects.add(subject.getSubject().getSubjectname());
       });
 
       teachersDTO addTeacher = new teachersDTO(this.uuiDformatter.formatUuid(teacher.getTeacherID()),teacher.getTeacherName()

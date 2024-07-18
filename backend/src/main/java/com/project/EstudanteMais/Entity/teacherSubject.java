@@ -10,16 +10,22 @@ public class teacherSubject {
   @GeneratedValue(strategy = GenerationType.UUID)
   UUID teacherSubjectID;
 
-  @Column(name = "subjectName",nullable = false)
-  String subjectName;
+  @ManyToOne
+  subjects subject;
 
   @ManyToOne
   teacher teacher;
 
   public teacherSubject(){super();}
 
-  public teacherSubject(String subjectName, teacher teacher){
-    this.subjectName = subjectName;
+  public teacherSubject(subjects subject, com.project.EstudanteMais.Entity.teacher teacher) {
+    this.subject = subject;
+    this.teacher = teacher;
+  }
+
+  public teacherSubject(UUID teacherSubjectID, subjects subject, com.project.EstudanteMais.Entity.teacher teacher) {
+    this.teacherSubjectID = teacherSubjectID;
+    this.subject = subject;
     this.teacher = teacher;
   }
 
@@ -31,12 +37,12 @@ public class teacherSubject {
     this.teacherSubjectID = teacherSubjectID;
   }
 
-  public String getSubjectName() {
-    return subjectName;
+  public subjects getSubject() {
+    return subject;
   }
 
-  public void setSubjectName(String subjectName) {
-    this.subjectName = subjectName;
+  public void setSubject(subjects subject) {
+    this.subject = subject;
   }
 
   public com.project.EstudanteMais.Entity.teacher getTeacher() {

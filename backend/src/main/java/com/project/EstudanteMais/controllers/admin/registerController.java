@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +39,12 @@ public class registerController {
 
   @Autowired
   teacherClassesRepository teacherClassesRepository;
+
+  @Autowired
+  classes_subjectsRepository classesSubjectsRepository;
+
+  @Autowired
+  subjectsRepository subjectsRepository;
 
   @Autowired
   PasswordEncoder passwordEncoder;
@@ -91,7 +94,8 @@ public class registerController {
       teacher getTeacher = this.teacherRepository.findByteacherRegistration(teacherRegistration);
       if(getTeacher != null){
         registerTeacher.subjects().forEach(subject ->{
-            teacherSubject newRegistry = new teacherSubject(subject,getTeacher);
+            subjects tempSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(subject));
+            teacherSubject newRegistry = new teacherSubject(tempSubject,getTeacher);
             this.teacherSubjectRepository.save(newRegistry);
         });
       }else{
@@ -107,10 +111,20 @@ public class registerController {
    if(this.classesRepository.findByclassName(classesToRegister.className()) != null){
      return ResponseEntity.badRequest().body("class already exist");
    }else{
-     teacher teacherMonitor = this.teacherRepository.findByteacherID(UUID.fromString("06f01105-4b4f-450c-abb7-497cc2dae671"));
+     teacher teacherMonitor = this.teacherRepository.findByteacherID(UUID.fromString("ac064ae2-d835-4719-8015-28d0cd95dfac"));
      if(teacherMonitor != null){
        classes newClass = new classes(classesToRegister.className(), classesToRegister.gradeType(), classesToRegister.gradeNumber(),teacherMonitor);
        this.classesRepository.save(newClass);
+
+       classes getClass = this.classesRepository.findByclassName(classesToRegister.className());
+       if(getClass != null){
+         classesToRegister.subjects().forEach(subject ->{
+           var split = subject.split("/");
+           subjects newSubjects = this.subjectsRepository.findBysubjectID(UUID.fromString(split[0]));
+           classes_subjects classesSubjects = new classes_subjects(newSubjects,Integer.parseInt(split[1]),getClass);
+           this.classesSubjectsRepository.save(classesSubjects);
+         });
+       }
 
        return ResponseEntity.ok(this.SucessMessage);
      }else{
@@ -118,5 +132,17 @@ public class registerController {
      }
 
    }
+  }
+
+  @PostMapping("/registerSubject/{subjectName}")
+  public ResponseEntity registerSubjects(@PathVariable(value = "subjectName") String subject){
+    var subjectExist = this.subjectsRepository.findBysubjectname(subject);
+    if(subjectExist != null){
+      return ResponseEntity.badRequest().build();
+    }
+
+    subjects newSubject = new subjects(subject);
+    this.subjectsRepository.save(newSubject);
+    return ResponseEntity.ok("Subject created sucessfuly");
   }
 }

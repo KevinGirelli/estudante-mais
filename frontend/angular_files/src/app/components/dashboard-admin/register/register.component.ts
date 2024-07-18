@@ -13,9 +13,11 @@ import { DialogModule } from 'primeng/dialog';
 import { ListboxModule } from 'primeng/listbox';
 
 interface Subject {
+  subjectID: string
   name: string;
   quantity: number;
 }
+
 interface Class {
   id: string;
   name: string;
@@ -49,10 +51,12 @@ export class RegisterComponent implements OnInit {
   allClasses: Class[] = [];
   subjects: Subject[] = [];
   subjectsClasses: Subject[] = [];
+  teacherAllSubject: string[] = [];
+  classeAllSubjects: string[] = []
 
   ngOnInit(): void {
-    fetch("http://localhost:8080/auth/verifyAdminToken",{
-      method: "POST",
+    fetch("http://localhost:8080/admin/subjectDataManager/getSubjects",{
+      method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
@@ -60,6 +64,20 @@ export class RegisterComponent implements OnInit {
       if(res.status == 403){
         //redirecionar para pagina de não autorizado.
         console.log("REDIRECT")
+      }
+
+      if(res.status == 200){
+        res.json().then(data =>{
+            let keys = Object.keys(data)
+            for(let i = 0; i <= keys.length-1; i++){
+              const addSubject: Subject = {
+                subjectID: data[i].subjectID,
+                name: data[i].subjectname,
+                quantity: 0
+              }
+              this.subjects.push(addSubject)
+            }
+        })
       }
     })
 
@@ -75,7 +93,6 @@ export class RegisterComponent implements OnInit {
 
       if(res.status == 200){
         res.json().then(data => {
-          console.log(data)
           localStorage.setItem("classes",JSON.stringify(data))
           console.log("data loaded sucessfuly.")
         })
@@ -95,21 +112,7 @@ export class RegisterComponent implements OnInit {
       });
     };
 
-    this.subjects = [
-      { name: 'Arte', quantity: 0 },
-      { name: 'Biologia', quantity: 0 },
-      { name: 'Educação Física', quantity: 0 },
-      { name: 'Ensino Religioso', quantity: 0 },
-      { name: 'Filosofia', quantity: 0 },
-      { name: 'Física', quantity: 0 },
-      { name: 'Geografia', quantity: 0 },
-      { name: 'História', quantity: 0 },
-      { name: 'Língua Inglesa', quantity: 0 },
-      { name: 'Língua Portuguesa', quantity: 0 },
-      { name: 'Matemática', quantity: 0 },
-      { name: 'Química', quantity: 0 },
-      { name: 'Sociologia', quantity: 0 }
-    ];
+    this.subjects = [];
   }
 
   // Cadastro Alunos
@@ -179,13 +182,18 @@ export class RegisterComponent implements OnInit {
   }
 
   cadastrarProfessor() {
+    this.selectedSubjects.forEach(subject =>{
+      this.teacherAllSubject.push(subject.subjectID)
+    })
+    
     const teacherData = {
       teacherEmail: this.teacherEmail,
       teacherPassword: this.teacherPassword,
       teacherName: this.teacherName,
       teacherCPF: this.teacherCPF,
-      subjects: this.selectedSubjects
+      subjects: this.teacherAllSubject
     };
+
 
     this.registerService.registerTeacher(teacherData).subscribe(response => {
       console.log('Professor registrado:', response);
@@ -198,11 +206,18 @@ export class RegisterComponent implements OnInit {
   }
 
   cadastrarTurma() {
+    this.subjectsClasses.forEach(subject =>{
+      let stringFormat = subject.subjectID + "/" + subject.quantity
+      this.classeAllSubjects.push(stringFormat)
+    })
+
     const classData = {
       className: this.className,
       gradeType: this.gradeType,
-      gradeNumber: this.gradeNumber
+      gradeNumber: this.gradeNumber,
+      subjects: this.classeAllSubjects
     };
+
 
     this.registerService.registerClass(classData).subscribe(response => {
       console.log('Turma registrada:', response);
@@ -256,10 +271,9 @@ export class RegisterComponent implements OnInit {
 
     this.subjects.forEach(subject => {
       if (subject.quantity > 0) {
-        this.subjectsClasses.push({ name: subject.name, quantity: subject.quantity });
+        this.subjectsClasses.push({subjectID: subject.subjectID, name: subject.name, quantity: subject.quantity });
       }
     });
     this.visible = false
-    console.log(this.subjectsClasses);
   }
 }
