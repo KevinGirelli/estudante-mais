@@ -53,7 +53,32 @@
           placeholder="Selecione as Disciplinas">
         </p-multiSelect>
       </div>
+      <div class="form-item">
+        <label class="label" for="subjects">Aulas</label>
+        <button class="modal-button"(click)="selecionarAulas()" type="submit">Selecionar as Aulas</button>
+      </div>
     </div>
     <button class="submit-button" (click)="editarProfessor()" type="submit">Editar</button>
   </div>
+</div>
+
+<div class="card">
+  <p-dialog header="Adicionar Aulas" [modal]="true" [(visible)]="visible" [style]="{ 'width': '35vw'}" [closable]="true" [draggable]="false">
+    <p-listbox [options]="teacherClasses" [(ngModel)]="selectedClasses" optionLabel="className" [style]="{'width':'15rem'}" [listStyle]="{'max-height': '220px'}" [multiple]="true">
+      <ng-template let-teacherClass pTemplate="item">
+        <div class="class-item">
+          <span>{{ teacherClass.className }}</span>
+          <span>{{ teacherClass.subjectName }}</span>
+          <div class="quantity-controls">
+            <input type="number" [value]="teacherClass.quantity" min="0" step="1" disabled>
+            <button type="button" class="btn-quantity pi pi-check" (click)="removeClass(teacherClass)" *ngIf="selectedClasses.includes(teacherClass)"></button>
+            <button type="button" class="btn-quantity pi pi-plus" (click)="addClass(teacherClass)" *ngIf="!selectedClasses.includes(teacherClass)"></button>
+          </div>
+        </div>
+      </ng-template>
+    </p-listbox>
+    <div class="modal-btn">
+      <button pButton class="modal-btn-listbox" (click)="confirmClasses()">Confirmar</button>
+    </div>    
+  </p-dialog>
 </div>
