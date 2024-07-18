@@ -34,24 +34,16 @@ export class StudentsFromClassComponent implements OnInit {
   }
 
   ngOnInit() {
-    fetch("http://localhost:8080/auth/verifyAdminToken",{
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    }).then(res => {
-      if(res.status == 403){
-        //redirecionar para pagina de não autorizado.
-        console.log("REDIRECT")
-      }
-    })
-    
     fetch("http://localhost:8080/admin/classesDataManager/getAllStudentsFromClass/" + this.datasaver.getData(),{
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
     }).then(res =>{
+      if(res.status == 403){
+        console.log("redirect")
+      }
+
       if(res.status == 200){
         res.json().then(data =>{
           const keys = Object.keys(data)
@@ -72,7 +64,7 @@ export class StudentsFromClassComponent implements OnInit {
   }
 
   studentEdit(student: Student) {
-    this.datasaver.setData(student);
+    this.datasaver.setData([student, this.datasaver.getData()]);
     this.router.navigate(['admin/class/students/classStudent', student.fullname]);
   }
 }
