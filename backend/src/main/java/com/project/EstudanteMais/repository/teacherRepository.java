@@ -23,4 +23,9 @@ public interface teacherRepository extends JpaRepository<teacher, UUID> {
     @Transactional
     @Query(value = "UPDATE teacher set two_step_code = ?1 WHERE teacherid = ?2",nativeQuery = true)
     void updateTwoStepCode(String code,UUID teacherID);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE teacher SET teacher_name = ?1, teacher_email = ?2, teachercpf = ?3 WHERE teacherid = ?4",nativeQuery = true)
+    void updateTeacherPrimaryData(String name, String email, String cpf, UUID teacherID);
 }

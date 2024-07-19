@@ -45,82 +45,84 @@ export class TeacherEditComponent implements OnInit {
   teacherClasses: TeacherClass[] = [];
 
   selectedClasses: TeacherClass[] = [];
+  teacherID: string = '';
   teacherName: string = '';
   teacherEmail: string = '';
   teacherPassword: string = '';
   teacherCPF: string = '';
   selectedSubjects: Subject[] = [];
   subjects: Subject[] = [];
+  subjectsIDS: string = ''
 
-  constructor(private router: Router ,private dataSaverService: DataSaverService) {}
+  constructor(private router: Router, private dataSaverService: DataSaverService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void>{
     const teacher = this.dataSaverService.getData();
-    let subjects: string[] = []
-    
-    fetch("http://localhost:8080/admin/subjectDataManager/getSubjects",{
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    }).then(res => {
-      if(res.status == 403){
-        //redirecionar para pagina de não autorizado.
-        console.log("REDIRECT")
-        this.router.navigate(["403"])
-      }
-      
-      if(res.status == 200){
-        res.json().then(data =>{
-            let keys = Object.keys(data)
-            for(let i = 0; i <= keys.length-1; i++){
-              const addSubject: Subject = {
-                subjectID: data[i].subjectID,
-                name: data[i].subjectname,
-              }
-              this.subjects.push(addSubject)
 
-              if(teacher.subjects.includes(data[i].subjectname)){
-                subjects.push(data[i].subjectID)
-                this.selectedSubjects.push(addSubject)
-              }
-            }
-        })
-      }
-    })
+    try {
+      const subjectsResponse = await fetch("http://localhost:8080/admin/subjectDataManager/getSubjects", {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      });
 
-  
-    fetch("http://localhost:8080/admin/classesDataManager/getSearchAllClassesRelatedToSubject",{
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token")
-      },
-      body: JSON.stringify(subjects)
-    }).then(res =>{
-      if(res.status == 403){
-        console.log("redirect")
+      if (subjectsResponse.status === 403) {
+        console.log("REDIRECT");
+        this.router.navigate(["403"]);
+        return;
       }
 
-      if(res.status == 200){
-        res.json().then(data =>{
-          let keys = Object.keys(data)
-            for(let i = 0; i <= keys.length-1; i++){
-              const addTeacherClass: TeacherClass = {
-                classID: data[i].classID,
-                subjectID: data[i].subjectID,
-                className: data[i].className,
-                subjectName: data[i].subjectName,
-                quantity: data[i].quantity
-              }
-              this.teacherClasses.push(addTeacherClass)
-            }
-        })
-      }
-    })
+      if (subjectsResponse.status === 200) {
+        const data = await subjectsResponse.json();
+        let keys = Object.keys(data);
+        for (let i = 0; i <= keys.length - 1; i++) {
+          const addSubject: Subject = {
+            subjectID: data[i].subjectID,
+            name: data[i].subjectname,
+          };
+          this.subjects.push(addSubject);
 
-    
+          if (teacher.subjects.includes(data[i].subjectname)) {
+            this.subjectsIDS = this.subjectsIDS ? this.subjectsIDS + "," + data[i].subjectID : data[i].subjectID;
+            this.selectedSubjects.push(addSubject);
+          }
+        }
+      }
+
+      const classesResponse = await fetch("http://localhost:8080/admin/classesDataManager/getSearchAllClassesRelatedToSubject/" + this.subjectsIDS, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+      });
+
+      if (classesResponse.status === 403) {
+        console.log("redirect");
+        return;
+      }
+
+      if (classesResponse.status === 200) {
+        const data = await classesResponse.json();
+        let keys = Object.keys(data);
+        for (let i = 0; i <= keys.length - 1; i++) {
+          const addTeacherClass: TeacherClass = {
+            classID: data[i].classID,
+            subjectID: data[i].subjectID,
+            className: data[i].className,
+            subjectName: data[i].subjectName,
+            quantity: data[i].quantity
+          };
+          this.teacherClasses.push(addTeacherClass);
+        }
+      }
+
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
+
     if (teacher) {
+      this.teacherID = teacher.teacherID
       this.teacherName = teacher.teacherName;
       this.teacherEmail = teacher.teacherEmail;
       this.teacherPassword = teacher.teacherPassword;
@@ -154,7 +156,40 @@ export class TeacherEditComponent implements OnInit {
     this.visible = true;
   }
 
-  editarProfessor() {
-    
+  async editarProfessor() {
+      let subjects: string[] = []
+      this.selectedSubjects.forEach(t =>{
+        subjects.push(t.subjectID)
+      })
+      
+      let teacherClasses: string[] = []
+      this.selectedClasses.forEach(teacherClass =>{
+        let stringFormat = teacherClass.subjectID + "," + teacherClass.classID
+        teacherClasses.push(stringFormat)
+      })
+      
+      let teacherData ={
+        teacherID: this.teacherID,
+        nome: this.teacherName,
+        email: this.teacherEmail,
+        cpf: this.teacherCPF,
+        subjects: subjects,
+        teacherClasses: teacherClasses
+      }
+
+
+      try{
+        const response = await fetch("http://localhost:8080/admin/teacherDataManager/updateTeacherPrimaryData", {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token")
+          },
+          body: JSON.stringify(teacherData)
+        });
+  
+      }catch (error) {
+        console.error("Erro na requisição:", error);
+      }
   }
 }

@@ -118,6 +118,7 @@ public class registerController {
 
        classes getClass = this.classesRepository.findByclassName(classesToRegister.className());
        if(getClass != null){
+         System.out.println(classesToRegister.subjects());
          classesToRegister.subjects().forEach(subject ->{
            var split = subject.split("/");
            if(Integer.parseInt(split[1]) > 0){

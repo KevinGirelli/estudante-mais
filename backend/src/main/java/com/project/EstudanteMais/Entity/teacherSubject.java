@@ -18,7 +18,7 @@ public class teacherSubject {
 
   public teacherSubject(){super();}
 
-  public teacherSubject(subjects subject, com.project.EstudanteMais.Entity.teacher teacher) {
+  public teacherSubject(subjects subject, teacher teacher) {
     this.subject = subject;
     this.teacher = teacher;
   }

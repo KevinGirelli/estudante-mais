@@ -64,15 +64,18 @@ public class classesDataManager {
      }
   }
 
-  @PostMapping("/getSearchAllClassesRelatedToSubject")
-  public ResponseEntity getAllClassesRelatedToSubject(@RequestBody List<String> subjects){
+  @GetMapping("/getSearchAllClassesRelatedToSubject/{subjectsIDS}")
+  public ResponseEntity getAllClassesRelatedToSubject(@PathVariable(value = "subjectsIDS") String subjects){
+    List<String> ids = new ArrayList<>();
+    var split = subjects.split(",");
+    for(int c = 0; c <= split.length-1; c++){
+      ids.add(split[c]);
+    }
     List<classes_subjects> allClasses = new ArrayList<>();
     List<avaliableClassesDTO> avaliableClasses = new ArrayList<>();
 
-    System.out.println(subjects);
-    subjects.forEach(subject ->{
+    ids.forEach(subject ->{
         var getSubject =  this.subjectsRepository.findBysubjectID(UUID.fromString(subject));
-
         List<classes_subjects> allClassesBySubject = this.classesSubjectsRepository.findBysubjects(getSubject);
         allClassesBySubject.forEach(classToADD -> {
             if(this.teacherClassesRepository.findByClassesAndSubjects(classToADD.getClasses(),classToADD.getSubjects()) == null){
@@ -80,7 +83,6 @@ public class classesDataManager {
             }
         });
     });
-
     allClasses.forEach(classes ->{
       avaliableClassesDTO addClass = new avaliableClassesDTO(
               this.uuiDformatter.formatUuid(classes.getClasses().getClassID()),
