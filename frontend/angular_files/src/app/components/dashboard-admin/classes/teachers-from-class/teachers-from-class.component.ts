@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 
 interface Subject {
+  id: string
   name: string;
 }
 

@@ -9,10 +9,13 @@ import { ListboxModule } from 'primeng/listbox';
 import { ToastModule } from 'primeng/toast';
 
 interface Subject {
+  subjectID: string,
   name: string;
 }
 
 interface TeacherClass {
+  classID: string;
+  subjectID: string;
   className: string;
   subjectName: string;
   quantity: number;
@@ -38,13 +41,7 @@ export class TeacherEditComponent implements OnInit {
   isMenuOpen = false;
   visible: boolean = false;
 
-  teacherClasses: TeacherClass[] = [
-    { className: '351', subjectName: 'Geografia', quantity: 2 },
-    { className: '351', subjectName: 'História', quantity: 3 },
-    { className: '352', subjectName: 'História', quantity: 3 },
-    { className: '353', subjectName: 'Geografia', quantity: 2 },
-    { className: '354', subjectName: 'História', quantity: 3 },
-  ];
+  teacherClasses: TeacherClass[] = [];
 
   selectedClasses: TeacherClass[] = [];
   teacherName: string = '';
@@ -58,13 +55,74 @@ export class TeacherEditComponent implements OnInit {
 
   ngOnInit(): void {
     const teacher = this.dataSaverService.getData();
+    let subjects: string[] = []
+    
+    fetch("http://localhost:8080/admin/subjectDataManager/getSubjects",{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    }).then(res => {
+      if(res.status == 403){
+        //redirecionar para pagina de não autorizado.
+        console.log("REDIRECT")
+      }
+      
+      if(res.status == 200){
+        res.json().then(data =>{
+            let keys = Object.keys(data)
+            for(let i = 0; i <= keys.length-1; i++){
+              const addSubject: Subject = {
+                subjectID: data[i].subjectID,
+                name: data[i].subjectname,
+              }
+              this.subjects.push(addSubject)
 
+              if(teacher.subjects.includes(data[i].subjectname)){
+                subjects.push(data[i].subjectID)
+                this.selectedSubjects.push(addSubject)
+              }
+            }
+        })
+      }
+    })
+
+  
+    fetch("http://localhost:8080/admin/classesDataManager/getSearchAllClassesRelatedToSubject",{
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token")
+      },
+      body: JSON.stringify(subjects)
+    }).then(res =>{
+      if(res.status == 403){
+        console.log("redirect")
+      }
+
+      if(res.status == 200){
+        res.json().then(data =>{
+          let keys = Object.keys(data)
+            for(let i = 0; i <= keys.length-1; i++){
+              const addTeacherClass: TeacherClass = {
+                classID: data[i].classID,
+                subjectID: data[i].subjectID,
+                className: data[i].className,
+                subjectName: data[i].subjectName,
+                quantity: data[i].quantity
+              }
+              this.teacherClasses.push(addTeacherClass)
+            }
+        })
+      }
+    })
+
+    
     if (teacher) {
       this.teacherName = teacher.teacherName;
       this.teacherEmail = teacher.teacherEmail;
       this.teacherPassword = teacher.teacherPassword;
       this.teacherCPF = teacher.teacherCPF;
-      this.selectedSubjects = teacher.subjects ? teacher.subjects.map((subject: string) => ({ name: subject })) : [];
     }
   }
 

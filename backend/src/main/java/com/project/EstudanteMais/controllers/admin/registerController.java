@@ -120,9 +120,11 @@ public class registerController {
        if(getClass != null){
          classesToRegister.subjects().forEach(subject ->{
            var split = subject.split("/");
-           subjects newSubjects = this.subjectsRepository.findBysubjectID(UUID.fromString(split[0]));
-           classes_subjects classesSubjects = new classes_subjects(newSubjects,Integer.parseInt(split[1]),getClass);
-           this.classesSubjectsRepository.save(classesSubjects);
+           if(Integer.parseInt(split[1]) > 0){
+             subjects newSubjects = this.subjectsRepository.findBysubjectID(UUID.fromString(split[0]));
+             classes_subjects classesSubjects = new classes_subjects(newSubjects,Integer.parseInt(split[1]),getClass);
+             this.classesSubjectsRepository.save(classesSubjects);
+           }
          });
        }
 

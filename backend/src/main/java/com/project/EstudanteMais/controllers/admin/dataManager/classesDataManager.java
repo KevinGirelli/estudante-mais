@@ -1,17 +1,16 @@
 package com.project.EstudanteMais.controllers.admin.dataManager;
 
 
+import com.project.EstudanteMais.Entity.classes_subjects;
+import com.project.EstudanteMais.Entity.dto.avaliableClassesDTO;
 import com.project.EstudanteMais.Entity.dto.classesDTO;
-import com.project.EstudanteMais.repository.classesRepository;
-import com.project.EstudanteMais.repository.studentRepository;
+import com.project.EstudanteMais.Entity.dto.subjectsDTO;
+import com.project.EstudanteMais.repository.*;
 import com.project.EstudanteMais.services.UUIDformatter;
 import com.project.EstudanteMais.services.configPreferencesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,15 @@ public class classesDataManager {
 
   @Autowired
   studentRepository studentRepository;
+
+  @Autowired
+  classes_subjectsRepository classesSubjectsRepository;
+
+  @Autowired
+  teacherClassesRepository teacherClassesRepository;
+
+  @Autowired
+  subjectsRepository subjectsRepository;
 
   @GetMapping("/getClassesAsync")
   public ResponseEntity getClasses(){
@@ -54,5 +62,35 @@ public class classesDataManager {
      }else{
        return ResponseEntity.internalServerError().build();
      }
+  }
+
+  @PostMapping("/getSearchAllClassesRelatedToSubject")
+  public ResponseEntity getAllClassesRelatedToSubject(@RequestBody List<String> subjects){
+    List<classes_subjects> allClasses = new ArrayList<>();
+    List<avaliableClassesDTO> avaliableClasses = new ArrayList<>();
+
+    System.out.println(subjects);
+    subjects.forEach(subject ->{
+        var getSubject =  this.subjectsRepository.findBysubjectID(UUID.fromString(subject));
+
+        List<classes_subjects> allClassesBySubject = this.classesSubjectsRepository.findBysubjects(getSubject);
+        allClassesBySubject.forEach(classToADD -> {
+            if(this.teacherClassesRepository.findByClassesAndSubjects(classToADD.getClasses(),classToADD.getSubjects()) == null){
+              allClasses.add(classToADD);
+            }
+        });
+    });
+
+    allClasses.forEach(classes ->{
+      avaliableClassesDTO addClass = new avaliableClassesDTO(
+              this.uuiDformatter.formatUuid(classes.getClasses().getClassID()),
+              this.uuiDformatter.formatUuid(classes.getSubjects().getSubjectID()),
+              classes.getClasses().getClassName(),
+              classes.getSubjects().getSubjectname(),
+              classes.getNumberOfClasses()
+      );
+      avaliableClasses.add(addClass);
+    });
+    return ResponseEntity.ok(avaliableClasses);
   }
 }
