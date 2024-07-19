@@ -25,7 +25,11 @@
 
 <div class="form-container">
   <div class="text">
-    <h2>Editar Professor</h2>
+    <div class="header">
+      <button class="header-btn pi pi-arrow-left" (click)="back()"></button>
+      <h2>Editar Professor</h2>
+      <button class="header-btn pi pi-trash" (click)="deleteTeacher()"></button>
+    </div>
     <div class="form-group">
       <div class="form-item">
         <label class="label" for="teacherName">Nome Completo</label>
@@ -55,10 +59,10 @@
       </div>
       <div class="form-item">
         <label class="label" for="subjects">Aulas</label>
-        <button class="modal-button"(click)="selecionarAulas()" type="submit">Selecionar as Aulas</button>
+        <button class="modal-button" (click)="selecionarAulas()" type="submit">Selecionar as Aulas</button>
       </div>
     </div>
-    <button class="submit-button" (click)="editarProfessor()" type="submit">Editar</button>
+    <button class="submit-button" (click)="openConfirmEditDialog()" type="submit">Editar</button>
   </div>
 </div>
 
@@ -82,3 +86,15 @@
     </div>    
   </p-dialog>
 </div>
+
+<div class="card">
+  <p-dialog header="Confirmar Edição" [modal]="true" [(visible)]="confirmEditVisible" [style]="{ 'width': '30vw'}" [closable]="true" [draggable]="false">
+    <p>Tem certeza de que deseja editar o professor?</p>
+    <div class="modal-btn">
+      <button pButton class="modal-btn-confirm" (click)="editarProfessor()">Confirmar</button>
+      <button pButton class="modal-btn-cancel" (click)="closeConfirmEditDialog()">Cancelar</button>
+    </div>
+  </p-dialog>
+</div>
+
+<p-toast/>

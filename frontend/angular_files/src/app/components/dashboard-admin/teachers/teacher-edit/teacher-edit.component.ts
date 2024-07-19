@@ -8,6 +8,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ListboxModule } from 'primeng/listbox';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 interface Subject {
   subjectID: string,
@@ -33,14 +34,17 @@ interface TeacherClass {
     ToastModule,
     DialogModule,
     ListboxModule,
-    NgIf
+    NgIf,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './teacher-edit.component.html',
   styleUrls: ['./teacher-edit.component.scss']
 })
 export class TeacherEditComponent implements OnInit {
   isMenuOpen = false;
   visible: boolean = false;
+  confirmEditVisible: boolean = false;
 
   teacherClasses: TeacherClass[] = [];
 
@@ -54,9 +58,9 @@ export class TeacherEditComponent implements OnInit {
   subjects: Subject[] = [];
   subjectsIDS: string = ''
 
-  constructor(private router: Router, private dataSaverService: DataSaverService) {}
+  constructor(private router: Router, private dataSaverService: DataSaverService, private messageService: MessageService) {}
 
-  async ngOnInit(): Promise<void>{
+  async ngOnInit(): Promise<void> {
     const teacher = this.dataSaverService.getData();
 
     try {
@@ -156,40 +160,82 @@ export class TeacherEditComponent implements OnInit {
     this.visible = true;
   }
 
+  openConfirmEditDialog() {
+    this.confirmEditVisible = true;
+  }
+
+  closeConfirmEditDialog() {
+    this.confirmEditVisible = false;
+  }
+
   async editarProfessor() {
-      let subjects: string[] = []
-      this.selectedSubjects.forEach(t =>{
-        subjects.push(t.subjectID)
-      })
-      
-      let teacherClasses: string[] = []
-      this.selectedClasses.forEach(teacherClass =>{
-        let stringFormat = teacherClass.subjectID + "," + teacherClass.classID
-        teacherClasses.push(stringFormat)
-      })
-      
-      let teacherData ={
-        teacherID: this.teacherID,
-        nome: this.teacherName,
-        email: this.teacherEmail,
-        cpf: this.teacherCPF,
-        subjects: subjects,
-        teacherClasses: teacherClasses
+    let subjects: string[] = []
+    this.selectedSubjects.forEach(t => {
+      subjects.push(t.subjectID)
+    })
+    
+    let teacherClasses: string[] = []
+    this.selectedClasses.forEach(teacherClass => {
+      let stringFormat = teacherClass.subjectID + "," + teacherClass.classID
+      teacherClasses.push(stringFormat)
+    })
+    
+    let teacherData = {
+      teacherID: this.teacherID,
+      nome: this.teacherName,
+      email: this.teacherEmail,
+      cpf: this.teacherCPF,
+      subjects: subjects,
+      teacherClasses: teacherClasses
+    }
+
+    try {
+      const response = await fetch("http://localhost:8080/admin/teacherDataManager/updateTeacherPrimaryData", {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        body: JSON.stringify(teacherData)
+      });
+
+      if (response.ok) {
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Professor editado com sucesso!' });
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível editar o professor.' });
       }
 
+      this.closeConfirmEditDialog();
 
-      try{
-        const response = await fetch("http://localhost:8080/admin/teacherDataManager/updateTeacherPrimaryData", {
-          method: "PATCH",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token")
-          },
-          body: JSON.stringify(teacherData)
-        });
-  
-      }catch (error) {
-        console.error("Erro na requisição:", error);
+    } catch (error) {
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro na requisição.' });
+      console.error("Erro na requisição:", error);
+    }
+  }
+
+  back() {
+    this.router.navigate(['admin/teachers']);
+  }
+
+  async deleteTeacher() {
+    try {
+      const response = await fetch("http://localhost:8080/admin/teacherDataManager/deleteTeacher/" + this.teacherID, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      });
+
+      if (response.status === 200) {
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Professor deletado com sucesso.' });
+        this.router.navigate(['admin/teachers']);
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao deletar o professor.' });
       }
+
+    } catch (error) {
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro na requisição.' });
+      console.error("Erro na requisição:", error);
+    }
   }
 }
