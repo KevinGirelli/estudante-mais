@@ -43,6 +43,7 @@ export class StudentsFromClassComponent implements OnInit {
     }).then(res =>{
       if(res.status == 403){
         console.log("redirect")
+        this.router.navigate(["403"])
       }
 
       if(res.status == 200){

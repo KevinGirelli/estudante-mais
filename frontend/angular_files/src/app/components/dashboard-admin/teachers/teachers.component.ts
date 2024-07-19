@@ -47,6 +47,7 @@ export class TeachersComponent implements OnInit  {
     }).then(res => {
       if (res.status == 403) {
         console.log("REDIRECT");
+        this.router.navigate(["403"])
       }
 
       if (res.status == 200) {

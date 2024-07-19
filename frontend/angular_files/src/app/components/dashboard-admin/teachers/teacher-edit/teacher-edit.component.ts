@@ -7,6 +7,7 @@ import { NgClass, NgIf } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { ListboxModule } from 'primeng/listbox';
 import { ToastModule } from 'primeng/toast';
+import { Router } from '@angular/router';
 
 interface Subject {
   subjectID: string,
@@ -51,7 +52,7 @@ export class TeacherEditComponent implements OnInit {
   selectedSubjects: Subject[] = [];
   subjects: Subject[] = [];
 
-  constructor(private dataSaverService: DataSaverService) {}
+  constructor(private router: Router ,private dataSaverService: DataSaverService) {}
 
   ngOnInit(): void {
     const teacher = this.dataSaverService.getData();
@@ -66,6 +67,7 @@ export class TeacherEditComponent implements OnInit {
       if(res.status == 403){
         //redirecionar para pagina de não autorizado.
         console.log("REDIRECT")
+        this.router.navigate(["403"])
       }
       
       if(res.status == 200){

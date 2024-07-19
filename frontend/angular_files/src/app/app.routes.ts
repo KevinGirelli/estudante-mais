@@ -11,8 +11,11 @@ import { TeachersFromClassComponent } from './components/dashboard-admin/classes
 import { TeachersComponent } from './components/dashboard-admin/teachers/teachers.component';
 import { TeacherEditComponent } from './components/dashboard-admin/teachers/teacher-edit/teacher-edit.component';
 import { StudentEditComponent } from './components/dashboard-admin/classes/students-from-class/student-edit/student-edit.component';
+import { Error403Component } from './components/error403/error403.component';
 
 export const routes: Routes = [
+  { path: "403", component: Error403Component },
+
   {path: "", component: HomeComponentComponent},
 
   {path: "login", component: LoginComponentComponent},

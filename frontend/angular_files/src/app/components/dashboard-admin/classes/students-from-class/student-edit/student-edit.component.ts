@@ -4,6 +4,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { NgClass } from '@angular/common';
 import { NgFor } from '@angular/common';
 import { DataSaverService } from '../../../../../services/tempDataSaver/data-saver.service';
+import { Router } from '@angular/router';
 
 interface Class {
   id: string;
@@ -34,7 +35,7 @@ export class StudentEditComponent implements OnInit {
   classesSelected: string = '';
   allClasses: Class[] = [];
 
-  constructor(private dataSaverService: DataSaverService) {}
+  constructor(private router: Router ,private dataSaverService: DataSaverService) {}
 
   ngOnInit(): void {
     const student = this.dataSaverService.getData()[0];
@@ -58,6 +59,7 @@ export class StudentEditComponent implements OnInit {
     }).then(res =>{
       if(res.status == 403){
         console.log("redirect")
+        this.router.navigate(["403"])
       }
 
       if(res.status == 200){

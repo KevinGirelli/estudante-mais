@@ -11,6 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService} from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { ListboxModule } from 'primeng/listbox';
+import { Router } from '@angular/router';
 
 interface Subject {
   subjectID: string
@@ -54,6 +55,7 @@ export class RegisterComponent implements OnInit {
   teacherAllSubject: string[] = [];
   classeAllSubjects: string[] = []
 
+
   ngOnInit(): void {
     fetch("http://localhost:8080/admin/subjectDataManager/getSubjects",{
       method: "GET",
@@ -64,6 +66,7 @@ export class RegisterComponent implements OnInit {
       if(res.status == 403){
         //redirecionar para pagina de não autorizado.
         console.log("REDIRECT")
+        this.router.navigate(["403"])
       }
 
       if(res.status == 200){
@@ -138,7 +141,7 @@ export class RegisterComponent implements OnInit {
 
   gradeNumbers: number[] = [];
 
-  constructor(private registerService: RegisterService, private messageService: MessageService) {}
+  constructor(private router: Router ,private registerService: RegisterService, private messageService: MessageService) {}
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

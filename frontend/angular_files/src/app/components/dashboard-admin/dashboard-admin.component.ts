@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-admin',
@@ -13,6 +14,8 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardAdminComponent implements OnInit {
   isMenuOpen = false;
 
+  constructor (private router: Router) {}
+
   ngOnInit(): void {
     //verificar token
     fetch("http://localhost:8080/auth/verifyAdminToken",{
@@ -24,6 +27,7 @@ export class DashboardAdminComponent implements OnInit {
       if(res.status == 403){
         //redirecionar para pagina de não autorizado.
         console.log("REDIRECT")
+        this.router.navigate(["403"])
       }
     })
      
