@@ -4,6 +4,7 @@
   height: 100vh;
   align-items: center;
   
+  
   .image {
     height: 100%;
     width: 55%;
@@ -14,10 +15,10 @@
     img {
       margin-top: 15vh;
       width: 55vw;
-      height: 75vh;
+      height: 70vh;
     }
   }
-
+  
   .text {
     align-items: center;
     display: flex;
@@ -26,16 +27,33 @@
     height: 100%;
     background-color: #FFFFFF;
     box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.3);
+    
+    .close {
+      align-self: flex-end;
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 1rem;
+      padding: 8px;
+      background-color: #9747FF;
+      transition: 0.5s;
+      margin-top: 5vh;
+      margin-right: 3vw;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: #6F2EEB;
+      }
+    }
 
     h1 {
-      margin-top: 20vh;
+      margin-top: 15vh;
       color: #292F47;
     }
 
     p {
       margin-top: 10vh;
       color: #555555;
-      max-width: 26vw;
+      max-width: 25vw;
     }
 
     .btns {
