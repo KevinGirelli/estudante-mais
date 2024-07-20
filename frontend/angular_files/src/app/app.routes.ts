@@ -12,6 +12,7 @@ import { TeachersComponent } from './components/dashboard-admin/teachers/teacher
 import { TeacherEditComponent } from './components/dashboard-admin/teachers/teacher-edit/teacher-edit.component';
 import { StudentEditComponent } from './components/dashboard-admin/classes/students-from-class/student-edit/student-edit.component';
 import { Error403Component } from './components/error403/error403.component';
+import { AssessmentsComponent } from './components/dashboard-teacher/assessments/assessments.component';
 
 export const routes: Routes = [
   { path: "403", component: Error403Component },
@@ -37,6 +38,8 @@ export const routes: Routes = [
   {path: "admin/teachers/:editTeacher", component: TeacherEditComponent},
 
   {path: "teacher", component: DashboardTeacherComponent},
+
+  {path: "teacher/assessments", component: AssessmentsComponent},
 
   {path: "student", component: DashboardStudentComponent},
 
