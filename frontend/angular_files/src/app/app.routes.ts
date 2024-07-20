@@ -15,6 +15,7 @@ import { Error403Component } from './components/error403/error403.component';
 import { AssessmentsComponent } from './components/dashboard-teacher/assessments/assessments.component';
 import { CreateAssessmentComponent } from './components/dashboard-teacher/assessments/create-assessment/create-assessment.component';
 import { ListAssessmentComponent } from './components/dashboard-teacher/assessments/list-assessment/list-assessment.component';
+import { MyAssessmentsComponent } from './components/dashboard-student/my-assessments/my-assessments.component';
 
 export const routes: Routes = [
   { path: "403", component: Error403Component },
@@ -48,5 +49,7 @@ export const routes: Routes = [
   {path: "teacher/assessments/listAssessment", component: ListAssessmentComponent},
 
   {path: "student", component: DashboardStudentComponent},
+
+  {path: "student/assessments", component: MyAssessmentsComponent}
 
 ];
