@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
+import { DataSaverService } from '../../../../services/tempDataSaver/data-saver.service';
 
 interface Subject {
   id: string
@@ -9,6 +10,7 @@ interface Subject {
 }
 
 interface Teacher {
+  teacherID: string
   teacherName: string;
   teacherEmail: string;
   teacherCPF: string;
@@ -30,21 +32,41 @@ export class TeachersFromClassComponent implements OnInit{
   isMenuOpen = false;
   teachers: Teacher[] = [];
   
-  constructor(private router: Router) {}
+  constructor(private router: Router, private dataSaverService: DataSaverService) {}
 
-  ngOnInit(): void {
-    fetch("http://localhost:8080/admin/subjectDataManager/getSubjects",{
+  async ngOnInit(): Promise<void>{
+   try{
+    const response = await fetch("http://localhost:8080/admin/teacherDataManager/getAllTeacherFromClass/" + this.dataSaverService.getData(),{
       method: "GET",
-      headers: {
+      headers:{
+        "Content-type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token")
       }
-    }).then(res => {
-      if(res.status == 403){
-        //redirecionar para pagina de não autorizado.
-        console.log("REDIRECT")
-        this.router.navigate(["403"])
-      }
     })
+
+    if(response.status == 403){
+      this.router.navigate(["403"])
+    }
+
+    if(response.status == 200){
+      response.json().then(data =>{
+        const keys = Object.keys(data)
+       
+        for(let i = 0; i <= keys.length-1; i++){
+          const addTeacher: Teacher = {
+            teacherID: data[i].teacherID,
+            teacherName: data[i].teacherName,
+            teacherEmail: data[i].teacherEmail,
+            teacherCPF: data[i].cpf,
+            subjects: data[i].subjects
+          }
+          this.teachers.push(addTeacher)
+        }
+      })
+    }
+   }catch(erro){
+    console.log(erro)
+   }
   }
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

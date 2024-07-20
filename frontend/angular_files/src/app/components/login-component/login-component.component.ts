@@ -10,6 +10,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { DataSaverService } from '../../services/tempDataSaver/data-saver.service';
 
 @Component({
   selector: 'app-login-component',
@@ -34,7 +35,9 @@ export class LoginComponentComponent {
   visible: boolean = false;
   verificationCode: string[] = ['', '', '', '', '', ''];
 
-  constructor(private loginService: LoginService, private router: Router, private messageService: MessageService) {}
+  constructor(private loginService: LoginService, private router: Router, private messageService: MessageService
+    ,private datasaver: DataSaverService
+  ) {}
 
   login() {
     const dados = {
@@ -54,8 +57,10 @@ export class LoginComponentComponent {
             if (res.body.type === 100) {
               this.router.navigate(["admin"]);
             } else if (res.body.type === 0o10) {
+              localStorage.setItem("userID", res.body.userID)
               this.router.navigate(["student"]);
             } else if (res.body.type === 0o1) {
+              localStorage.setItem("userID", res.body.userID)
               this.router.navigate(["teacher"]);
             }
           }
@@ -111,9 +116,11 @@ export class LoginComponentComponent {
               this.router.navigate(["admin"]);
             }
             if(data.type == 0o10){
+              localStorage.setItem("userID", data.userID)
               this.router.navigate(["student"]);
             }
             if(data.type == 0o1){
+              localStorage.setItem("userID", data.userID)
               this.router.navigate(["teacher"]);
             }
           }

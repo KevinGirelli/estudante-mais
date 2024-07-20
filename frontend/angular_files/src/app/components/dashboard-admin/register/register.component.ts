@@ -213,13 +213,13 @@ export class RegisterComponent implements OnInit {
       let stringFormat = subject.subjectID + "/" + subject.quantity
       this.classeAllSubjects.push(stringFormat)
     })
-
     const classData = {
       className: this.className,
       gradeType: this.gradeType,
       gradeNumber: this.gradeNumber,
       subjects: this.classeAllSubjects
     };
+    console.log(classData.subjects)
 
 
     this.registerService.registerClass(classData).subscribe(response => {
@@ -257,6 +257,7 @@ export class RegisterComponent implements OnInit {
 
   selecionarMateria() {
     this.visible = true;
+    this.classeAllSubjects = []
   }
 
   increaseQuantity(subject: Subject) {
@@ -270,7 +271,7 @@ export class RegisterComponent implements OnInit {
   }
 
   confirmarMaterias() {
-    this.subjectsClasses = [];
+    this.subjectsClasses = [];         
 
     this.subjects.forEach(subject => {
       if (subject.quantity > 0) {

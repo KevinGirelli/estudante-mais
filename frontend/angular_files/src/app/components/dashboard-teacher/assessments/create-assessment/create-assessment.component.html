@@ -11,13 +11,10 @@
       <p-calendar class="input-field custom-calendar" view="date" [(ngModel)]="assessmentDate"></p-calendar>
     </div>
     <div class="form-item">
-      <label class="label" for="assessmentClass">Turmas</label>
-      <p-multiSelect 
-        [options]="class" 
-        [(ngModel)]="selectedClasses" 
-        optionLabel="name"
-        [maxSelectedLabels]="5">
-      </p-multiSelect>
+      <label class="label" for="classes">Turma</label>
+      <select class="input-field" [(ngModel)]="classesSelected" id="classes">
+        <option *ngFor="let class of allClasses" [value]="class.id">{{class.name}}</option>
+      </select>
     </div>
     <button (click)="registerAssessment()">Cadastrar Avaliação</button>
   </div>

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DataSaverService {
+
   private dataToHold: any;
 
   setData(data: any) {
@@ -18,5 +19,4 @@ export class DataSaverService {
     this.dataToHold = null;
   }
 
-  constructor() { }
 }

@@ -85,7 +85,8 @@ export class ClassesComponent implements OnInit {
   
   navigateToTeachers() {
     if (this.selectedClass) {
-      this.router.navigate(['admin/class/teacher', this.selectedClass.className]);
+      this.datasaver.setData(this.selectedClass.classID)
+      this.router.navigate(['admin/class/teacher', this.selectedClass.classID]);
     }
   }
   

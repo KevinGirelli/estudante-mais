@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataSaverService } from '../../services/tempDataSaver/data-saver.service';
 
 @Component({
   selector: 'app-dashboard-teacher',

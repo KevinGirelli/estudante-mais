@@ -16,7 +16,7 @@ public class grade {
   private Float gradeValue;
 
   @ManyToOne
-  private teacher teacher;
+  assessment assessment;
 
   @ManyToOne
   private student student;
@@ -50,14 +50,6 @@ public class grade {
 
   public void setGradeValue(Float gradeValue) {
     this.gradeValue = gradeValue;
-  }
-
-  public com.project.EstudanteMais.Entity.teacher getTeacher() {
-    return teacher;
-  }
-
-  public void setTeacher(com.project.EstudanteMais.Entity.teacher teacher) {
-    this.teacher = teacher;
   }
 
   public Date getDate() {

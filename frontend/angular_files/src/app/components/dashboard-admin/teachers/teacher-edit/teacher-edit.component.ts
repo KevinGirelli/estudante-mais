@@ -93,7 +93,6 @@ export class TeacherEditComponent implements OnInit {
           }
         }
       }
-
       const classesResponse = await fetch("http://localhost:8080/admin/classesDataManager/getSearchAllClassesRelatedToSubject/" + this.subjectsIDS, {
         method: "GET",
         headers: {

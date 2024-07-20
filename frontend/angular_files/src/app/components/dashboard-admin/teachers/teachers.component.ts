@@ -13,6 +13,7 @@ interface Teacher {
   teacherPassword: string;
   teacherCPF: string;
   subjects: string[];
+  teacherClasses: string[];
 }
 
 @Component({
@@ -55,13 +56,15 @@ export class TeachersComponent implements OnInit  {
           const keys = Object.keys(data);
 
           keys.forEach(key => {
+            console.log(data)
             let addTeacher: Teacher = {
               teacherID: data[key].teacherID,
               teacherName: data[key].teacherName,
               teacherEmail: data[key].teacherEmail,
               teacherPassword: data[key].teacherPassword,
               teacherCPF: data[key].cpf,
-              subjects: data[key].subjects
+              subjects: data[key].subjects,
+              teacherClasses: data[key].teacherClasses
             };
             this.teachers.push(addTeacher);
           });

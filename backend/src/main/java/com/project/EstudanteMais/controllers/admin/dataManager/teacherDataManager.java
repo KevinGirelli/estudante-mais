@@ -1,15 +1,13 @@
 package com.project.EstudanteMais.controllers.admin.dataManager;
 
-import com.project.EstudanteMais.Entity.TeacherClasses;
-import com.project.EstudanteMais.Entity.classes;
+import com.project.EstudanteMais.Entity.*;
 import com.project.EstudanteMais.Entity.dto.teachersDTO;
 import com.project.EstudanteMais.Entity.dto.updateTeacherDataDTO;
-import com.project.EstudanteMais.Entity.teacher;
-import com.project.EstudanteMais.Entity.teacherSubject;
 import com.project.EstudanteMais.repository.*;
 import com.project.EstudanteMais.services.UUIDformatter;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,6 +37,9 @@ public class teacherDataManager {
   teacherClassesRepository teacherClassesRepository;
 
   @Autowired
+  classes_subjectsRepository classesSubjectsRepository;
+
+  @Autowired
   UUIDformatter uuiDformatter;
   @GetMapping("/getTeacher/{teacherEmail}")
   public ResponseEntity selectTeacher(@PathVariable(value = "teacherEmail")String email){
@@ -60,7 +61,7 @@ public class teacherDataManager {
       List<teacherSubject> teacherSubjects = this.teacherSubjectRepository.findByteacher(teacher);
       List<String> listSubjects = new ArrayList<>();
 
-      teacherSubjects.forEach(subject ->{
+      teacherSubjects.forEach(subject->{
         listSubjects.add(subject.getSubject().getSubjectname());
       });
 
@@ -69,6 +70,32 @@ public class teacherDataManager {
       allTeachers.add(addTeacher);
     });
     return ResponseEntity.ok(allTeachers);
+  }
+
+  @GetMapping("/getAllTeacherFromClass/{classID}")
+  public ResponseEntity getAllTeacherFromClass(@PathVariable(value = "classID") String classID){
+    List<TeacherClasses> teacherClasses = this.teacherClassesRepository.findByclasses(this.classesRepository.findByclassID(UUID.fromString(classID)));
+    List<teachersDTO> teachersDTOS = new ArrayList<>();
+    System.out.println(teacherClasses);
+
+    teacherClasses.forEach(teacher ->{
+      List<teacherSubject> subjects = this.teacherSubjectRepository.findByteacher(teacher.getTeacher());
+      List<String> teacherSubjects = new ArrayList<>();
+
+      subjects.forEach(subject ->{
+        teacherSubjects.add(subject.getSubject().getSubjectname());
+      });
+
+      teachersDTO add = new teachersDTO(
+              teacher.getTeacher().getTeacherID().toString(),
+              teacher.getTeacher().getTeacherName(),
+              teacher.getTeacher().getTeacherEmail(),
+              teacher.getTeacher().getTeacherCPF(),
+              teacherSubjects
+      );
+      teachersDTOS.add(add);
+    });
+    return ResponseEntity.ok(teachersDTOS);
   }
 
   @PatchMapping("/updateTeacherPrimaryData")

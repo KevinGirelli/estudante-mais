@@ -41,7 +41,11 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/admin/classesDataManager/getSearchAllClassesRelatedToSubject").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET,"/admin/dataManager/getStudent").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/admin/dataManager/getTeacher").hasAuthority("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/admin/teacherDataManager/getAllTeacherFromClass").hasAuthority("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/teacher/createNewAssessment").hasAnyAuthority("TEACHER","ADMIN")
                     .requestMatchers(HttpMethod.POST, "/admin/registerClass").hasAuthority("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "admin/subjectDataManager/getSubjects").hasAuthority("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "admin/classesDataManager/getClassesAsync").hasAnyAuthority("ADMIN","TEACHER")
                     .anyRequest().authenticated())
             .addFilterBefore(internalFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
