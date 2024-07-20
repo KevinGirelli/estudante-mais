@@ -1,0 +1,47 @@
+<div class="attendance-container">
+  <div class="content">
+    <a href="/teacher" class="back pi pi-arrow-left"></a>
+    <h1>Realizar Chamada</h1>
+    <div class="header-item">
+      <div class="form-item">
+        <label class="label" for="className">Turma</label>
+        <select class="input-field" [(ngModel)]="className" id="className">
+          <option *ngFor="let class of classes" [value]="class">{{class}}</option>
+        </select>
+      </div>
+      <div class="form-item">
+        <label class="label label-qtd" for="quantity">Quantidade</label>
+        <div class="qtd">
+          <button 
+            class="btn-quantity pi pi-minus" 
+            (click)="decrementQuantity()" 
+            [disabled]="quantity === 0"
+          ></button>
+          <input 
+            type="text" 
+            class="input-number" 
+            [(ngModel)]="quantity" 
+            id="quantity" 
+            readonly
+          >
+          <button 
+            class="btn-quantity pi pi-plus" 
+            (click)="incrementQuantity()"
+          ></button>
+        </div>
+      </div>
+    </div>
+    <div class="form-item">
+      <label class="label" for="attendanceDate">Data</label>
+      <p-calendar 
+        class="input-field custom-calendar" 
+        view="date" 
+        [(ngModel)]="attendanceDate"
+      ></p-calendar>
+    </div>
+    <button (click)="registerAttendance()">Registrar Chamada</button>
+  </div>
+  <div class="image">
+    <img src="../../../../assets/images/teacher/attendance/attendance_image.png" alt="">
+  </div>
+</div>
