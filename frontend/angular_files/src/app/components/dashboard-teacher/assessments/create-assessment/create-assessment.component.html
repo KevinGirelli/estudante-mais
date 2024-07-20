@@ -1,0 +1,27 @@
+<div class="assessments-container">
+  <div class="content">
+    <a href="/teacher/assessments" class="back pi pi-arrow-left"></a>
+    <h1>Criar Avaliação</h1>
+    <div class="form-item">
+      <label class="label" for="assessmentName">Nome da Avaliação</label>
+      <input class="input-field" type="text" [(ngModel)]="assessmentName" id="assessmentName">
+    </div>
+    <div class="form-item">
+      <label class="label" for="assessmentDate">Data da Avaliação</label>
+      <p-calendar class="input-field custom-calendar" view="date" [(ngModel)]="assessmentDate"></p-calendar>
+    </div>
+    <div class="form-item">
+      <label class="label" for="assessmentClass">Turmas</label>
+      <p-multiSelect 
+        [options]="class" 
+        [(ngModel)]="selectedClasses" 
+        optionLabel="name"
+        [maxSelectedLabels]="5">
+      </p-multiSelect>
+    </div>
+    <button (click)="registerAssessment()">Cadastrar Avaliação</button>
+  </div>
+  <div class="image">
+    <img src="../../../../assets/images/teacher/assessments/createAssessment_image.png" alt="">
+  </div>
+</div>

@@ -1,0 +1,140 @@
+.assessments-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+
+  .content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin-left: 5vw;
+    height: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    padding: 20px;
+
+    .back {
+      align-self: flex-start;
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 1rem;
+      padding: 8px;
+      background-color: #9747FF;
+      transition: 0.5s;
+      margin: 5vh 3vw;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: #6F2EEB;
+      }
+    }
+
+    h1 {
+      margin: 5vh 0;
+      color: #292F47;
+    }
+
+    .form-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+
+      .label {
+        font-size: 16px;
+        color: #555555;
+        margin: 5px;
+        align-self: start;
+        margin-left: 3.2vw;
+      }
+
+      .input-field {
+        width: 30vw;
+        height: 6vh;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        background-color: #EEE;
+        font-size: 16px;
+        color: #555555;
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }  
+
+      ::ng-deep .p-multiselect {
+        align-items: center;
+        font-size: 16px;
+        width: 30vw;
+        height: 6vh;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        background-color: #EEE;
+        margin-bottom: 15px;
+        
+        .p-multiselect-filter-icon {
+          display: none;
+        }
+      }
+
+      ::ng-deep .p-multiselect:focus {
+        outline: none;
+        box-shadow: none;
+      }
+
+      ::ng-deep .custom-calendar .p-inputtext, 
+      ::ng-deep .custom-calendar .p-calendar {
+        border: none;
+        box-shadow: none;
+        background-color: #EEE;
+      }
+
+      ::ng-deep .custom-calendar .p-inputtext {
+        background-color: #EEE;
+        width: 30vw;
+        font-size: 1rem;
+      }
+    }
+
+    button {
+      width: 20vw;
+      height: 6.5vh;
+      margin: 5px;
+      font-size: 16px;
+      margin-top: 10vh;
+      color: #FFFFFF;
+      padding: 10px;
+      border-radius: 4px;
+      font-weight: 700;
+      background-color: #9747FF;
+      transition: 0.5s;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #6F2EEB;
+      }
+    }
+  }
+
+  .image {
+    height: 100%;
+    width: 55%;
+    align-items: flex-end;
+    justify-content: center;
+    background-color: #FFFFFF;
+    z-index: 0;
+
+    img {
+      margin-top: 15vh;
+      width: 50vw;
+      height: 70vh;
+    }
+  }
+}
