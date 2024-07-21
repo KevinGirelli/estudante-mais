@@ -6,8 +6,8 @@
       <div class="form-item">
         <label class="label" for="className">Turma</label>
         <select class="input-field" [(ngModel)]="className" id="className">
-          <option *ngFor="let class of classes" [value]="class">{{class}}</option>
-        </select>
+          <option *ngFor="let class of classes" [value]="class.value">{{class.label}}</option>
+        </select>        
       </div>
       <div class="form-item">
         <label class="label label-qtd" for="quantity">Quantidade</label>
@@ -39,9 +39,34 @@
         [(ngModel)]="attendanceDate"
       ></p-calendar>
     </div>
-    <button (click)="registerAttendance()">Registrar Chamada</button>
+    <div class="form-item">
+      <label class="label" for="students">Alunos</label>
+      <button class="modal-button" type="button" (click)="showModal()">Lista de Presença</button>
+    </div>
+    <button class="submit-button" (click)="registerAttendance()">Registrar Chamada</button>
   </div>
   <div class="image">
     <img src="../../../../assets/images/teacher/attendance/attendance_image.png" alt="">
   </div>
 </div>
+
+<p-dialog header="Lista de Presença" [(visible)]="visible" [modal]="true" [style]="{ 'width': '50vw' }" [draggable]="false">
+  <p-listbox [options]="students" [(ngModel)]="selectedStudents" optionLabel="name" [style]="{'width':'100%'}" [listStyle]="{'max-height': '300px'}">
+    <ng-template let-student pTemplate="item">
+      <div class="student-item">
+        <span>{{ student.name }}</span>
+        <button 
+          pButton 
+          type="button" 
+          (click)="toggleAttendance(student)" 
+          [ngStyle]="{'background-color': getButtonColor(student.attendance)}"
+          [ngClass]="getClass(student.attendance)">
+        </button>
+      </div>
+    </ng-template>
+  </p-listbox>
+  <div class="modal-footer">
+    <button class="save-button" (click)="saveAttendance()">Salvar Lista</button>
+  </div>
+</p-dialog>
+
