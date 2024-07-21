@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.UUID;
 
 @Entity
-public class missedClassesHistory {
+public class attendenceHistory {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   UUID registrationID;
@@ -15,11 +15,11 @@ public class missedClassesHistory {
   private Date registrationDate;
 
   @ManyToOne
-  missedClasses missedClasses;
+  attendence missedClasses;
 
-  public missedClassesHistory(){super();}
+  public attendenceHistory(){super();}
 
-  public missedClassesHistory(Date registrationDate, missedClasses missedClasses){
+  public attendenceHistory(Date registrationDate, attendence missedClasses){
     this.registrationDate = registrationDate;
     this.missedClasses = missedClasses;
   }
@@ -40,11 +40,11 @@ public class missedClassesHistory {
     this.registrationDate = registrationDate;
   }
 
-  public com.project.EstudanteMais.Entity.missedClasses getMissedClasses() {
+  public attendence getMissedClasses() {
     return missedClasses;
   }
 
-  public void setMissedClasses(com.project.EstudanteMais.Entity.missedClasses missedClasses) {
+  public void setMissedClasses(attendence missedClasses) {
     this.missedClasses = missedClasses;
   }
 }

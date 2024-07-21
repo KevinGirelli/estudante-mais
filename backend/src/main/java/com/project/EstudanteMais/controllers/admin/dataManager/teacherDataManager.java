@@ -1,6 +1,7 @@
 package com.project.EstudanteMais.controllers.admin.dataManager;
 
 import com.project.EstudanteMais.Entity.*;
+import com.project.EstudanteMais.Entity.dto.classesDTO;
 import com.project.EstudanteMais.Entity.dto.teachersDTO;
 import com.project.EstudanteMais.Entity.dto.updateTeacherDataDTO;
 import com.project.EstudanteMais.repository.*;
@@ -76,7 +77,6 @@ public class teacherDataManager {
   public ResponseEntity getAllTeacherFromClass(@PathVariable(value = "classID") String classID){
     List<TeacherClasses> teacherClasses = this.teacherClassesRepository.findByclasses(this.classesRepository.findByclassID(UUID.fromString(classID)));
     List<teachersDTO> teachersDTOS = new ArrayList<>();
-    System.out.println(teacherClasses);
 
     teacherClasses.forEach(teacher ->{
       List<teacherSubject> subjects = this.teacherSubjectRepository.findByteacher(teacher.getTeacher());
@@ -97,6 +97,8 @@ public class teacherDataManager {
     });
     return ResponseEntity.ok(teachersDTOS);
   }
+
+
 
   @PatchMapping("/updateTeacherPrimaryData")
   public ResponseEntity updateTeacherPrimaryData(@RequestBody updateTeacherDataDTO teacherData){

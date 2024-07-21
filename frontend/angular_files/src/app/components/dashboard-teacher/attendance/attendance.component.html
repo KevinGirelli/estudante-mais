@@ -6,7 +6,7 @@
       <div class="form-item">
         <label class="label" for="className">Turma</label>
         <select class="input-field" [(ngModel)]="className" id="className">
-          <option *ngFor="let class of classes" [value]="class.value">{{class.label}}</option>
+          <option *ngFor="let class of classes" [value]="class.id">{{class.name}}</option>
         </select>        
       </div>
       <div class="form-item">

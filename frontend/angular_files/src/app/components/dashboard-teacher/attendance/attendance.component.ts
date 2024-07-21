@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
@@ -6,11 +6,17 @@ import { ButtonModule } from 'primeng/button';
 import { ListboxModule } from 'primeng/listbox';
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { SelectItem } from 'primeng/api';
+import { Router } from '@angular/router';
 
 interface Student {
   id: number;
   name: string;
   attendance: string;
+}
+
+interface Class{
+  id: string,
+  name: string
 }
 
 @Component({
@@ -30,24 +36,80 @@ interface Student {
   templateUrl: './attendance.component.html',
   styleUrls: ['./attendance.component.scss']
 })
-export class AttendanceComponent {
+export class AttendanceComponent implements OnInit {
+
+  constructor (private router: Router) {}
+
   visible: boolean = false;
-  students: Student[] = [
-    { id: 1, name: 'Kévin', attendance: 'Presente' },
-    { id: 2, name: 'Zaymã', attendance: 'Ausente' },
-    { id: 3, name: 'Leonardo', attendance: 'Justificado' }
-  ];
+  students: Student[] = [];
+
   selectedStudents: Student[] = [];
-  classes: SelectItem[] = [
-    { label: '351', value: '351' },
-    { label: '352', value: '352' },
-    { label: '353', value: '353' }
-  ];
+  classes: Class[] = [];
   className: string = '';
   quantity: number = 0;
   attendanceDate: Date = new Date();
 
-  showModal() {
+  async ngOnInit(): Promise<void> {
+    const response = await fetch("http://localhost:8080/teacher/getAllClassesFromTeacher/" + localStorage.getItem("userID"),{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    if(response.status == 403){
+       this.router.navigate(["403"])
+    }
+
+    if(response.status == 200){
+      response.json().then(data =>{
+        const keys = Object.keys(data)
+        for(let i = 0; i <= keys.length-1; i++){
+            const add: Class = {
+              id: data[i].classID,
+              name: data[i].className
+            }
+            this.classes.push(add)
+        }
+      })
+    }
+
+  }
+
+
+  async showModal() {
+    const response = await fetch("http://localhost:8080/teacher/getAllStudentsFromClass/" + this.className,{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    if(response.status == 200){
+      response.json().then(data =>{
+        const keys = Object.keys(data);
+        console.log(data)
+        for(let i = 0; i <= keys.length-1; i++){
+          const add: Student = {
+            id: data[i].studentID,
+            name: data[i].student_fullname,
+            attendance: 'Presente'
+          }
+          
+          let alreadyHasStudent = false
+          this.students.forEach(student =>{
+            if(student.id == add.id){
+              alreadyHasStudent = true
+            }
+          })
+          
+          if(alreadyHasStudent == false){
+            this.students.push(add)
+          }
+        }
+      })
+    }
+
     this.visible = true;
   }
 
@@ -61,9 +123,32 @@ export class AttendanceComponent {
     }
   }
 
-  registerAttendance() {
-    console.log('Attendance registered for:', this.selectedStudents);
-    this.visible = false;
+ async registerAttendance() {
+    const students: string[] = []
+    this.students.forEach(s =>{
+      students.push(s.id + "," + s.attendance.toUpperCase())
+    })
+
+    const sendData = {
+      classID: this.className,
+      teacherID: localStorage.getItem("userID"),
+      quantity: this.quantity,
+      date: this.attendanceDate,
+      students: students
+    }
+
+    const response = await fetch("http://localhost:8080/attendence/registryAttendence",{
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token")
+      },
+      body: JSON.stringify(sendData)
+    })
+
+    if(response.status == 200){
+      console.log("Registrado com sucesso.")
+    }
   }
 
   getButtonLabel(attendance: string): string {
