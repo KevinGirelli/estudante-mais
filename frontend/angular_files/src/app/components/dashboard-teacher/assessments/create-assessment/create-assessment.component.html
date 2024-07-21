@@ -16,6 +16,13 @@
         <option *ngFor="let class of allClasses" [value]="class.id">{{class.name}}</option>
       </select>
     </div>
+
+    <div class="form-item">
+      <label class="label" for="subjects">Matéria</label>
+      <select class="input-field" [(ngModel)]="subjectSelected" id="sub">
+        <option *ngFor="let subject of allSubjects" [value]="subject.id">{{subject.subjectName}}</option>
+      </select>
+    </div>
     <button (click)="registerAssessment()">Cadastrar Avaliação</button>
   </div>
   <div class="image">

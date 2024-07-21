@@ -15,7 +15,7 @@ public class assessment {
   String assessmentName;
 
   @Column(name = "assessmentDate",nullable = false)
-  Date assessmentDate;
+  String assessmentDate;
 
   @ManyToOne
   classes classes;
@@ -23,21 +23,26 @@ public class assessment {
   @ManyToOne
   teacher teacher;
 
+  @ManyToOne
+  subjects subjects;
+
   public assessment(){super();}
 
-  public assessment(UUID assessmentID, String assessmentName, Date assessmentDate, classes classes, teacher teacher) {
+  public assessment(String assessmentName, String assessmentDate, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher, com.project.EstudanteMais.Entity.subjects subjects) {
+    this.assessmentName = assessmentName;
+    this.assessmentDate = assessmentDate;
+    this.classes = classes;
+    this.teacher = teacher;
+    this.subjects = subjects;
+  }
+
+  public assessment(UUID assessmentID, String assessmentName, String assessmentDate, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher, com.project.EstudanteMais.Entity.subjects subjects) {
     this.assessmentID = assessmentID;
     this.assessmentName = assessmentName;
     this.assessmentDate = assessmentDate;
     this.classes = classes;
     this.teacher = teacher;
-  }
-
-  public assessment(String assessmentName, Date assessmentDate, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher) {
-    this.assessmentName = assessmentName;
-    this.assessmentDate = assessmentDate;
-    this.classes = classes;
-    this.teacher = teacher;
+    this.subjects = subjects;
   }
 
   public UUID getAssessmentID() {
@@ -56,11 +61,11 @@ public class assessment {
     this.assessmentName = assessmentName;
   }
 
-  public Date getAssessmentDate() {
+  public String getAssessmentDate() {
     return assessmentDate;
   }
 
-  public void setAssessmentDate(Date assessmentDate) {
+  public void setAssessmentDate(String assessmentDate) {
     this.assessmentDate = assessmentDate;
   }
 
@@ -78,5 +83,13 @@ public class assessment {
 
   public void setTeacher(com.project.EstudanteMais.Entity.teacher teacher) {
     this.teacher = teacher;
+  }
+
+  public com.project.EstudanteMais.Entity.subjects getSubjects() {
+    return subjects;
+  }
+
+  public void setSubjects(com.project.EstudanteMais.Entity.subjects subjects) {
+    this.subjects = subjects;
   }
 }

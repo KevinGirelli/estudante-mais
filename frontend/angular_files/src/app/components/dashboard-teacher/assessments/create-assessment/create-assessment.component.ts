@@ -11,6 +11,11 @@ interface Class {
   name: string;
 }
 
+interface subject {
+  id: string,
+  subjectName: string
+}
+
 @Component({
   selector: 'app-create-assessment',
   standalone: true,
@@ -32,6 +37,10 @@ export class CreateAssessmentComponent implements OnInit {
   classesSelected: Class[] = [];
   assessmentDate: Date | undefined;
 
+  subjectSelected: subject[]= [];
+  allSubjects: subject[] = [];
+
+
   async ngOnInit(): Promise<void> {
     const response = await fetch("http://localhost:8080/admin/classesDataManager/getClassesAsync",{
       method: "GET",
@@ -40,8 +49,32 @@ export class CreateAssessmentComponent implements OnInit {
       }
     })
 
+    const response2 = await fetch("http://localhost:8080/teacher/getTeacherSubject/" + localStorage.getItem("userID"),{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
     if(response.status == 403){
       this.router.navigate(["403"])
+    }
+
+    if(response2.status == 403){
+      this.router.navigate(["403"])
+    }
+
+    if(response2.status == 200){
+      response2.json().then(data => {
+        const keys = Object.keys(data);
+        for(let i = 0; i <= data.subjectsIDS.length-1; i++){
+          const addSubject: subject = {
+            id: data.subjectsIDS[i].split(",")[0],
+            subjectName: data.subjectsIDS[i].split(",")[1]
+          }
+          this.allSubjects.push(addSubject)
+        }
+      })
     }
 
     if(response.status == 200){
@@ -63,10 +96,11 @@ export class CreateAssessmentComponent implements OnInit {
       name: this.assessmentName,
       data: this.assessmentDate,
       classID: this.classesSelected,
-      teacherID: localStorage.getItem("userID")
+      teacherID: localStorage.getItem("userID"),
+      subjectID: this.subjectSelected
     }
     try{
-      const response = await fetch("http://localhost:8080/teacher/createNewAssessment",{
+      const response = await fetch("http://localhost:8080/assess/createNewAssessment",{
         method: "POST",
         headers: {
           "Content-type": "application/json",
