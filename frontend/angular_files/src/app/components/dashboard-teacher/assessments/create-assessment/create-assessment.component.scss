@@ -33,7 +33,7 @@
     }
 
     h1 {
-      margin: 5vh 0;
+      margin: 3vh 0;
       color: #292F47;
     }
 
@@ -68,26 +68,6 @@
         }
       }  
 
-      ::ng-deep .p-multiselect {
-        align-items: center;
-        font-size: 16px;
-        width: 30vw;
-        height: 6vh;
-        border: 1px solid #CCC;
-        border-radius: 4px;
-        background-color: #EEE;
-        margin-bottom: 15px;
-        
-        .p-multiselect-filter-icon {
-          display: none;
-        }
-      }
-
-      ::ng-deep .p-multiselect:focus {
-        outline: none;
-        box-shadow: none;
-      }
-
       ::ng-deep .custom-calendar .p-inputtext, 
       ::ng-deep .custom-calendar .p-calendar {
         border: none;
@@ -107,7 +87,7 @@
       height: 6.5vh;
       margin: 5px;
       font-size: 16px;
-      margin-top: 10vh;
+      margin-top: 2vh;
       color: #FFFFFF;
       padding: 10px;
       border-radius: 4px;
@@ -133,8 +113,8 @@
 
     img {
       margin-top: 15vh;
-      width: 50vw;
-      height: 70vh;
+      width: 55vw;
+      height: 75vh;
     }
   }
 }
