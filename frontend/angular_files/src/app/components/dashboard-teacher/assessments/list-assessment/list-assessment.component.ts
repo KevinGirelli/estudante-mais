@@ -11,8 +11,8 @@ interface Assessment {
   class: string;
   subject: string;
   date: string;
-  classID: string
-  subjectID: string
+  classID: string;
+  subjectID: string;
 }
 
 @Component({
@@ -27,7 +27,8 @@ interface Assessment {
   styleUrls: ['./list-assessment.component.scss']
 })
 export class ListAssessmentComponent implements OnInit {
-  constructor (private router: Router,private datasaver: DataSaverService) {}
+  
+  constructor (private router: Router, private datasaver: DataSaverService) {}
  
   @ViewChild('dt2') dt2!: Table;
 
@@ -36,22 +37,22 @@ export class ListAssessmentComponent implements OnInit {
   assessments: Assessment[] = [];
 
   async ngOnInit(): Promise<void> {
-    const response = await fetch("http://localhost:8080/assess/getAssessmentFromTeacher/" + localStorage.getItem("userID"),{
+    const response = await fetch("http://localhost:8080/assess/getAssessmentFromTeacher/" + localStorage.getItem("userID"), {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
     })
 
-    if(response.status == 403){
+    if (response.status == 403) {
       this.router.navigate(["403"])
     }
 
-    if(response.status == 200){
-      response.json().then(data =>{
+    if (response.status == 200) {
+      response.json().then(data => {
         console.log(data)
         const keys = Object.keys(data)
-        for(let i = 0; i <= keys.length-1; i++){
+        for (let i = 0; i <= keys.length - 1; i++) {
           const addAsses: Assessment = {
             id: data[i].id,
             assessmentName: data[i].name,
@@ -71,5 +72,9 @@ export class ListAssessmentComponent implements OnInit {
     if (this.dt2) {
       this.dt2.filterGlobal(event.target.value ?? '', 'contains');
     }
+  }
+
+  editAssessment(assessment: Assessment) {
+    this.router.navigate(['/teacher/assessments/edit', assessment.id]);
   }
 }

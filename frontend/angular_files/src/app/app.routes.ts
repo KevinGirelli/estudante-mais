@@ -17,42 +17,44 @@ import { CreateAssessmentComponent } from './components/dashboard-teacher/assess
 import { ListAssessmentComponent } from './components/dashboard-teacher/assessments/list-assessment/list-assessment.component';
 import { MyAssessmentsComponent } from './components/dashboard-student/my-assessments/my-assessments.component';
 import { AttendanceComponent } from './components/dashboard-teacher/attendance/attendance.component';
+import { EditAssessmentComponent } from './components/dashboard-teacher/assessments/list-assessments/edit-assessment/edit-assessment.component';
 
 export const routes: Routes = [
   { path: "403", component: Error403Component },
 
-  {path: "", component: HomeComponentComponent},
+  { path: "", component: HomeComponentComponent },
 
-  {path: "login", component: LoginComponentComponent},
+  { path: "login", component: LoginComponentComponent },
 
-  {path: "admin", component: DashboardAdminComponent},
+  { path: "admin", component: DashboardAdminComponent },
 
-  {path: "admin/register", component: RegisterComponent},
+  { path: "admin/register", component: RegisterComponent },
 
-  {path: "admin/classes", component: ClassesComponent},
+  { path: "admin/classes", component: ClassesComponent },
 
-  {path: "admin/class/students/:classStudent", component: StudentsFromClassComponent},
+  { path: "admin/class/students/:classStudent", component: StudentsFromClassComponent },
 
-  {path: "admin/class/students/:classStudent/:student", component: StudentEditComponent},
+  { path: "admin/class/students/:classStudent/:student", component: StudentEditComponent },
 
-  {path: "admin/class/teacher/:classTeacher", component: TeachersFromClassComponent},
+  { path: "admin/class/teacher/:classTeacher", component: TeachersFromClassComponent },
 
-  {path: "admin/teachers", component: TeachersComponent},
+  { path: "admin/teachers", component: TeachersComponent },
 
-  {path: "admin/teachers/:editTeacher", component: TeacherEditComponent},
+  { path: "admin/teachers/:editTeacher", component: TeacherEditComponent },
 
-  {path: "teacher", component: DashboardTeacherComponent},
+  { path: "teacher", component: DashboardTeacherComponent },
 
-  {path: "teacher/assessments", component: AssessmentsComponent},
+  { path: "teacher/assessments", component: AssessmentsComponent },
 
-  {path: "teacher/assessments/createAssessment", component: CreateAssessmentComponent},
+  { path: "teacher/assessments/createAssessment", component: CreateAssessmentComponent },
   
-  {path: "teacher/assessments/listAssessment", component: ListAssessmentComponent},
+  { path: "teacher/assessments/listAssessment", component: ListAssessmentComponent },
   
-  {path: "teacher/attendance", component: AttendanceComponent},
+  { path: "teacher/assessments/edit/:id", component: EditAssessmentComponent },
+  
+  { path: "teacher/attendance", component: AttendanceComponent },
 
-  {path: "student", component: DashboardStudentComponent},
+  { path: "student", component: DashboardStudentComponent },
 
-  {path: "student/assessments", component: MyAssessmentsComponent}
-
+  { path: "student/assessments", component: MyAssessmentsComponent }
 ];

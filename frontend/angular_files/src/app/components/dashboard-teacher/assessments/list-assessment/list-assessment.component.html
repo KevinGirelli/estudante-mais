@@ -27,7 +27,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-assessment>
-        <tr>
+        <tr (click)="editAssessment(assessment)">
           <td>{{ assessment.assessmentName }}</td>
           <td>{{ assessment.class }}</td>
           <td>{{ assessment.subject }}</td>
