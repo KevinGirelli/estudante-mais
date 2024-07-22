@@ -1,0 +1,198 @@
+::ng-deep .p-stepper-header {
+  display: none;
+}
+
+.assessments-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    margin-left: 5vw;
+    height: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    padding: 20px;
+    
+    .back {
+      align-self: flex-start;
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 1rem;
+      padding: 8px;
+      background-color: #9747FF;
+      transition: 0.5s;
+      margin: 5vh 3vw;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: #6F2EEB;
+      }
+    }
+
+    h1 {
+      margin: 1.5vh auto;
+      color: #292F47;
+      text-align: center;
+    }
+
+    .status {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        color: #292F47;
+        font-size: 20px;
+      }
+
+      .pi {
+        cursor: pointer;
+        color: #ffffff;
+        font-size: 1rem;
+        padding: 2px;
+        background-color: #9747FF;
+        transition: 0.5s;
+        margin: 0 3vw;
+        border-radius: 4px;
+        width: 2vw;
+        height: 2vw;
+        border: none;
+
+        &:hover {
+          background-color: #6F2EEB;
+        }
+
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+
+          &:hover {
+            background-color: #9747FF;
+          }
+        }
+      }
+    }
+
+    .form-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+
+      .label {
+        font-size: 16px;
+        color: #555555;
+        margin: 5px;
+        align-self: flex-start;
+      }
+
+      .input-field {
+        width: 30vw;
+        height: 6vh;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        background-color: #EEE;
+        font-size: 16px;
+        color: #555555;
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }  
+
+      ::ng-deep .custom-calendar .p-inputtext, 
+      ::ng-deep .custom-calendar .p-calendar {
+        border: none;
+        box-shadow: none;
+        background-color: #EEE;
+      }
+
+      ::ng-deep .custom-calendar .p-inputtext {
+        background-color: #EEE;
+        width: 30vw;
+        font-size: 1rem;
+      }
+    }
+
+    .submit-button {
+      width: 20vw;
+      height: 6.5vh;
+      font-size: 16px;
+      color: #FFFFFF;
+      padding: 10px;
+      border-radius: 4px;
+      font-weight: 700;
+      background-color: #9747FF;
+      transition: 0.5s;
+      border: none;
+      cursor: pointer;
+      margin: 2vh 4.5vw;
+
+      &:hover {
+        background-color: #6F2EEB;
+      }
+    }
+
+    .listbox-container {
+      margin-top: 2rem;
+    }
+    
+    .student-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      border-bottom: 1px solid #eee;
+      
+      span {
+        width: 22vw;
+      }
+    
+      .input-number {
+        width: 4vw;
+        height: 6vh;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        background-color: #EEE;
+        font-size: 16px;
+        color: #555555;
+        text-align: center; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+      
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  .image {
+    height: 100%;
+    width: 55%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    z-index: 0;
+
+    img {
+      width: 55vw;
+      height: 75vh;
+    }
+  }
+}
+

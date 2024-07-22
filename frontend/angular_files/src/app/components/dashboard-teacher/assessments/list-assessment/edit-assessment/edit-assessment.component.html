@@ -1,0 +1,72 @@
+<div class="assessments-container">
+  <div class="content">
+    <a href="/teacher/assessments" class="back pi pi-arrow-left"></a>
+    <p-stepper>
+      <p-stepperPanel>
+        <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+          <div class="step-content">
+            <h1>Editar Avaliação</h1>
+            <div class="status">
+              <button class="pi pi-angle-left" disabled></button>
+              <h2>Pendente</h2>
+              <button class="pi pi-angle-right" (click)="nextCallback.emit()"></button>
+            </div>
+            <div class="form-item">
+              <label class="label" for="assessmentName">Nome da Avaliação</label>
+              <input class="input-field" type="text" [(ngModel)]="assessmentName" id="assessmentName">
+            </div>
+            <div class="form-item">
+              <label class="label" for="assessmentDate">Data da Avaliação</label>
+              <p-calendar class="input-field custom-calendar" view="date" [(ngModel)]="assessmentDate"></p-calendar>
+            </div>
+            <div class="form-item">
+              <label class="label" for="classes">Turma</label>
+              <select class="input-field" [(ngModel)]="classesSelected" id="classes">
+                <option *ngFor="let class of allClasses" [value]="class.id">{{ class.name }}</option>
+              </select>
+            </div>
+            <div class="form-item">
+              <label class="label" for="subjects">Matéria</label>
+              <select class="input-field" [(ngModel)]="subjectSelected" id="subjects">
+                <option *ngFor="let subject of allSubjects" [value]="subject.id">{{ subject.subjectName }}</option>
+              </select>
+            </div>
+            <button class="submit-button" (click)="updateAssessment()">Editar Avaliação</button>
+          </div>
+        </ng-template>
+      </p-stepperPanel>
+
+      <p-stepperPanel>
+        <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
+          <div class="step-content">
+            <h1>Editar Avaliação</h1>
+            <div class="status">
+              <button class="pi pi-angle-left" (click)="prevCallback.emit()"></button>
+              <h2>Concluído</h2>
+              <button class="pi pi-angle-right" disabled></button>
+            </div>
+            <div class="listbox-container">
+              <p-listbox 
+                [options]="students" 
+                [(ngModel)]="selectedStudents" 
+                optionLabel="name" 
+                [style]="{'width':'100%'}" 
+                [listStyle]="{'max-height': '300px'}">
+                <ng-template let-student pTemplate="item">
+                  <div class="student-item">
+                    <span>{{ student.name }}</span>
+                    <input class="input-number" type="number" [(ngModel)]="student.grade" min="0" max="10" step="0.5">
+                  </div>
+                </ng-template>
+              </p-listbox>
+            </div>
+            <button class="submit-button" (click)="postGrades()">Postar as notas</button>
+          </div>
+        </ng-template>
+      </p-stepperPanel>
+    </p-stepper>
+  </div>
+  <div class="image">
+    <img src="../../../../../../assets/images/teacher/assessments/editAssessment_image.png" alt="">
+  </div>
+</div>
