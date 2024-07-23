@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { CalendarModule } from 'primeng/calendar';
 import { StepperModule } from 'primeng/stepper';
 import { ListboxModule } from 'primeng/listbox';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 interface Student {
   id: number;
@@ -21,7 +23,9 @@ interface Student {
     CalendarModule,
     StepperModule,
     ListboxModule,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './edit-assessment.component.html',
   styleUrls: ['./edit-assessment.component.scss']
 })
@@ -42,7 +46,7 @@ export class EditAssessmentComponent implements OnInit {
     { id: 4, name: 'Ana Costa', grade: null }
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private messageService: MessageService) {}
 
   async ngOnInit(): Promise<void> {
     this.assessmentId = this.route.snapshot.paramMap.get('id');
@@ -133,9 +137,12 @@ export class EditAssessmentComponent implements OnInit {
     });
 
     if (response.status === 200) {
+      this.messageService.add({ severity: 'success', summary: 'Notas postadas', detail: 'Notas postadas com sucesso!' });
       this.router.navigate(['/teacher/assessments']);
     } else if (response.status === 403) {
       this.router.navigate(['403']);
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Erro ao postar notas', detail: 'Erro ao postar notas!' });
     }
   }
 
@@ -158,9 +165,12 @@ export class EditAssessmentComponent implements OnInit {
     });
 
     if (response.status === 200) {
+      this.messageService.add({ severity: 'success', summary: 'Avaliação atualizada', detail: 'Avaliação atualizada com sucesso!' });
       this.router.navigate(['/teacher/assessments']);
     } else if (response.status === 403) {
       this.router.navigate(['403']);
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Erro ao atualizar avaliação', detail: 'Erro ao atualizar avaliação!' });
     }
   }
 }
