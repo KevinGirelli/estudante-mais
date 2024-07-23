@@ -1,5 +1,6 @@
 package com.project.EstudanteMais.repository;
 
+import com.project.EstudanteMais.Entity.classes;
 import com.project.EstudanteMais.Entity.dto.studentDataDTO;
 import com.project.EstudanteMais.Entity.student;
 import jakarta.transaction.Transactional;

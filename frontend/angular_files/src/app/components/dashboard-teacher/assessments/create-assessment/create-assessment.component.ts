@@ -42,7 +42,7 @@ export class CreateAssessmentComponent implements OnInit {
 
 
   async ngOnInit(): Promise<void> {
-    const response = await fetch("http://localhost:8080/admin/classesDataManager/getClassesAsync",{
+    const response = await fetch("http://localhost:8080/teacher/getAllClassesFromTeacher/" + localStorage.getItem("userID"),{
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
@@ -85,7 +85,16 @@ export class CreateAssessmentComponent implements OnInit {
             id: data[i].classID,
             name: data[i].className
           }
-          this.allClasses.push(addClass)
+          
+          let alreadyExist = false
+          this.allClasses.forEach(c =>{
+            if(c.id == addClass.id){
+              alreadyExist = true
+            }
+          })
+          if(alreadyExist == false){
+            this.allClasses.push(addClass)
+          }       
         }
       })
     }

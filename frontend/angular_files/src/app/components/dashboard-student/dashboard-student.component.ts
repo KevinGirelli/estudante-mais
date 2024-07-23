@@ -16,8 +16,8 @@ export class DashboardStudentComponent implements OnInit {
 
   constructor (private router: Router) {}
 
-  ngOnInit(): void {
-      fetch("http://localhost:8080/auth/verifyStudentToken",{
+  async ngOnInit(): Promise<void> {
+      await fetch("http://localhost:8080/auth/verifyStudentToken",{
         method: "POST",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
@@ -29,6 +29,20 @@ export class DashboardStudentComponent implements OnInit {
           this.router.navigate(["403"])
         }
       })
+
+      const response = await fetch("http://localhost:8080/notification/getNotifications/" + localStorage.getItem("userID"),{
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      })
+
+     
+      if(response.status == 200){
+        response.json().then(data =>{
+          console.log(data)
+        })
+      }
   }
 
   toggleMenu() {
