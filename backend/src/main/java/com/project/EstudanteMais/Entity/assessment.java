@@ -28,7 +28,8 @@ public class assessment {
 
   public assessment(){super();}
 
-  public assessment(String assessmentName, String assessmentDate, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher, com.project.EstudanteMais.Entity.subjects subjects) {
+  public assessment(UUID assessmentID, String assessmentName, String assessmentDate, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher, com.project.EstudanteMais.Entity.subjects subjects) {
+    this.assessmentID = assessmentID;
     this.assessmentName = assessmentName;
     this.assessmentDate = assessmentDate;
     this.classes = classes;
@@ -36,8 +37,7 @@ public class assessment {
     this.subjects = subjects;
   }
 
-  public assessment(UUID assessmentID, String assessmentName, String assessmentDate, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher, com.project.EstudanteMais.Entity.subjects subjects) {
-    this.assessmentID = assessmentID;
+  public assessment(String assessmentName, String assessmentDate, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher, com.project.EstudanteMais.Entity.subjects subjects) {
     this.assessmentName = assessmentName;
     this.assessmentDate = assessmentDate;
     this.classes = classes;

@@ -25,70 +25,42 @@ export class MyGradesComponent implements OnInit {
 
   grades: Grade[] = [];
 
-  allGrades: { [key: string]: { [key: string]: Grade[] } } = {
-    math: {
-      first: [
-        { label: 'Prova 1: 8.5', value: 8.5 },
-        { label: 'Prova 2: 7.0', value: 7.0 }
-      ],
-      second: [
-        { label: 'Prova 1: 9.0', value: 9.0 },
-        { label: 'Prova 2: 8.0', value: 8.0 }
-      ],
-      third: [
-        { label: 'Prova 1: 7.5', value: 7.5 },
-        { label: 'Prova 2: 8.5', value: 8.5 }
-      ]
-    },
-    portuguese: {
-      first: [
-        { label: 'Prova 1: 7.5', value: 7.5 },
-        { label: 'Prova 2: 8.0', value: 8.0 }
-      ],
-      second: [
-        { label: 'Prova 1: 8.5', value: 8.5 },
-        { label: 'Prova 2: 7.5', value: 7.5 }
-      ],
-      third: [
-        { label: 'Prova 1: 9.0', value: 9.0 },
-        { label: 'Prova 2: 8.5', value: 8.5 }
-      ]
-    },
-    history: {
-      first: [
-        { label: 'Prova 1: 6.5', value: 6.5 },
-        { label: 'Prova 2: 7.0', value: 7.0 }
-      ],
-      second: [
-        { label: 'Prova 1: 7.5', value: 7.5 },
-        { label: 'Prova 2: 8.0', value: 8.0 }
-      ],
-      third: [
-        { label: 'Prova 1: 8.0', value: 8.0 },
-        { label: 'Prova 2: 9.0', value: 9.0 }
-      ]
+  allGrades: { [key: string]: { [key: string]: Grade[] } } = {};
+
+  async ngOnInit(): Promise<void> {
+    const response1 = await fetch("http://localhost:8080/student/getSubjectsFromClasses/" + localStorage.getItem("userID"),{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    if(response1.status == 200){
+      response1.json().then(data =>{
+        for(let i = 0; i <= data.length-1; i++){
+          let subject = {
+            label: data[i].split(",")[1],
+            value:data[i].split(",")[0]
+          }
+
+          this.subjects.push(subject)
+        }
+      })
     }
-  };
-
-  ngOnInit() {
-    this.subjects = [
-      { label: 'Matemática', value: 'math' },
-      { label: 'Português', value: 'portuguese' },
-      { label: 'História', value: 'history' }
-    ];
-
-    this.periods = [
-      { label: '1º Trimestre', value: 'first' },
-      { label: '2º Trimestre', value: 'second' },
-      { label: '3º Trimestre', value: 'third' }
-    ];
   }
 
-  onSelectChange() {
-    if (this.selectedSubject && this.selectedPeriod) {
-      this.grades = this.allGrades[this.selectedSubject][this.selectedPeriod];
-    } else {
-      this.grades = [];
+  async onSelectChange() {
+    const response = await fetch("http://localhost:8080/grades/viewGrades/" + localStorage.getItem("userID") + "," + this.selectedSubject,{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    if(response.status == 200){
+      response.json().then(data => {
+          //TO DO
+      })
     }
   }
 }

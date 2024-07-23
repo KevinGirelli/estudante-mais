@@ -6,6 +6,7 @@ import com.project.EstudanteMais.Entity.dto.postStudentGradeDTO;
 import com.project.EstudanteMais.Entity.dto.returnAssessmentDTO;
 import com.project.EstudanteMais.Entity.grade;
 import com.project.EstudanteMais.repository.*;
+import com.project.EstudanteMais.services.configPreferencesService;
 import com.project.EstudanteMais.services.notificationService.notificationDTO;
 import com.project.EstudanteMais.services.notificationService.notificationManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class assessmentController {
 
   @Autowired
   notificationManager notificationManager;
+
+  @Autowired
+  configPreferencesService configPreferencesService;
 
   @Autowired
   studentRepository studentRepository;
@@ -108,7 +112,7 @@ public class assessmentController {
               getAsses,
               getStudent,
               getAsses.getAssessmentDate(),
-              newGrade.quarter()
+              this.configPreferencesService.getCurrentQuarterType()
       );
       this.gradeRepository.save(grade);
       return ResponseEntity.ok().build();

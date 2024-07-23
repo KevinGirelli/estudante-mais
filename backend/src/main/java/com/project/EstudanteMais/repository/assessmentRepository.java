@@ -2,6 +2,7 @@ package com.project.EstudanteMais.repository;
 
 import com.project.EstudanteMais.Entity.assessment;
 import com.project.EstudanteMais.Entity.classes;
+import com.project.EstudanteMais.Entity.subjects;
 import com.project.EstudanteMais.Entity.teacher;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,6 +19,8 @@ public interface assessmentRepository extends JpaRepository<assessment, UUID> {
   List<assessment> findByteacher(teacher teacher);
 
   List<assessment> findByclasses(classes classes);
+
+  List<assessment> findByclassesAndSubjects(classes classes, subjects subjects);
 
   @Modifying
   @Transactional

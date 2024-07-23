@@ -21,6 +21,14 @@ public class grade {
   @ManyToOne
   private student student;
 
+  public com.project.EstudanteMais.Entity.assessment getAssessment() {
+    return assessment;
+  }
+
+  public void setAssessment(com.project.EstudanteMais.Entity.assessment assessment) {
+    this.assessment = assessment;
+  }
+
   public com.project.EstudanteMais.Entity.student getStudent() {
     return student;
   }
@@ -67,6 +75,8 @@ public class grade {
   public void setQuarter(int quarter) {
     this.quarter = quarter;
   }
+
+  public grade(){super();}
 
   public grade(UUID gradeID, Float gradeValue, com.project.EstudanteMais.Entity.assessment assessment, com.project.EstudanteMais.Entity.student student, String date, int quarter) {
     this.gradeID = gradeID;

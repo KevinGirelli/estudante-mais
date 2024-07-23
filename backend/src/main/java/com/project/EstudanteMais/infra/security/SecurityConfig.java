@@ -49,6 +49,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/teacher/getAllStudentsFromClass").hasAnyAuthority("TEACHER","ADMIN")
                     .requestMatchers(HttpMethod.POST, "/assess/updateAssessment").hasAnyAuthority("TEACHER", "ADMIN")
                     .requestMatchers(HttpMethod.POST, "/assess/postStudentGrade").hasAuthority("TEACHER")
+                    .requestMatchers(HttpMethod.GET, "/grades/viewGrades").hasAuthority("STUDENT")
                     .requestMatchers(HttpMethod.GET, "/teacher/getAllClassesFromTeacher").hasAnyAuthority("TEACHER", "ADMIN")
                     .requestMatchers(HttpMethod.GET, "/admin/teacherDataManager/getAllTeacherFromClass").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.POST, "/assess/createNewAssessment").hasAnyAuthority("TEACHER","ADMIN")

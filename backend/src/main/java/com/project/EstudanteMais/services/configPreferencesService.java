@@ -12,6 +12,8 @@ public class configPreferencesService {
 
 
   //Admin preferences config
+
+  private int currentQuarterType = 1;
   private int quarterType = 3;
   private boolean enableQuarterRegistration = false;
 
@@ -33,6 +35,14 @@ public class configPreferencesService {
 
   public boolean isEnableQuarterRegistration() {
     return enableQuarterRegistration;
+  }
+
+  public int getCurrentQuarterType() {
+    return currentQuarterType;
+  }
+
+  public void setCurrentQuarterType(int currentQuarterType) {
+    this.currentQuarterType = currentQuarterType;
   }
 
   public void setEnableQuarterRegistration(boolean enableQuarterRegistration) {

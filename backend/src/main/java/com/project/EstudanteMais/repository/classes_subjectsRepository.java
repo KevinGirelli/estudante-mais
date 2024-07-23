@@ -13,4 +13,6 @@ public interface classes_subjectsRepository extends JpaRepository<classes_subjec
   List<classes_subjects> findBysubjects(subjects subject);
 
   classes_subjects findBysubjectsAndClasses(classes classes, subjects subject);
+
+  List<classes_subjects> findByclasses(classes classes);
 }

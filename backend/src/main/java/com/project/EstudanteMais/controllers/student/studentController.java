@@ -2,9 +2,7 @@ package com.project.EstudanteMais.controllers.student;
 
 import com.project.EstudanteMais.Entity.assessment;
 import com.project.EstudanteMais.Entity.dto.returnAssessmentDTO;
-import com.project.EstudanteMais.repository.assessmentRepository;
-import com.project.EstudanteMais.repository.classesRepository;
-import com.project.EstudanteMais.repository.studentRepository;
+import com.project.EstudanteMais.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +26,9 @@ public class studentController {
 
   @Autowired
   assessmentRepository assessmentRepository;
+
+  @Autowired
+  classes_subjectsRepository classesSubjectsRepository;
   @GetMapping("/getAssessments/{studentID}")
   public ResponseEntity getAssessments(@PathVariable(value = "studentID")String studentID){
       var getStudent = this.studentRepository.findBystudentID(UUID.fromString(studentID));
@@ -52,5 +53,22 @@ public class studentController {
       }else{
         return ResponseEntity.internalServerError().build();
       }
+  }
+
+  @GetMapping("/getSubjectsFromClasses/{studentID}")
+  public ResponseEntity getSubjectFromClass(@PathVariable(value = "studentID")String id){
+    var getStudent = this.studentRepository.findBystudentID(UUID.fromString(id));
+    List<String> subjects = new ArrayList<>();
+    if(getStudent != null){
+      var getClass = this.classesRepository.findByclassID(getStudent.getClasses().getClassID());
+      var Classessubjects = this.classesSubjectsRepository.findByclasses(getClass);
+      Classessubjects.forEach(s ->{
+        String add = s.getSubjects().getSubjectID().toString() + "," + s.getSubjects().getSubjectname();
+        subjects.add(add);
+      });
+
+      return ResponseEntity.ok(subjects);
+    }
+    return ResponseEntity.internalServerError().build();
   }
 }
