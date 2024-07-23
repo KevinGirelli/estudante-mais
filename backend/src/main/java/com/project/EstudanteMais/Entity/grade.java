@@ -30,7 +30,7 @@ public class grade {
   }
 
   @Column(name = "registrationDate",nullable = false)
-  private Date date;
+  private String date;
 
   @Column(name = "quarter",nullable = false)
   int quarter;
@@ -52,11 +52,11 @@ public class grade {
     this.gradeValue = gradeValue;
   }
 
-  public Date getDate() {
+  public String getDate() {
     return date;
   }
 
-  public void setDate(Date date) {
+  public void setDate(String date) {
     this.date = date;
   }
 
@@ -65,6 +65,23 @@ public class grade {
   }
 
   public void setQuarter(int quarter) {
+    this.quarter = quarter;
+  }
+
+  public grade(UUID gradeID, Float gradeValue, com.project.EstudanteMais.Entity.assessment assessment, com.project.EstudanteMais.Entity.student student, String date, int quarter) {
+    this.gradeID = gradeID;
+    this.gradeValue = gradeValue;
+    this.assessment = assessment;
+    this.student = student;
+    this.date = date;
+    this.quarter = quarter;
+  }
+
+  public grade(Float gradeValue, com.project.EstudanteMais.Entity.assessment assessment, com.project.EstudanteMais.Entity.student student, String date, int quarter) {
+    this.gradeValue = gradeValue;
+    this.assessment = assessment;
+    this.student = student;
+    this.date = date;
     this.quarter = quarter;
   }
 }

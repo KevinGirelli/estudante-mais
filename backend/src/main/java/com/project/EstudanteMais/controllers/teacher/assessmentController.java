@@ -2,11 +2,10 @@ package com.project.EstudanteMais.controllers.teacher;
 
 import com.project.EstudanteMais.Entity.assessment;
 import com.project.EstudanteMais.Entity.dto.createAssessmentDTO;
+import com.project.EstudanteMais.Entity.dto.postStudentGradeDTO;
 import com.project.EstudanteMais.Entity.dto.returnAssessmentDTO;
-import com.project.EstudanteMais.repository.assessmentRepository;
-import com.project.EstudanteMais.repository.classesRepository;
-import com.project.EstudanteMais.repository.subjectsRepository;
-import com.project.EstudanteMais.repository.teacherRepository;
+import com.project.EstudanteMais.Entity.grade;
+import com.project.EstudanteMais.repository.*;
 import com.project.EstudanteMais.services.notificationService.notificationDTO;
 import com.project.EstudanteMais.services.notificationService.notificationManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +34,12 @@ public class assessmentController {
 
   @Autowired
   notificationManager notificationManager;
+
+  @Autowired
+  studentRepository studentRepository;
+
+  @Autowired
+  gradeRepository gradeRepository;
 
   @PostMapping("/createNewAssessment")
   public ResponseEntity createNewAssessment(@RequestBody createAssessmentDTO asses){
@@ -78,5 +83,36 @@ public class assessmentController {
     }
 
     return ResponseEntity.internalServerError().build();
+  }
+
+  @PostMapping("/updateAssessment")
+  public ResponseEntity updateAssessment(@RequestBody returnAssessmentDTO asses){
+      this.assessmentRepository.updateAssessment(
+              asses.name(),
+              asses.date(),
+              UUID.fromString(asses.classID()),
+              UUID.fromString(asses.subjectID()),
+              UUID.fromString(asses.id())
+      );
+      return ResponseEntity.ok().build();
+  }
+
+  @PostMapping("/postStudentGrade")
+  public ResponseEntity postStudentGrade(@RequestBody postStudentGradeDTO newGrade){
+    var getStudent = this.studentRepository.findBystudentID(UUID.fromString(newGrade.studentID()));
+    var getAsses = this.assessmentRepository.findByassessmentID(UUID.fromString(newGrade.assessID()));
+
+    if(getStudent != null && getAsses != null){
+      grade grade = new grade(
+              newGrade.gradeValue(),
+              getAsses,
+              getStudent,
+              getAsses.getAssessmentDate(),
+              newGrade.quarter()
+      );
+      this.gradeRepository.save(grade);
+      return ResponseEntity.ok().build();
+    }
+    return ResponseEntity.badRequest().build();
   }
 }

@@ -50,7 +50,6 @@ export class ListAssessmentComponent implements OnInit {
 
     if (response.status == 200) {
       response.json().then(data => {
-        console.log(data)
         const keys = Object.keys(data)
         for (let i = 0; i <= keys.length - 1; i++) {
           const addAsses: Assessment = {
@@ -75,6 +74,7 @@ export class ListAssessmentComponent implements OnInit {
   }
 
   editAssessment(assessment: Assessment) {
-    this.router.navigate(['/teacher/assessments/edit', assessment.id]);
+    this.datasaver.setData(assessment)
+    this.router.navigate(['/teacher/assessments/edit']);
   }
 }

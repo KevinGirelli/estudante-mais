@@ -1,0 +1,26 @@
+<div class="assessments-container">
+  <div class="content">
+    <a href="/student" class="back pi pi-arrow-left"></a>
+    <h1>Minhas Notas</h1>
+    <div class="selects">
+      <p-dropdown 
+        [options]="subjects" 
+        [(ngModel)]="selectedSubject" 
+        placeholder="Selecione a matéria"
+        (onChange)="onSelectChange()">
+      </p-dropdown>
+      <p-dropdown 
+        [options]="periods" 
+        [(ngModel)]="selectedPeriod" 
+        placeholder="Selecione o período"
+        (onChange)="onSelectChange()">
+      </p-dropdown>
+    </div>
+    <div class="grades-list" *ngIf="grades.length > 0">
+      <p-listbox [options]="grades" optionLabel="label"></p-listbox>
+    </div>
+  </div>
+  <div class="image">
+    <img src="../../../../assets/images/teacher/assessments/studentGrades_image.png" alt="">
+  </div>
+</div>

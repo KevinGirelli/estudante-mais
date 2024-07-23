@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="assessments-container">
   <div class="content">
     <a href="/teacher/assessments" class="back pi pi-arrow-left"></a>
@@ -21,7 +22,7 @@
             </div>
             <div class="form-item">
               <label class="label" for="classes">Turma</label>
-              <select class="input-field" [(ngModel)]="classesSelected" id="classes">
+              <select class="input-field" [(ngModel)]="classesSelected" id="classes" (change)="onClassChange($event)">
                 <option *ngFor="let class of allClasses" [value]="class.id">{{ class.name }}</option>
               </select>
             </div>
