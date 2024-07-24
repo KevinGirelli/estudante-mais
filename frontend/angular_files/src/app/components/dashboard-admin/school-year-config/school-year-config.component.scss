@@ -1,0 +1,95 @@
+.school-year-config-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #FFF;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #292F47;
+  }
+
+  .form-item {
+    align-self: start;
+    margin: auto;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    
+    label {
+      font-size: 1rem;
+      color: #555555;
+      margin-bottom: 0.5rem;
+    }
+
+    ::ng-deep .custom-calendar .p-inputtext, 
+    ::ng-deep .custom-calendar .p-calendar {
+      box-shadow: none;
+      background-color: #EEE;
+    }
+
+    ::ng-deep .custom-calendar .p-inputtext {
+      background-color: #EEE;
+      width: 30vw;
+      height: 6vh;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    ::ng-deep .custom-dropdown .p-dropdown {
+      width: 30vw;
+      height: 6vh;
+      font-size: 1rem;
+      background-color: #EEE;
+      border: none;
+      box-shadow: none;
+      align-items: center;
+      text-align: center;
+      color: #292F47;
+    }
+
+    ::ng-deep .custom-dropdown .p-dropdown-label {
+      background-color: #EEE;
+      font-size: 1rem;
+    }
+
+    ::ng-deep .custom-dropdown .p-dropdown-items {
+      background-color: #FFF;
+      border: 1px solid #CCC;
+    }
+
+    ::ng-deep .custom-dropdown .p-dropdown-item {
+      font-size: 1rem;
+      color: #555555;
+
+      &:hover {
+        background-color: #EEE;
+        color: #292F47;
+      }
+    }
+  }
+
+  .submit-button {
+    width: 40%;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #9747FF;
+    border: none;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.5s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #6a3ce9;
+    }
+  }
+}

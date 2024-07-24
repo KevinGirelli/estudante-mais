@@ -19,6 +19,7 @@ import { MyAssessmentsComponent } from './components/dashboard-student/my-assess
 import { AttendanceComponent } from './components/dashboard-teacher/attendance/attendance.component';
 import { EditAssessmentComponent } from './components/dashboard-teacher/assessments/list-assessment/edit-assessment/edit-assessment.component';
 import { MyGradesComponent } from './components/dashboard-student/my-grades/my-grades.component';
+import { SchoolYearConfigComponent } from './components/dashboard-admin/school-year-config/school-year-config.component';
 
 export const routes: Routes = [
   { path: "403", component: Error403Component },
@@ -42,6 +43,8 @@ export const routes: Routes = [
   { path: "admin/teachers", component: TeachersComponent },
 
   { path: "admin/teachers/:editTeacher", component: TeacherEditComponent },
+
+  { path: "admin/school/year/config",  component: SchoolYearConfigComponent },
 
   { path: "teacher", component: DashboardTeacherComponent },
 
