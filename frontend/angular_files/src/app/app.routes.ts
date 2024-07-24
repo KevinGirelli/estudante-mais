@@ -20,6 +20,7 @@ import { AttendanceComponent } from './components/dashboard-teacher/attendance/a
 import { EditAssessmentComponent } from './components/dashboard-teacher/assessments/list-assessment/edit-assessment/edit-assessment.component';
 import { MyGradesComponent } from './components/dashboard-student/my-grades/my-grades.component';
 import { SchoolYearConfigComponent } from './components/dashboard-admin/school-year-config/school-year-config.component';
+import { ScheduleComponent } from './components/dashboard-admin/schedule/schedule.component';
 
 export const routes: Routes = [
   { path: "403", component: Error403Component },
@@ -43,6 +44,8 @@ export const routes: Routes = [
   { path: "admin/teachers", component: TeachersComponent },
 
   { path: "admin/teachers/:editTeacher", component: TeacherEditComponent },
+
+  { path: "admin/schedule", component: ScheduleComponent },
 
   { path: "admin/school/year/config",  component: SchoolYearConfigComponent },
 

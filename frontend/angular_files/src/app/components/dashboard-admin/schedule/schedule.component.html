@@ -1,0 +1,56 @@
+<div class="nav">
+  <div class="logo">
+    <a href="admin">
+      <img src="../../../../../assets/images/logo_estudante_mais.png" alt="Logo">
+      <h2>Estudante+</h2>
+    </a>
+  </div>
+  <a (click)="toggleMenu()" class="hamburger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </a>
+  <div class="overlay" [ngClass]="{'active': isMenuOpen}" (click)="toggleMenu()"></div>
+  <div class="menu" [ngClass]="{'active': isMenuOpen}">
+    <a (click)="toggleMenu()" class="close-menu">✖</a>
+    <ul>
+      <li><a href="admin/register">Cadastro</a></li>
+      <li><a href="admin/classes">Turmas</a></li>
+      <li><a href="admin/teachers">Professores</a></li>
+      <li><a href="admin/schedule">Horário</a></li>
+      <li><a href="admin/school/year/config">Ano Letivo</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="schedule-container">
+  <div class="schedule">
+    <div class="header">
+      <h1>Horário das Aulas</h1>
+      <button class="pi pi-trash" (click)="deleteSchedule()"></button>
+    </div>
+    <div class="schedule-table-container">
+      <ng-container *ngIf="timeSlots.length > 0; else noSchedule">
+        <p-table [value]="timeSlots" class="p-table">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Horário</th>
+              <th *ngFor="let class of classes">{{ class }}</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-slot>
+            <tr>
+              <td>{{ slot }}</td>
+              <td *ngFor="let class of classes">{{ getClassContent(class, slot) }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <button class="generate-schedule-button" (click)="generateNewSchedule()">Gerar Novo Horário</button>
+      </ng-container>
+      <ng-template #noSchedule>
+        <p class="no-schedule-message">Não possui um horário definido</p>
+        <button class="generate-schedule-button" (click)="generateNewSchedule()">Gerar Novo Horário</button>
+      </ng-template>
+    </div>
+  </div>
+</div>
