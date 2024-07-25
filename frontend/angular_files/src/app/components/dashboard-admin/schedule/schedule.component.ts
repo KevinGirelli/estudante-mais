@@ -27,6 +27,7 @@ export class ScheduleComponent {
   }
 
   fetchSchedule() {
+   
   }
 
   getClassContent(className: string, timeSlot: string): string {

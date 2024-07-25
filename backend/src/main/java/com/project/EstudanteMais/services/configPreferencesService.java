@@ -1,5 +1,6 @@
 package com.project.EstudanteMais.services;
 
+import com.project.EstudanteMais.services.genScheduleService.JsonModel.datamodelDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,12 +11,32 @@ public class configPreferencesService {
   //General system config
   private List<String> activeCodes = new ArrayList<String>();
 
+  private datamodelDTO scheduleModel = new datamodelDTO();
+
+
 
   //Admin preferences config
+  private boolean IsScheduleGenerated = false;
 
   private int currentQuarterType = 1;
   private int quarterType = 3;
   private boolean enableQuarterRegistration = false;
+
+  public datamodelDTO getScheduleModel() {
+    return scheduleModel;
+  }
+
+  public void setScheduleModel(datamodelDTO scheduleModel) {
+    this.scheduleModel = scheduleModel;
+  }
+
+  public boolean isScheduleGenerated() {
+    return IsScheduleGenerated;
+  }
+
+  public void setScheduleGenerated(boolean scheduleGenerated) {
+    IsScheduleGenerated = scheduleGenerated;
+  }
 
   public List<String> getActiveCodes() {
     return activeCodes;

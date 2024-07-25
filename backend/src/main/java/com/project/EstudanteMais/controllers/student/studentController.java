@@ -3,12 +3,10 @@ package com.project.EstudanteMais.controllers.student;
 import com.project.EstudanteMais.Entity.assessment;
 import com.project.EstudanteMais.Entity.dto.returnAssessmentDTO;
 import com.project.EstudanteMais.repository.*;
+import com.project.EstudanteMais.services.genScheduleService.callScheduleRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +24,9 @@ public class studentController {
 
   @Autowired
   assessmentRepository assessmentRepository;
+
+  @Autowired
+  callScheduleRequestService callScheduleRequestService;
 
   @Autowired
   classes_subjectsRepository classesSubjectsRepository;
@@ -70,5 +71,11 @@ public class studentController {
       return ResponseEntity.ok(subjects);
     }
     return ResponseEntity.internalServerError().build();
+  }
+
+  @PostMapping("/viewSchedule")
+  public ResponseEntity viewStudentClassSchedule(){
+    this.callScheduleRequestService.callRequest();
+    return ResponseEntity.ok().build();
   }
 }
