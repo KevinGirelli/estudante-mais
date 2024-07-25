@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { TableModule } from 'primeng/table';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-schedule',
@@ -21,6 +21,19 @@ export class ScheduleComponent {
   timeSlots: string[] = [];
   classes: string[] = [];
   schedule: { [key: string]: { [key: string]: string } } = {};
+
+  constructor(private http: HttpClient) {
+    this.schedule = {
+      '351': {
+        '07:45': 'Matemática (Prof. Márcio)',
+        '08:30': 'Português (Prof. Andréa)',
+        '09:15': 'História (Prof. Walbert)'
+      },
+    };
+
+    this.timeSlots = Array.from(new Set(Object.values(this.schedule).flatMap(day => Object.keys(day))));
+    this.classes = Object.keys(this.schedule);
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
