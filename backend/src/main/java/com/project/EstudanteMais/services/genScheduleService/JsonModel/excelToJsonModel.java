@@ -5,14 +5,14 @@ import java.util.List;
 
 public class excelToJsonModel {
     List<String> hours = new ArrayList<>();
-    List<String> classes = new ArrayList<>();
-    List<String> schedule = new ArrayList<>();
+    List<jsonClasses> classes = new ArrayList<>();
+
 
   public excelToJsonModel(){}
-  public excelToJsonModel(List<String> hours, List<String> classes, List<String> schedule) {
+
+  public excelToJsonModel(List<String> hours, List<jsonClasses> classes) {
     this.hours = hours;
     this.classes = classes;
-    this.schedule = schedule;
   }
 
   public List<String> getHours() {
@@ -23,19 +23,11 @@ public class excelToJsonModel {
     this.hours = hours;
   }
 
-  public List<String> getClasses() {
+  public List<jsonClasses> getClasses() {
     return classes;
   }
 
-  public void setClasses(List<String> classes) {
+  public void setClasses(List<jsonClasses> classes) {
     this.classes = classes;
-  }
-
-  public List<String> getSchedule() {
-    return schedule;
-  }
-
-  public void setSchedule(List<String> schedule) {
-    this.schedule = schedule;
   }
 }

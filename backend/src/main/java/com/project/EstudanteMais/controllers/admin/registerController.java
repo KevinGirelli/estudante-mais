@@ -148,4 +148,10 @@ public class registerController {
     this.subjectsRepository.save(newSubject);
     return ResponseEntity.ok("Subject created sucessfuly");
   }
+
+  @PostMapping("/registerQuarterType/{type}")
+  public ResponseEntity registerQuarterType(@PathVariable(value = "type")int type){
+    this.configService.setQuarterType(type);
+    return ResponseEntity.ok().build();
+  }
 }

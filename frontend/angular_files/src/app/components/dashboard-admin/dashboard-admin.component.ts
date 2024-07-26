@@ -25,8 +25,6 @@ export class DashboardAdminComponent implements OnInit {
       }
     }).then(res => {
       if(res.status == 403){
-        //redirecionar para pagina de não autorizado.
-        console.log("REDIRECT")
         this.router.navigate(["403"])
       }
     })

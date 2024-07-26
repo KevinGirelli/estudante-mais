@@ -87,12 +87,15 @@ public class scheduleController {
       this.callScheduleRequestService.callRequest();
       return ResponseEntity.ok().build();
     }
-
+    this.configPreferencesService.setScheduleGenerated(true);
     return ResponseEntity.status(HttpStatus.FOUND).body(this.configPreferencesService.getScheduleModel());
   }
 
   @GetMapping("/getSchedule")
   public ResponseEntity getSchedule() throws IOException {
-    return ResponseEntity.ok(this.callScheduleRequestService.convertExcelToJson());
+    if(this.configPreferencesService.isScheduleGenerated()){
+      return ResponseEntity.ok(this.callScheduleRequestService.convertExcelToJson());
+    }
+    return ResponseEntity.badRequest().body("Schedule doesnt exist.");
   }
 }

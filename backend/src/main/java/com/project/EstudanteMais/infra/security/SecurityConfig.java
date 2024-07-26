@@ -51,6 +51,8 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/assess/postStudentGrade").hasAuthority("TEACHER")
                     .requestMatchers(HttpMethod.GET, "/grades/viewGrades").hasAuthority("STUDENT")
                     .requestMatchers(HttpMethod.POST, "/student/viewSchedule").permitAll()
+                    .requestMatchers(HttpMethod.POST,"/admin/registerQuarterType").hasAuthority("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/grades/getCurrentType").hasAnyAuthority("TEACHER","ADMIN","STUDENT")
                     .requestMatchers(HttpMethod.POST,"/admin/schedule/genSchedule").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/admin/schedule/getSchedule").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/teacher/getAllClassesFromTeacher").hasAnyAuthority("TEACHER", "ADMIN")

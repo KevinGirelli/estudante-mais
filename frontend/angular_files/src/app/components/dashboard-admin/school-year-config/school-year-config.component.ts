@@ -36,27 +36,24 @@ export class SchoolYearConfigComponent {
   holidays: string = '';
   selectedYearType: string | null = null;
   yearTypes = [
-    { label: 'Bimestral', value: 'Bimestral' },
-    { label: 'Trimestral', value: 'Trimestral' }
+    { label: 'Bimestral', value: 2 },
+    { label: 'Trimestral', value: 3},
   ];
 
   toggleMenu() {
     this.isMenuOpen = true;
   }
 
-  saveConfig() {
-    console.log('Configuração salva:', {
-      startDate: this.startDate,
-      endDate: this.endDate,
-      holidays: this.holidays,
-      yearType: this.selectedYearType,
-      endBimester1: this.endBimester1,
-      endBimester2: this.endBimester2,
-      endBimester3: this.endBimester3,
-      endBimester4: this.endBimester4,
-      endTrimester1: this.endTrimester1,
-      endTrimester2: this.endTrimester2,
-      endTrimester3: this.endTrimester3
-    });
+  async saveConfig() {
+   const response = await fetch("http://localhost:8080/admin/registerQuarterType/" + this.selectedYearType,{
+    method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+   })
+
+   if(response.status == 200){
+    console.log("sucesso ao salvar")
+   }
   }
 }

@@ -1,9 +1,12 @@
 package com.project.EstudanteMais.services.genScheduleService;
 import com.google.gson.Gson;
+import com.project.EstudanteMais.Entity.classes;
 import com.project.EstudanteMais.Entity.dto.subjectsDTO;
+import com.project.EstudanteMais.repository.classesRepository;
 import com.project.EstudanteMais.services.configPreferencesService;
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.datamodelDTO;
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.excelToJsonModel;
+import com.project.EstudanteMais.services.genScheduleService.JsonModel.jsonClasses;
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.models.classDTO;
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.models.settingsDTO;
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.models.subjectDTO;
@@ -33,6 +36,9 @@ public class callScheduleRequestService {
   @Autowired
   configPreferencesService configPreferencesService;
 
+  @Autowired
+  classesRepository classesRepository;
+
   public void callRequest(){
     CloseableHttpClient httpClient = HttpClients.createDefault();
     HttpPost httpPost = new HttpPost("http://127.0.0.1:5000/genSchedule");
@@ -54,21 +60,42 @@ public class callScheduleRequestService {
   }
 
   public excelToJsonModel convertExcelToJson() throws IOException {
+    List<classes> allClasses = this.classesRepository.findAll();
+    int classesLength = allClasses.size();
+
     FileInputStream file = new FileInputStream("Schedule.xlsx");
     Workbook workbook = new XSSFWorkbook(file);
     excelToJsonModel jsonModel = new excelToJsonModel();
 
     Sheet sheet = workbook.getSheetAt(0);
     List<Row> rows = IteratorUtils.toList(sheet.iterator());
+    List<String> hours = new ArrayList<>();
+    List<jsonClasses> classesSchedule = new ArrayList<>();
+    int columnIndex = 1;
 
-    rows.forEach(row ->{
-      List<Cell> cells = IteratorUtils.toList(row.cellIterator());
-      cells.forEach(cell ->{
-        var temp = jsonModel.getClasses();
-        temp.add(cell.getStringCellValue());
-        jsonModel.setClasses(temp);
-      });
-    });
+    for(int i = 0; i <= classesLength; i++){
+      List<String> schedule = new ArrayList<>();
+      for (Row row : sheet) {
+        Cell cell = row.getCell(0);
+        Cell otherCells = row.getCell(columnIndex);
+        if(i == 0){
+          if (cell != null) {
+            hours.add(cell.getStringCellValue());
+          }
+        }
+
+        if(otherCells != null){
+          schedule.add(otherCells.getStringCellValue());
+        }
+      }
+      jsonClasses add = new jsonClasses(schedule);
+      classesSchedule.add(add);
+      jsonModel.setClasses(classesSchedule);
+      columnIndex++;
+    }
+
+    jsonModel.setClasses(classesSchedule);
+    jsonModel.setHours(hours);
     return jsonModel;
   }
   private static void saveFile(InputStream inputStream, String destFilePath) throws IOException {

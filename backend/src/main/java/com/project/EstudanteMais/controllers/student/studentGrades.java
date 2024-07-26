@@ -46,11 +46,10 @@ public class studentGrades {
     List<postStudentGradeDTO> formatGrades = new ArrayList<>();
     if(getStudent != null){
       List<assessment> studentAssess = this.assessmentRepository.findByclassesAndSubjects(getStudent.getClasses(),getSubject);
-      System.out.println(studentAssess);
       studentAssess.forEach(s -> {
         List<grade> studentGrades = this.gradeRepository.findByStudentAndQuarterAndAssessment(
                 getStudent,
-                this.configPreferencesService.getCurrentQuarterType(),
+                Integer.parseInt(split[2]),
                 s
         );
         studentGrades.forEach(g ->{
@@ -67,5 +66,10 @@ public class studentGrades {
       return ResponseEntity.ok(formatGrades);
     }
     return ResponseEntity.internalServerError().build();
+  }
+
+  @GetMapping("/getCurrentType")
+  public ResponseEntity getCurrentType(){
+    return ResponseEntity.ok(this.configPreferencesService.getCurrentQuarterType());
   }
 }

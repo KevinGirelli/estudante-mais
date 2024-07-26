@@ -14,13 +14,14 @@ public class configPreferencesService {
   private datamodelDTO scheduleModel = new datamodelDTO();
 
 
-
   //Admin preferences config
-  private boolean IsScheduleGenerated = false;
+  private boolean IsScheduleGenerated = true;
 
-  private int currentQuarterType = 1;
   private int quarterType = 3;
+  private int currentQuarterType = 1 ;
+
   private boolean enableQuarterRegistration = false;
+
 
   public datamodelDTO getScheduleModel() {
     return scheduleModel;
