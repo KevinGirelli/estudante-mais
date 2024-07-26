@@ -118,3 +118,46 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .assessments-container {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+
+    .content {
+      width: 100%;
+      margin-left: 0;
+      box-shadow: none;
+
+      .back {
+        margin: 2vh 3vw;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        margin-top: 2vh;
+      }
+
+      .form-item {
+        .input-field {
+          width: 90%;
+        }
+
+        ::ng-deep .custom-calendar .p-inputtext {
+          width: 90%;
+        }
+      }
+
+      button {
+        width: 90%;
+      }
+    }
+
+    .image {
+      img {
+        display: none;
+      }
+    }
+  }
+}

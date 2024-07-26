@@ -43,12 +43,12 @@
       justify-content: space-between;
       width: 50%;
       margin-left: 3.2vw;
-      
+
       .form-item {
         .label {
           margin-left: 0;
-          align-self: start;    
-          
+          align-self: start;
+
           &.label-qtd {
             margin-left: 9.2vw;
           }
@@ -59,14 +59,14 @@
           width: 12vw;
           height: 6vh;
         }
-        
+
         .qtd {
           margin-left: 11vw;
           display: flex;
           width: 12vw;
           height: 6vh;
           align-items: center;
-          
+
           .input-number {
             width: 4vw;
             height: 6vh;
@@ -95,7 +95,7 @@
             padding: 2px;
             color: #fff;
             border: none;
-            
+
             &:hover {
               background-color: #6F2EEB;
             }
@@ -138,9 +138,9 @@
           outline: none;
           box-shadow: none;
         }
-      }  
+      }
 
-      ::ng-deep .custom-calendar .p-inputtext, 
+      ::ng-deep .custom-calendar .p-inputtext,
       ::ng-deep .custom-calendar .p-calendar {
         border: none;
         box-shadow: none;
@@ -212,6 +212,87 @@
   }
 }
 
+@media (max-width: 768px) {
+  .attendance-container {
+    flex-direction: column;
+
+    .content {
+      width: 100%;
+      margin: 0 auto;
+      padding: 0;
+
+      .back {
+        margin: 2vh;
+      }
+
+      h1 {
+        margin: 3vh 0;
+        text-align: center;
+      }
+
+      .header-item {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+
+        .form-item {
+          .label {
+            margin-left: 0;
+            text-align: center;
+            
+            &.label-qtd {
+              margin-left: 0;
+            }
+          }
+
+          .input-field {
+            width: 100%;
+          }
+
+          .qtd {
+            margin-left: 0;
+            width: 100%;
+
+            .input-number {
+              width: 20%;
+            }
+
+            .btn-quantity {
+              width: 8%;
+            }
+          }
+        }
+      }
+
+      .form-item {
+        width: 80%;
+
+        .label {
+          text-align: center;
+          margin-left: 0;
+        }
+
+        .input-field {
+          width: 100%;
+        }
+
+        .modal-button {
+          width: 100%;
+        }
+      }
+
+      .submit-button {
+        width: 80%;
+      }
+    }
+
+    .image {
+      display: none;
+    }
+  }
+}
+
 :host ::ng-deep .p-dialog .p-dialog-header {
   background-color: #9747FF;
   color: #ffffff;
@@ -241,11 +322,12 @@
     align-items: center;
     padding: 0.5rem 0;
     border-bottom: 1px solid #eee;
-  
+
     span {
       min-width: 38vw;
       margin-left: 1vw;
     }
+
     .btn-attendance {
       min-width: 3vw;
       padding: 0.5rem 1rem;
@@ -261,7 +343,7 @@
     display: flex;
     justify-content: center;
     margin-top: 4vh;
-    
+
     .save-button {
       width: 30vw;
       height: 6vh;
@@ -274,7 +356,7 @@
       border-radius: 4px;
       transition: 0.5s;
       cursor: pointer;
-  
+
       &:hover {
         background-color: #6F2EEB;
       }

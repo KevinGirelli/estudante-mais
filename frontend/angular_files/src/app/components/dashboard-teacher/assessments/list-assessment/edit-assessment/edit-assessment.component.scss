@@ -196,3 +196,67 @@
   }
 }
 
+@media (max-width: 768px) {
+  .assessments-container {
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+
+    .content {
+      width: 100%;
+      margin: 0 auto;
+      padding: 3px;
+
+      .back {
+        margin: 4vh 4vw;
+      }
+
+      h1 {
+        margin: 3vh 0;
+        text-align: center;
+      }
+
+      .status {
+        .pi {
+          width: 2rem;
+          height: 2rem;
+          font-size: 1rem;
+        }
+      }
+
+      .form-item .label {
+        font-size: 16px;
+      }
+
+      .form-item .input-field {
+        width: 100%;
+        font-size: 16px;
+      }
+
+      .submit-button {
+        width: 100%;
+        font-size: 16px;
+        align-self: center;
+        margin: 2vh 0;
+      }
+
+      .listbox-container {
+        width: 100%;
+      }
+
+      .student-item span {
+        font-size: 1rem;
+      }
+
+      .student-item .input-number {
+        width: 20%;
+        font-size: 16px;
+      }
+    }
+
+    .image {
+      display: none;
+    }
+  }
+}

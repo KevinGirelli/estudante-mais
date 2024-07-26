@@ -88,7 +88,6 @@
             &:focus {
               outline: none;
               border-color: #9747FF;
-              box-shadow: 0 0 0 0.2rem rgba(151, 71, 255, 0.25);
             }
           }
       
@@ -117,6 +116,65 @@
       margin-top: 20vh;
       width: 55vw;
       height: 65vh;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .assessments-container {
+    flex-direction: column;
+    overflow: hidden;
+
+    .content {
+      width: 100%;
+      margin: 0 auto;
+      padding: 3px;
+
+      .back {
+        margin: 2vh;
+      }
+
+      h1 {
+        margin: 3vh 0;
+        text-align: center;
+      }
+
+      .search-bar {
+        width: 100%;
+        margin-bottom: 2vh;
+
+        .p-input-icon-left {
+          max-width: 100%;
+        }
+
+        input {
+          max-width: 100%;
+        }
+      }
+
+      ::ng-deep {
+        .p-datatable {
+          width: 100%;
+          overflow-x: auto;
+          border-collapse: collapse;
+          box-sizing: border-box;
+          max-width: 100%;
+        }
+
+        .p-datatable .p-datatable-thead > tr > th {
+          font-size: 16px;
+          white-space: normal;
+        }
+
+        .p-datatable-tbody > tr > td {
+          font-size: 14px;
+          white-space: normal;
+        }
+      }
+    }
+
+    .image {
+      display: none;
     }
   }
 }

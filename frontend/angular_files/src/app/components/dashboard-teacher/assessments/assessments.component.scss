@@ -81,3 +81,36 @@
     }
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .assessments-container {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+
+    .image {
+      img {
+        display: none;
+      }
+    }
+
+    .text {
+      width: 100%;
+      box-shadow: none;
+      h1 {
+        margin-top: 5vh;
+      }
+      p {
+        max-width: 90%;
+        margin-top: 5vh;
+      }
+      .btns {
+        width: 90%;
+        margin-top: 5vh;
+        a {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
