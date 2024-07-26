@@ -1,8 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { TableModule } from 'primeng/table';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+
+interface ClassSchedule {
+  time: string;
+  subject: string;
+}
+
+interface ClassData {
+  className: string;
+  classSchedule: ClassSchedule[];
+}
 
 @Component({
   selector: 'app-schedule',
@@ -19,20 +29,14 @@ import { Router } from '@angular/router';
 })
 export class ScheduleComponent implements OnInit {
   isMenuOpen = false;
-  timeSlots: string[] = [];
+  timeSlots: { time: string }[] = [];
   classes: string[] = [];
   schedule: { [key: string]: { [key: string]: string } } = {};
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.schedule = {
-      '351': {
-        '07:45': 'Matemática (Prof. Márcio)',
-        '08:30': 'Português (Prof. Andréa)',
-        '09:15': 'História (Prof. Walbert)'
-      },
-    };
+  constructor(private router: Router) {
 
-    this.timeSlots = Array.from(new Set(Object.values(this.schedule).flatMap(day => Object.keys(day))));
+    this.timeSlots = Array.from(new Set(Object.values(this.schedule).flatMap(day => Object.keys(day))))
+                          .map(time => ({ time }));
     this.classes = Object.keys(this.schedule);
   }
 
@@ -42,20 +46,30 @@ export class ScheduleComponent implements OnInit {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
-    })
+    });
 
     if(response.status == 403){
-      this.router.navigate(["403"])
+      this.router.navigate(["403"]);
     }
 
     if(response.status == 200){
-      response.json().then(data =>{
-        for(let i = 0; i <= data.classes.length-1; i++){
-            for(let c = 0; c <= data.classes[i].classSchedule.length-1; c++){
-              
+      response.json().then((data: { classes: ClassData[] }) => {
+        this.schedule = {
+          
+        };
+        this.classes = data.classes.map(c => c.className);
+        for(let i = 0; i < data.classes.length; i++){
+          for(let j = 0; j < data.classes[i].classSchedule.length; j++){
+            const classSchedule = data.classes[i].classSchedule[j];
+            if(!this.schedule[data.classes[i].className]){
+              this.schedule[data.classes[i].className] = {};
             }
+            this.schedule[data.classes[i].className][classSchedule.time] = classSchedule.subject;
+          }
         }
-      })
+        this.timeSlots = Array.from(new Set(Object.values(this.schedule).flatMap(day => Object.keys(day))))
+                              .map(time => ({ time }));
+      });
     }
   }
 
@@ -64,7 +78,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   fetchSchedule() {
-   
+    
   }
 
   getClassContent(className: string, timeSlot: string): string {
@@ -76,6 +90,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   deleteSchedule() {
-
+    
   }
 }
