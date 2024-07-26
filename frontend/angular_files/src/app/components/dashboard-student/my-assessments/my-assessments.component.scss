@@ -3,18 +3,19 @@
   width: 100vw;
   height: 100vh;
   align-items: center;
+  overflow: hidden;
 
   .content {
-    align-items: center;
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 100%;
     margin-left: 5vw;
     height: 100%;
     background-color: #FFFFFF;
     box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.3);
     z-index: 1;
-    padding: 20px;
+    padding: 10px;
+    box-sizing: border-box;
 
     .back {
       align-self: flex-start;
@@ -35,17 +36,26 @@
     h1 {
       margin: 5vh 0;
       color: #292F47;
+      align-self: center;
     }
 
     ::ng-deep {
+      .p-datatable {
+        width: 100%;
+        overflow-x: auto;
+        border-collapse: collapse;
+        box-sizing: border-box;
+      }
+
       .p-datatable .p-datatable-thead > tr > th {
-        padding: 0.7rem;
-        font-size: 18px;
+        padding: 0.5rem;
+        font-size: calc(0.5rem + 1vw);
         text-align: center;
         background-color: #9747FF;
         border-bottom: 2px solid #ccc;
         color: #FFFFFF;
-        width: 25%;
+        white-space: nowrap;
+        box-sizing: border-box;
       }
 
       .p-datatable-tbody > tr {
@@ -59,46 +69,48 @@
       }
 
       .p-datatable-tbody > tr > td {
-        font-size: 16px;
+        font-size: calc(0.4rem + 0.8vw);
         padding: 0.5rem;
         border-bottom: 1px solid #e0e0e0;
         text-align: center;
+        white-space: nowrap;
+        box-sizing: border-box;
       }
-      
+
       .search-bar {
         background-color: #fff;
         border: none;
         margin-bottom: 1vh;
-        
+        width: 100%;
+
         .p-input-icon-left {
           width: 100%;
-          max-width: 79vw;
           position: relative;
-      
+
           input {
             width: 100%;
             padding-left: 2.5rem;
             border: 1px solid #ccc;
             border-radius: 4px;
-            height: 38px;
-            font-size: 16px;
+            height: 2.5rem;
+            font-size: calc(0.8rem + 0.5vw);
             transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
             color: #555;
-      
+
             &:focus {
               outline: none;
               border-color: #9747FF;
               box-shadow: 0 0 0 0.2rem rgba(151, 71, 255, 0.25);
             }
           }
-      
+
           .pi {
             position: absolute;
             left: 0.75rem;
             top: 50%;
             transform: translateY(-50%);
             color: #ccc;
-            font-size: 1rem;
+            font-size: calc(0.8rem + 0.5vw);
           }
         }
       }
@@ -117,6 +129,65 @@
       margin-top: 15vh;
       width: 55vw;
       height: 70vh;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .assessments-container {
+    flex-direction: column;
+    overflow: hidden;
+
+    .content {
+      width: 100%;
+      margin: 0 auto;
+      padding: 3px;
+
+      .back {
+        margin: 2vh;
+      }
+
+      h1 {
+        margin: 3vh 0;
+        text-align: center;
+      }
+
+      .search-bar {
+        width: 100%;
+        margin-bottom: 2vh;
+
+        .p-input-icon-left {
+          max-width: 100%;
+        }
+
+        input {
+          max-width: 100%;
+        }
+      }
+
+      ::ng-deep {
+        .p-datatable {
+          width: 100%;
+          overflow-x: auto;
+          border-collapse: collapse;
+          box-sizing: border-box;
+          max-width: 100%;
+        }
+
+        .p-datatable .p-datatable-thead > tr > th {
+          font-size: 16px;
+          white-space: normal;
+        }
+
+        .p-datatable-tbody > tr > td {
+          font-size: 14px;
+          white-space: normal;
+        }
+      }
+    }
+
+    .image {
+      display: none;
     }
   }
 }

@@ -118,40 +118,47 @@
   }
 }
 
+@media (max-width: 768px) {
+  .assessments-container {
+    flex-direction: column;
 
-:host ::ng-deep .p-dialog .p-dialog-content {
-  padding: 2rem;
+    .content {
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px;
 
-  ::ng-deep .p-listbox {
-    width: 100% !important;
-    margin: 0 auto;
-
-    .p-listbox-list-wrapper {
-      width: 100% !important;
-      overflow-x: hidden;
-    }
-
-    .p-listbox-list {
-      width: 100% !important;
-    }
-
-    .p-listbox-item {
-      width: 100% !important;
-    }
-
-    .subject-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 0.75rem;
-
-      span {
-        flex-grow: 1;
-        font-size: 1rem;
-        color: #292F47;
-        min-width: 70%;
-        width: 18.5vw;
+      .back {
+        margin: 2vh 0;
       }
+
+      h1 {
+        margin: 3vh 0;
+        text-align: center;
+      }
+
+      .selects {
+        p-dropdown {
+          width: 80vw;
+        }
+      }
+
+      .grades-list {
+        width: 80vw;
+      }
+
+      ::ng-deep {
+        .p-datatable .p-datatable-thead > tr > th {
+          font-size: 16px;
+        }
+
+        .p-datatable-tbody > tr > td {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .image {
+      display: none;
     }
   }
 }
