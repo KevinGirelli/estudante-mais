@@ -5,6 +5,11 @@
       <h2>Estudante+</h2>
     </a>
   </div>
+  <div class="welcome-message">
+    <span class="pi pi-user"></span>
+    <h2>Olá, {{ studentName }}</h2>
+  </div>
+  <i class="pi pi-bell" (click)="testNotification()"></i>
   <a (click)="toggleMenu()" class="hamburger-menu">
     <span></span>
     <span></span>
@@ -19,3 +24,4 @@
     </ul>
   </div>
 </div>
+<p-toast></p-toast>

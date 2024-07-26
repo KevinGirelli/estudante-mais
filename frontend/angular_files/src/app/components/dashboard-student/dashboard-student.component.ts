@@ -1,48 +1,79 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-dashboard-student',
   standalone: true,
   imports: [
-    NgClass
+    NgClass,
+    ToastModule,
   ],
   templateUrl: './dashboard-student.component.html',
-  styleUrl: './dashboard-student.component.scss'
+  styleUrls: ['./dashboard-student.component.scss'],
+  providers: [
+    MessageService
+  ]
 })
 export class DashboardStudentComponent implements OnInit {
   isMenuOpen = false;
+  studentName: string = 'Kévin Girelli';
 
-  constructor (private router: Router) {}
+  constructor(private router: Router, private messageService: MessageService) {}
 
   async ngOnInit(): Promise<void> {
-      await fetch("http://localhost:8080/auth/verifyStudentToken",{
+    try {
+      const verifyResponse = await fetch("http://localhost:8080/auth/verifyStudentToken", {
         method: "POST",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
-      }).then(res => {
-        if(res.status == 403){
-          //redirecionar para pagina de não autorizado.
-          console.log("REDIRECT");
-          this.router.navigate(["403"])
-        }
-      })
+      });
 
-      const response = await fetch("http://localhost:8080/notification/getNotifications/" + localStorage.getItem("userID"),{
+      if (verifyResponse.status === 403) {
+        console.log("REDIRECT");
+        this.router.navigate(["403"]);
+        return;
+      }
+
+      const notificationResponse = await fetch("http://localhost:8080/notification/getNotifications/" + localStorage.getItem("userID"), {
         method: "GET",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
-      })
+      });
 
-     
-      if(response.status == 200){
-        response.json().then(data =>{
-          console.log(data)
-        })
+      if (notificationResponse.status === 200) {
+        const notifications = await notificationResponse.json();
+        notifications.forEach((notification: any) => {
+          this.messageService.add({
+            severity: notification.severity,
+            summary: notification.summary,
+            detail: notification.detail
+          });
+        });
       }
+
+      const userResponse = await fetch("http://localhost:8080/user/getUser/" + localStorage.getItem("userID"), {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      });
+
+      if (userResponse.status === 200) {
+        const userData = await userResponse.json();
+        this.studentName = userData.name;
+      }
+    } catch (error) {
+      console.error("Failed to fetch", error);
+    }
+  }
+
+  testNotification() {
+    this.messageService.add({ severity: 'success', summary: 'Teste', detail: 'Teste bombando' });
   }
 
   toggleMenu() {
