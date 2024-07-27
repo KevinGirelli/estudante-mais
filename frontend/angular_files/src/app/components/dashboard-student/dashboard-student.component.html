@@ -5,10 +5,6 @@
       <h2>Estudante+</h2>
     </a>
   </div>
-  <div class="welcome-message">
-    <span class="pi pi-user"></span>
-    <h2>Olá, {{ studentName }}</h2>
-  </div>
   <a (click)="toggleMenu()" class="hamburger-menu">
     <span></span>
     <span></span>
@@ -24,3 +20,28 @@
   </div>
 </div>
 <p-toast></p-toast>
+
+<div class="content">
+  <div class="welcome-content">
+    <div class="welcome-message">
+      <div class="welcome-icon">
+        <span class="pi pi-user"></span>
+        <h2>Olá,<span>{{ studentName }}</span></h2>
+      </div>
+      <div class="welcome-text">
+        <p>Descubra ferramentas e recursos para conectar você à educação!</p>
+        <ul>
+          <li>Suas notas</li>
+          <li>Sua frequência</li>
+          <li>Informações sobre avaliações</li>
+          <li>Comunicação com seus professores</li>
+          <li>Horário das suas aulas</li>
+        </ul>
+        <p>Explore e aproveite ao máximo o <strong>Estudante+</strong></p>
+      </div>
+    </div>
+    <div class="welcome-image">
+      <img src="../../../assets/images/dashboard_main/welcome_image.png" alt="Welcome Image">
+    </div>
+  </div>
+</div>
