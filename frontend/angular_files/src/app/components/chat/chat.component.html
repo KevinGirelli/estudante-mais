@@ -1,0 +1,31 @@
+<div class="chat-container">
+  <div class="sidebar" [ngClass]="{'expanded': sidebarExpanded}">
+    <a (click)="back()" class="back pi pi-arrow-left"></a>
+    <h3>Minhas Conversas</h3>
+    <div class="conversation-list" *ngIf="sidebarExpanded">
+      <button *ngFor="let conversation of conversations"
+              pButton
+              label="{{ conversation }}"
+              (click)="loadConversation(conversation)"
+              [class.active]="conversation === currentConversation">
+      </button>
+    </div>
+  </div>
+  <div class="chat-window">
+    <div class="messages">
+      <div *ngFor="let message of messages" class="message" [ngClass]="{'aluno': message.sender === 'Aluno', 'professor': message.sender === 'Professor'}">
+        <div class="message-content">
+          <strong>{{ message.sender }}:</strong> {{ message.content }}
+        </div>
+        <div class="timestamp">{{ message.timestamp | date:'shortTime' }}</div>
+      </div>
+    </div>
+    <div class="input-container">
+      <input pInputText [(ngModel)]="newMessage" placeholder="Digite uma mensagem..." />
+      <button type="button" class="send-button" (click)="sendMessage()">
+        <i class="pi pi-send"></i>
+      </button>
+    </div>
+    <button class="toggle-user-button" (click)="toggleUser()">Alternar para {{ currentUser === 'Aluno' ? 'Professor' : 'Aluno' }}</button>
+  </div>
+</div>
