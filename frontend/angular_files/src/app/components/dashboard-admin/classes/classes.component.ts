@@ -89,5 +89,9 @@ export class ClassesComponent implements OnInit {
       this.router.navigate(['admin/class/teacher', this.selectedClass.classID]);
     }
   }
+
+  logout() {
+    
+  }
   
 }

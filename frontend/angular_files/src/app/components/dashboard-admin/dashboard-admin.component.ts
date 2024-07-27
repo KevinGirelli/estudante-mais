@@ -34,4 +34,8 @@ export class DashboardAdminComponent implements OnInit {
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
+
+  logout() {
+    
+  }
 }

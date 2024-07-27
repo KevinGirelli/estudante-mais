@@ -237,4 +237,8 @@ export class TeacherEditComponent implements OnInit {
       console.error("Erro na requisição:", error);
     }
   }
+
+  logout() {
+    
+  }
 }

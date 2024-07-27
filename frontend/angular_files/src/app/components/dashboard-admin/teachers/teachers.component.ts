@@ -87,4 +87,8 @@ export class TeachersComponent implements OnInit  {
     this.dataSaverService.setData(teacher);
     this.router.navigate(['/admin/teachers', teacher.teacherID]);
   }
+
+  logout() {
+    
+  }
 }

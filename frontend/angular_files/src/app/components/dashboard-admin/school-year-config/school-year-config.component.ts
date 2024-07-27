@@ -56,4 +56,8 @@ export class SchoolYearConfigComponent {
     console.log("sucesso ao salvar")
    }
   }
+
+  logout() {
+    
+  }
 }

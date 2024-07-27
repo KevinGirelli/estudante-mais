@@ -86,4 +86,8 @@ export class ScheduleComponent implements OnInit {
   deleteSchedule() {
     
   }
+
+  logout() {
+    
+  }
 }

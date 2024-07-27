@@ -75,4 +75,8 @@ export class TeachersFromClassComponent implements OnInit{
   getSubjectsString(subjects: Subject[]): string {
     return subjects.map(subject => subject.name).join(', ');
   }
+
+  logout() {
+    
+  }
 }

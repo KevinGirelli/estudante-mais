@@ -70,4 +70,8 @@ export class StudentsFromClassComponent implements OnInit {
     this.datasaver.setData([student, this.datasaver.getData()]);
     this.router.navigate(['admin/class/students/classStudent', student.fullname]);
   }
+
+  logout() {
+    
+  }
 }

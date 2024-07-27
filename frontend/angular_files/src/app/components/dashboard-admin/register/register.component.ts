@@ -280,4 +280,8 @@ export class RegisterComponent implements OnInit {
     });
     this.visible = false
   }
+
+  logout() {
+    
+  }
 }

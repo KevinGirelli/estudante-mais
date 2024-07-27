@@ -79,4 +79,8 @@ export class DashboardTeacherComponent implements OnInit {
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
+  
+  logout() {
+    
+  }
 }

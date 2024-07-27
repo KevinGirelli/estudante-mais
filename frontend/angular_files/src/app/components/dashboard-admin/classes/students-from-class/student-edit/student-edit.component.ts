@@ -166,4 +166,8 @@ export class StudentEditComponent implements OnInit {
   back() {
     this.router.navigate(['admin/students/']);
   }
+
+  logout() {
+    
+  }
 }
