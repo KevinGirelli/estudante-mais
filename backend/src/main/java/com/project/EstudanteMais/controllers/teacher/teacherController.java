@@ -2,6 +2,7 @@ package com.project.EstudanteMais.controllers.teacher;
 
 import com.project.EstudanteMais.Entity.TeacherClasses;
 import com.project.EstudanteMais.Entity.dto.classesDTO;
+import com.project.EstudanteMais.Entity.dto.postStudentGradeDTO;
 import com.project.EstudanteMais.Entity.dto.subjectsDTO;
 import com.project.EstudanteMais.Entity.dto.teachersDTO;
 import com.project.EstudanteMais.Entity.teacherSubject;
@@ -25,6 +26,9 @@ public class teacherController {
   teacherRepository teacherRepository;
 
   @Autowired
+  assessmentRepository assessmentRepository;
+
+  @Autowired
   subjectsRepository subjectsRepository;
 
   @Autowired
@@ -32,6 +36,9 @@ public class teacherController {
 
   @Autowired
   studentRepository studentRepository;
+
+  @Autowired
+  gradeRepository gradeRepository;
 
   @Autowired
   classesRepository classesRepository;
@@ -76,11 +83,37 @@ public class teacherController {
     return ResponseEntity.internalServerError().build();
   }
 
-  @GetMapping("/getAllStudentsFromClass/{classID}")
-  public ResponseEntity getAllStudentsFromClass(@PathVariable(value = "classID") String id){
-    var allStudents = this.studentRepository.getAllStudentFromClass(UUID.fromString(id));
+  @GetMapping("/getAllStudentsFromClass/{ids}")
+  public ResponseEntity getAllStudentsFromClass(@PathVariable(value = "ids") String id){
+    var split = id.split(",");
+    var allStudents = this.studentRepository.getAllStudentFromClass(UUID.fromString(split[1]));
+    var getAssess = this.assessmentRepository.findByassessmentID(UUID.fromString(split[0]));
+    List<postStudentGradeDTO> students = new ArrayList<>();
+
     if(allStudents != null){
-      return ResponseEntity.ok(allStudents);
+      allStudents.forEach(s ->{
+        var getGrade = this.gradeRepository.findByAssessmentAndStudent(getAssess,this.studentRepository.findBystudentID(s.getStudentID()));
+        if(getGrade != null){
+          postStudentGradeDTO add = new postStudentGradeDTO(
+                  getGrade.getGradeValue(),
+                  s.getStudentID().toString(),
+                  getAssess.getAssessmentID().toString(),
+                  s.getStudent_fullname(),
+                  0
+          );
+          students.add(add);
+        }else{
+          postStudentGradeDTO add = new postStudentGradeDTO(
+                  0,
+                  s.getStudentID().toString(),
+                  getAssess.getAssessmentID().toString(),
+                  s.getStudent_fullname(),
+                  0
+          );
+          students.add(add);
+        }
+      });
+      return ResponseEntity.ok(students);
     }else{
       return ResponseEntity.internalServerError().build();
     }

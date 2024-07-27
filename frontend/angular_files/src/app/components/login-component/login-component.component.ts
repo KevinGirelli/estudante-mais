@@ -58,8 +58,10 @@ export class LoginComponentComponent {
               this.router.navigate(["admin"]);
             } else if (res.body.type === 0o10) {
               localStorage.setItem("userID", res.body.userID)
+              localStorage.setItem("username", res.body.username)
               this.router.navigate(["student"]);
             } else if (res.body.type === 0o1) {
+              localStorage.setItem("username", res.body.username)
               localStorage.setItem("userID", res.body.userID)
               this.router.navigate(["teacher"]);
             }
@@ -116,10 +118,12 @@ export class LoginComponentComponent {
               this.router.navigate(["admin"]);
             }
             if(data.type == 0o10){
+              localStorage.setItem("username", data.username)
               localStorage.setItem("userID", data.userID)
               this.router.navigate(["student"]);
             }
             if(data.type == 0o1){
+              localStorage.setItem("username", data.username)
               localStorage.setItem("userID", data.userID)
               this.router.navigate(["teacher"]);
             }

@@ -19,7 +19,7 @@ import { MessageService } from 'primeng/api';
 })
 export class DashboardTeacherComponent implements OnInit {
   isMenuOpen = false;
-  teacherName: string = 'Evando Vieira';
+  teacherName: any = localStorage.getItem("username");
 
   constructor(private router: Router, private messageService: MessageService) {}
 

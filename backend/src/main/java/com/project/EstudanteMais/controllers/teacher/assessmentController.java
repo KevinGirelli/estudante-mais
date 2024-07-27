@@ -6,6 +6,7 @@ import com.project.EstudanteMais.Entity.dto.postStudentGradeDTO;
 import com.project.EstudanteMais.Entity.dto.returnAssessmentDTO;
 import com.project.EstudanteMais.Entity.grade;
 import com.project.EstudanteMais.repository.*;
+import com.project.EstudanteMais.services.UUIDformatter;
 import com.project.EstudanteMais.services.configPreferencesService;
 import com.project.EstudanteMais.services.notificationService.notificationDTO;
 import com.project.EstudanteMais.services.notificationService.notificationManager;
@@ -21,6 +22,8 @@ import java.util.UUID;
 @RequestMapping("/assess")
 public class assessmentController {
 
+  @Autowired
+  UUIDformatter uuiDformatter;
   @Autowired
   teacherRepository teacherRepository;
 
@@ -107,6 +110,16 @@ public class assessmentController {
     var getAsses = this.assessmentRepository.findByassessmentID(UUID.fromString(newGrade.assessID()));
 
     if(getStudent != null && getAsses != null){
+      var checkGrade = this.gradeRepository.findByAssessmentAndStudent(getAsses,getStudent);
+      if(checkGrade != null){
+          this.gradeRepository.updateStudentGradeValue(newGrade.gradeValue(),getStudent.getStudentID());
+          String notificationName = "Sua nota em " + getAsses.getAssessmentName() + ", foi alterada";
+          notificationDTO newNotification = new notificationDTO(UUID.randomUUID().toString(),notificationName,
+                  this.uuiDformatter.formatUuid(getStudent.getStudentID()));
+          this.notificationManager.CreateNotification(newNotification);
+          return ResponseEntity.ok().build();
+      }
+
       grade grade = new grade(
               newGrade.gradeValue(),
               getAsses,
@@ -115,6 +128,11 @@ public class assessmentController {
               this.configPreferencesService.getCurrentQuarterType()
       );
       this.gradeRepository.save(grade);
+
+      String notificationName = "Sua nota em " + getAsses.getAssessmentName() + ", foi postada";
+      notificationDTO newNotification = new notificationDTO(UUID.randomUUID().toString(),notificationName,
+              this.uuiDformatter.formatUuid(getStudent.getStudentID()));
+      this.notificationManager.CreateNotification(newNotification);
       return ResponseEntity.ok().build();
     }
     return ResponseEntity.badRequest().build();

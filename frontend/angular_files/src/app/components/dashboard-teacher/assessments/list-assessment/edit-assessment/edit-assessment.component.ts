@@ -110,7 +110,7 @@ export class EditAssessmentComponent implements OnInit {
       })
     }
 
-    const response3 = await fetch("http://localhost:8080/teacher/getAllStudentsFromClass/" + this.classesSelected,{
+    const response3 = await fetch("http://localhost:8080/teacher/getAllStudentsFromClass/" +this.assessmentId + "," + this.classesSelected,{
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
@@ -123,11 +123,12 @@ export class EditAssessmentComponent implements OnInit {
 
     if(response3.status == 200){
       response3.json().then(data =>{
+        console.log(data)
         for(let i = 0; i <=data.length -1; i++){
           let student = {
             id: data[i].studentID,
-            name: data[i].student_fullname,
-            grade: null
+            name: data[i].date,
+            grade: data[i].gradeValue
           }
           this.students.push(student)
         }
@@ -155,8 +156,8 @@ export class EditAssessmentComponent implements OnInit {
         for(let i = 0; i <=data.length -1; i++){
           let student = {
             id: data[i].studentID,
-            name: data[i].student_fullname,
-            grade: null
+            name: data[i].date,
+            grade: data[i].gradeValue
           }
           this.students.push(student)
         }

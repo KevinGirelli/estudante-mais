@@ -17,9 +17,10 @@ import { MessageService } from 'primeng/api';
     MessageService
   ]
 })
+
 export class DashboardStudentComponent implements OnInit {
   isMenuOpen = false;
-  studentName: string = 'Kévin Girelli';
+  studentName: any = localStorage.getItem("username");
 
   constructor(private router: Router, private messageService: MessageService) {}
 
@@ -33,7 +34,6 @@ export class DashboardStudentComponent implements OnInit {
       });
 
       if (verifyResponse.status === 403) {
-        console.log("REDIRECT");
         this.router.navigate(["403"]);
         return;
       }
@@ -47,12 +47,19 @@ export class DashboardStudentComponent implements OnInit {
 
       if (notificationResponse.status === 200) {
         const notifications = await notificationResponse.json();
-        notifications.forEach((notification: any) => {
+        console.log(notifications)
+        notifications.forEach(async (notification: any) => {
           this.messageService.add({
-            severity: notification.severity,
-            summary: notification.summary,
-            detail: notification.detail
+            severity: "info",
+            summary: notification.name
           });
+          
+          const deleteNotification = await fetch("http://localhost:8080/notification/readNotification/" + notification.notificationID,{
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token")
+            }
+          })
         });
       }
 

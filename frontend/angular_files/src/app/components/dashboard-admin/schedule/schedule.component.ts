@@ -34,7 +34,6 @@ export class ScheduleComponent implements OnInit {
   schedule: { [key: string]: { [key: string]: string } } = {};
 
   constructor(private router: Router) {
-
     this.timeSlots = Array.from(new Set(Object.values(this.schedule).flatMap(day => Object.keys(day))))
                           .map(time => ({ time }));
     this.classes = Object.keys(this.schedule);
@@ -53,23 +52,18 @@ export class ScheduleComponent implements OnInit {
     }
 
     if(response.status == 200){
-      response.json().then((data: { classes: ClassData[] }) => {
-        this.schedule = {
-          
-        };
-        this.classes = data.classes.map(c => c.className);
+      response.json().then(data =>{
+        console.log()
         for(let i = 0; i < data.classes.length; i++){
           for(let j = 0; j < data.classes[i].classSchedule.length; j++){
             const classSchedule = data.classes[i].classSchedule[j];
             if(!this.schedule[data.classes[i].className]){
-              this.schedule[data.classes[i].className] = {};
+              this.schedule[data.classes[i].classSchedule[i]] = {};
             }
             this.schedule[data.classes[i].className][classSchedule.time] = classSchedule.subject;
           }
         }
-        this.timeSlots = Array.from(new Set(Object.values(this.schedule).flatMap(day => Object.keys(day))))
-                              .map(time => ({ time }));
-      });
+      }) 
     }
   }
 
