@@ -77,7 +77,7 @@ public class teacherDataManager {
   public ResponseEntity getAllTeacherFromClass(@PathVariable(value = "classID") String classID){
     List<TeacherClasses> teacherClasses = this.teacherClassesRepository.findByclasses(this.classesRepository.findByclassID(UUID.fromString(classID)));
     List<teachersDTO> teachersDTOS = new ArrayList<>();
-
+    System.out.println(this.classesRepository.findByclassID(UUID.fromString(classID)));
     teacherClasses.forEach(teacher ->{
       List<teacherSubject> subjects = this.teacherSubjectRepository.findByteacher(teacher.getTeacher());
       List<String> teacherSubjects = new ArrayList<>();

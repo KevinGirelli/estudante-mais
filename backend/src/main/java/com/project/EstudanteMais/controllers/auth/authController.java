@@ -98,7 +98,7 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(adminUser);
-        tokenDTO returnToken = new tokenDTO(token,100,"",adminUser.getUsername());
+        tokenDTO returnToken = new tokenDTO(token,100,"",adminUser.getUsername(),"");
 
         return ResponseEntity.ok(returnToken);
       }else{
@@ -137,7 +137,7 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(studentUser);
-        tokenDTO returnToken = new tokenDTO(token,010,studentUser.getStudentID().toString(),studentUser.getStudentFullname());
+        tokenDTO returnToken = new tokenDTO(token,010,studentUser.getStudentID().toString(),studentUser.getStudentFullname(),studentUser.getClasses().getClassID().toString());
 
         return ResponseEntity.ok(returnToken);
       }else{
@@ -173,7 +173,7 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(teacherUser);
-        tokenDTO returnToken = new tokenDTO(token,001,teacherUser.getTeacherID().toString(),teacherUser.getTeacherName());
+        tokenDTO returnToken = new tokenDTO(token,001,teacherUser.getTeacherID().toString(),teacherUser.getTeacherName(),"");
 
         return ResponseEntity.ok(returnToken);
       }else{
@@ -198,7 +198,7 @@ public class authController {
           Authentication auth = usernamepassword;
           SecurityContextHolder.getContext().setAuthentication(auth);
           var token = this.tokenService.GenerateToken(adminUser);
-          tokenDTO returnToken = new tokenDTO(token,100,"",adminUser.getUsername());
+          tokenDTO returnToken = new tokenDTO(token,100,"",adminUser.getUsername(),"");
 
           return ResponseEntity.accepted().body(returnToken);
         }
@@ -213,7 +213,7 @@ public class authController {
           Authentication auth = usernamepassword;
           SecurityContextHolder.getContext().setAuthentication(auth);
           var token = this.tokenService.GenerateToken(studentUser);
-          tokenDTO returnToken = new tokenDTO(token,010,studentUser.getStudentID().toString(),studentUser.getStudentFullname());
+          tokenDTO returnToken = new tokenDTO(token,010,studentUser.getStudentID().toString(),studentUser.getStudentFullname(),studentUser.getClasses().getClassID().toString());
 
           return ResponseEntity.accepted().body(returnToken);
         }
@@ -229,7 +229,7 @@ public class authController {
           Authentication auth = usernamepassword;
           SecurityContextHolder.getContext().setAuthentication(auth);
           var token = this.tokenService.GenerateToken(teacherUser);
-          tokenDTO returnToken = new tokenDTO(token,001,teacherUser.getTeacherID().toString(),teacherUser.getTeacherName());
+          tokenDTO returnToken = new tokenDTO(token,001,teacherUser.getTeacherID().toString(),teacherUser.getTeacherName(),"");
 
           return ResponseEntity.accepted().body(returnToken);
         }

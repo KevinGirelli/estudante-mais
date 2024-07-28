@@ -72,12 +72,12 @@ export class DashboardTeacherComponent implements OnInit {
     }
   }
 
-  testNotification() {
-    this.messageService.add({ severity: 'success', summary: 'Teste', detail: 'Teste bombando' });
-  }
-
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  checkUser(){
+    this.router.navigate(["/chat/teacher"])
   }
   
   logout() {

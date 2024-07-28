@@ -13,7 +13,7 @@
   </div>
   <div class="chat-window">
     <div class="messages">
-      <div *ngFor="let message of messages" class="message" [ngClass]="{'aluno': message.sender === 'Aluno', 'professor': message.sender === 'Professor'}">
+      <div *ngFor="let message of messages" class="message" [ngClass]="{'aluno': message.sender === 'student', 'professor': message.sender === 'teacher'}">
         <div class="message-content">
           <strong>{{ message.sender }}:</strong> {{ message.content }}
         </div>
@@ -26,6 +26,5 @@
         <i class="pi pi-send"></i>
       </button>
     </div>
-    <button class="toggle-user-button" (click)="toggleUser()">Alternar para {{ currentUser === 'Aluno' ? 'Professor' : 'Aluno' }}</button>
   </div>
 </div>

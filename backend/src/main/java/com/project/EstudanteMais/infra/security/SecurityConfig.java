@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,8 +56,10 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/grades/getCurrentType").hasAnyAuthority("TEACHER","ADMIN","STUDENT")
                     .requestMatchers(HttpMethod.POST,"/admin/schedule/genSchedule").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/admin/schedule/getSchedule").hasAuthority("ADMIN")
+                    .requestMatchers("/ws/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/getMessageHistory").hasAnyAuthority("TEACHER","STUDENT")
                     .requestMatchers(HttpMethod.GET, "/teacher/getAllClassesFromTeacher").hasAnyAuthority("TEACHER", "ADMIN")
-                    .requestMatchers(HttpMethod.GET, "/admin/teacherDataManager/getAllTeacherFromClass").hasAuthority("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/admin/teacherDataManager/getAllTeacherFromClass").hasAnyAuthority("ADMIN", "STUDENT")
                     .requestMatchers(HttpMethod.POST, "/assess/createNewAssessment").hasAnyAuthority("TEACHER","ADMIN")
                     .requestMatchers(HttpMethod.GET, "/teacher/getTeacherSubject").hasAnyAuthority("TEACHER","ADMIN")
                     .requestMatchers(HttpMethod.POST, "/admin/registerClass").hasAuthority("ADMIN")

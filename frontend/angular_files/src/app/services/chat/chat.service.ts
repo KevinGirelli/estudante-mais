@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 export interface Message {
-  sender: string;
-  content: string;
+  sender: any;
+  content: any;
   timestamp: Date;
 }
 
@@ -19,7 +19,11 @@ export class ChatService {
     return this.messagesSubject.asObservable();
   }
 
-  loadConversation(conversationId: string) {
+  deleteAllMessages(conversationId: string){
+    this.conversations[conversationId] = []
+  }
+
+  async loadConversation(conversationId: string) {
     if (!this.conversations[conversationId]) {
       this.conversations[conversationId] = [];
     }
@@ -31,6 +35,5 @@ export class ChatService {
       this.conversations[conversationId] = [];
     }
     this.conversations[conversationId].push(message);
-    this.loadConversation(conversationId);
   }
 }

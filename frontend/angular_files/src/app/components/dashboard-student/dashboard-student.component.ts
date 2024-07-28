@@ -47,7 +47,6 @@ export class DashboardStudentComponent implements OnInit {
 
       if (notificationResponse.status === 200) {
         const notifications = await notificationResponse.json();
-        console.log(notifications)
         notifications.forEach(async (notification: any) => {
           this.messageService.add({
             severity: "info",
@@ -79,15 +78,16 @@ export class DashboardStudentComponent implements OnInit {
     }
   }
 
-  testNotification() {
-    this.messageService.add({ severity: 'success', summary: 'Teste', detail: 'Teste bombando' });
-  }
-
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  checkUser(){
+    this.router.navigate(["/chat/student"])
   }
 
   logout() {
     
   }
+
 }

@@ -59,6 +59,7 @@ export class LoginComponentComponent {
             } else if (res.body.type === 0o10) {
               localStorage.setItem("userID", res.body.userID)
               localStorage.setItem("username", res.body.username)
+              localStorage.setItem("classID", res.body.classID)
               this.router.navigate(["student"]);
             } else if (res.body.type === 0o1) {
               localStorage.setItem("username", res.body.username)
@@ -120,6 +121,7 @@ export class LoginComponentComponent {
             if(data.type == 0o10){
               localStorage.setItem("username", data.username)
               localStorage.setItem("userID", data.userID)
+              localStorage.setItem("classID", data.classID)
               this.router.navigate(["student"]);
             }
             if(data.type == 0o1){
