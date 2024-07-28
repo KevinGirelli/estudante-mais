@@ -25,6 +25,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { PasswordRecoveryComponent } from './components/login-component/password-recovery/password-recovery.component';
 import { StudentScheduleComponent } from './components/dashboard-student/student-schedule/student-schedule.component';
 import { TeacherScheduleComponent } from './components/dashboard-teacher/teacher-schedule/teacher-schedule.component';
+import { AuthTwoFactorComponent } from './components/login-component/auth-two-factor/auth-two-factor.component';
 
 export const routes: Routes = [
   { path: "403", component: Error403Component },
@@ -77,5 +78,7 @@ export const routes: Routes = [
 
   { path: "student/schedule", component: StudentScheduleComponent },
 
-  { path: "chat/:chatUser", component: ChatComponent }
+  { path: "chat/:chatUser", component: ChatComponent },
+
+  { path: "auth2fa", component: AuthTwoFactorComponent }
 ];

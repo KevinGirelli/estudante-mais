@@ -1,4 +1,4 @@
-.password-recovery-container {
+.verification-container {
   max-width: 400px;
   margin: 0 auto;
   padding: 2rem;
@@ -15,7 +15,7 @@
   p {
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #555;
+    color: #666666;
   }
 
   .p-field {
@@ -32,6 +32,7 @@
       padding: 0.5rem;
       border: 1px solid #ccc;
       border-radius: 4px;
+      color: #292F47;
     }
   }
 
@@ -41,13 +42,31 @@
     margin-bottom: 1rem;
 
     .verification-input {
-      width: 48px;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      width: 3rem;
+      height: 3rem;
       text-align: center;
       font-size: 1.5rem;
-      color: #292F47;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  }
+
+  .submit {
+    display: flex;
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #9747ff;
+    border: none;
+    color: #FFF;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.5s;
+    justify-content: center;
+    font-weight: 500;
+
+    &:hover {
+      background-color: #6a2eeb;
     }
   }
 
@@ -68,28 +87,8 @@
     }
   }
 
-  button {
-    width: 100%;
-    padding: 0.5rem;
-    background-color: #9747ff;
-    border: none;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    margin-top: 1rem;
-
-    &:hover {
-      background-color: #6a2eeb;
-    }
-
-    &:not(:last-child) {
-      margin-bottom: 0.5rem;
-    }
-  }
-
   .recend-button {
+    margin-top: 3vh;
     align-self: center;
     width: 100%;
     padding: 10px;

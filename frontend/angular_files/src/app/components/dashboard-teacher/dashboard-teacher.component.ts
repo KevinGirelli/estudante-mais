@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
   imports: [
     NgClass,
     ToastModule,
+    NgIf
   ],
   templateUrl: './dashboard-teacher.component.html',
   styleUrls: ['./dashboard-teacher.component.scss'],
@@ -20,6 +21,7 @@ import { MessageService } from 'primeng/api';
 export class DashboardTeacherComponent implements OnInit {
   isMenuOpen = false;
   teacherName: any = localStorage.getItem("username");
+  isTwoFactorAuthenticated = false;
 
   constructor(private router: Router, private messageService: MessageService) {}
 

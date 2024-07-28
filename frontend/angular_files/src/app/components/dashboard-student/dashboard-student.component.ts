@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
   imports: [
     NgClass,
     ToastModule,
+    NgIf
   ],
   templateUrl: './dashboard-student.component.html',
   styleUrls: ['./dashboard-student.component.scss'],
@@ -17,10 +18,10 @@ import { MessageService } from 'primeng/api';
     MessageService
   ]
 })
-
 export class DashboardStudentComponent implements OnInit {
   isMenuOpen = false;
   studentName: any = localStorage.getItem("username");
+  isTwoFactorAuthenticated = false;
 
   constructor(private router: Router, private messageService: MessageService) {}
 
@@ -53,12 +54,12 @@ export class DashboardStudentComponent implements OnInit {
             summary: notification.name
           });
           
-          const deleteNotification = await fetch("http://localhost:8080/notification/readNotification/" + notification.notificationID,{
+          await fetch("http://localhost:8080/notification/readNotification/" + notification.notificationID,{
             method: "POST",
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token")
             }
-          })
+          });
         });
       }
 
@@ -72,6 +73,7 @@ export class DashboardStudentComponent implements OnInit {
       if (userResponse.status === 200) {
         const userData = await userResponse.json();
         this.studentName = userData.name;
+        this.isTwoFactorAuthenticated = userData.twoFactorAuthenticated;
       }
     } catch (error) {
       console.error("Failed to fetch", error);
@@ -83,11 +85,9 @@ export class DashboardStudentComponent implements OnInit {
   }
 
   checkUser(){
-    this.router.navigate(["/chat/student"])
+    this.router.navigate(["/chat/student"]);
   }
 
   logout() {
-    
   }
-
 }

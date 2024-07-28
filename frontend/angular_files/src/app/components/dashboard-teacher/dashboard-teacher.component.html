@@ -24,6 +24,17 @@
 <p-toast></p-toast>
 
 <div class="content">
+  <div *ngIf="!isTwoFactorAuthenticated" class="two-factor-content">
+    <div class="two-factor-image">
+      <img src="../../../assets/images/dashboard_main/auth2fa_image.png" alt="Two Factor Auth Image">
+    </div>
+    <div class="two-factor-info">
+      <h2>Ativação da Autenticação de Dois Fatores</h2>
+      <span>Ative a autenticação de dois fatores para aumentar a segurança da sua conta.</span>
+      <a href="/auth2fa">Ativar Autenticação de Dois Fatores</a>
+    </div>
+  </div>
+
   <div class="welcome-content">
     <div class="welcome-message">
       <div class="welcome-icon">
