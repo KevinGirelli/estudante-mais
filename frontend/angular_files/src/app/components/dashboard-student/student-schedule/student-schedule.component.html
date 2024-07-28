@@ -1,0 +1,33 @@
+<div class="schedule-container">
+  <div class="schedule">
+    <div class="header">
+      <a href="student" class="back pi pi-arrow-left"></a>
+      <h1>Meu Horário</h1>
+    </div>
+    <div class="schedule-table-container">
+      <ng-container *ngIf="studentSchedule.length > 0; else noSchedule">
+        <p-table [value]="studentSchedule" class="p-table">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Horário</th>
+              <th>Segunda</th>
+              <th>Terça</th>
+              <th>Quarta</th>
+              <th>Quinta</th>
+              <th>Sexta</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-slot>
+            <tr>
+              <td>{{ slot.time }}</td>
+              <td *ngFor="let day of weekDays">{{ getClassContent(day, slot.time) }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </ng-container>
+      <ng-template #noSchedule>
+        <p class="no-schedule-message">Não possui um horário definido</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

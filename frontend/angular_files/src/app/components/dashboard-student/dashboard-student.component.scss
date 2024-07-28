@@ -216,4 +216,70 @@
       }
     }
   }
+
+  .schedule-content {
+    margin: 5vh;
+    background-color: #FFFFFF;
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px 0 8px 0;
+    width: 70vw;
+    height: 50vh;
+    display: flex;
+    justify-content: space-between;
+
+    .schedule-info {
+      width: 50%;
+      padding: 2vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      h2 {
+        font-size: 24px;
+        font-weight: 500;
+        color: #292F47;
+        margin-bottom: 1vh;
+      }
+
+      span {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 2vh;
+        display: block;
+      }
+
+      a {
+        font-size: 16px;
+        color: #FFFFFF;
+        text-decoration: none;
+        font-weight: 500;
+        width: 20vw;
+        height: 6vh;
+        background-color: #9747FF;
+        padding: 8px;
+        text-align: center;
+        border-radius: 4px;
+        transition: 0.5s;
+        margin-top: 7vh;
+        align-self: center;
+
+        &:hover {
+          background-color: #6a3ce9;
+        }
+      }
+    }
+
+    .schedule-image {
+      width: 40vw;
+      height: 50vh;
+      align-self: end;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px 0 8px 0;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);    
+      }
+    }
+  }
 }

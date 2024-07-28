@@ -23,6 +23,8 @@ import { SchoolYearConfigComponent } from './components/dashboard-admin/school-y
 import { ScheduleComponent } from './components/dashboard-admin/schedule/schedule.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { PasswordRecoveryComponent } from './components/login-component/password-recovery/password-recovery.component';
+import { StudentScheduleComponent } from './components/dashboard-student/student-schedule/student-schedule.component';
+import { TeacherScheduleComponent } from './components/dashboard-teacher/teacher-schedule/teacher-schedule.component';
 
 export const routes: Routes = [
   { path: "403", component: Error403Component },
@@ -65,11 +67,15 @@ export const routes: Routes = [
   
   { path: "teacher/attendance", component: AttendanceComponent },
 
+  { path: "teacher/schedule", component: TeacherScheduleComponent },
+
   { path: "student", component: DashboardStudentComponent },
 
   { path: "student/assessments", component: MyAssessmentsComponent },
 
   { path: "student/grades", component: MyGradesComponent },
+
+  { path: "student/schedule", component: StudentScheduleComponent },
 
   { path: "chat/:chatUser", component: ChatComponent }
 ];

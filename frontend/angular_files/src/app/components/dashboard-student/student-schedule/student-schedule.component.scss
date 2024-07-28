@@ -1,0 +1,96 @@
+:host ::ng-deep {
+  .schedule-container {
+    background-color: #EEE;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    .schedule {
+      margin: 0;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #FFFFFF;
+      max-width: 70vw;
+      width: 100%;
+      max-height: 80vh;
+      overflow: hidden;
+
+      .header {
+        display: flex;
+        align-items: center;
+
+        h1 {
+          width: 85%;
+          text-align: center;
+          margin-bottom: 20px;
+          color: #292F47;
+        }
+
+        .back {
+          align-self: flex-start;
+          text-decoration: none;
+          color: #ffffff;
+          font-size: 1rem;
+          padding: 8px;
+          background-color: #9747FF;
+          transition: 0.5s;
+          margin: 2vh 1vw;
+          border-radius: 4px;
+      
+          &:hover {
+            background-color: #6F2EEB;
+          }
+        }
+      }
+
+      .schedule-table-container {
+        display: block;
+        max-height: 60vh;
+        overflow-y: auto;
+
+        .p-table {
+          width: 100%;
+          border-collapse: collapse;
+
+          thead {
+            th {
+              background-color: #9747FF;
+              color: #FFFFFF;
+              text-align: center;
+              min-width: 100px;
+            }
+          }
+
+          tbody {
+            td {
+              white-space: nowrap;
+              padding: 10px;
+              text-align: center;
+              background-color: #EEE;
+              color: #292F47;
+            }
+
+            tr:nth-child(even) {
+              background-color: #F4F4F4;
+            }
+
+            tr:hover {
+              background-color: #E0E0E0;
+            }
+          }
+        }
+
+        .no-schedule-message {
+          text-align: center;
+          color: #555555;
+          padding: 20px;
+          font-size: 18px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
