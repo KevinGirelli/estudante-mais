@@ -85,18 +85,34 @@ export class ChatComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    const verifyResponse = await fetch("http://localhost:8080/auth/verifyStudentToken", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    });
-
-    if (verifyResponse.status === 403) {
-      this.routes.navigate(["403"]);
-      return;
+    if(this.currentUser == "student"){
+      const verifyResponse = await fetch("http://localhost:8080/auth/verifyStudentToken", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      });
+  
+      if (verifyResponse.status === 403) {
+        this.routes.navigate(["403"]);
+        return;
+      }  
     }
 
+    if(this.currentUser == "teacher"){
+      const verifyResponse = await fetch("http://localhost:8080/auth/verifyTeacherToken", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      });
+  
+      if (verifyResponse.status === 403) {
+        this.routes.navigate(["403"]);
+        return;
+      }  
+    }
+    
 
     this.route.paramMap.subscribe(params => {
       const currentUser = params.get('chatUser');

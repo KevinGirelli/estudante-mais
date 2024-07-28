@@ -13,15 +13,46 @@ public class configPreferencesService {
 
   private datamodelDTO scheduleModel = new datamodelDTO();
 
+  //scheduleGen config
+
+  private int maxConsecutiveClass = 0;
+
+  private int MaxClassPerDay = 0;
+
+  private int maxClassPeerWeek = 0;
+
 
   //Admin preferences config
-  private boolean IsScheduleGenerated = true;
+  private boolean IsScheduleGenerated = false;
 
   private int quarterType = 3;
   private int currentQuarterType = 1 ;
 
   private boolean enableQuarterRegistration = false;
 
+  public int getMaxConsecutiveClass() {
+    return maxConsecutiveClass;
+  }
+
+  public void setMaxConsecutiveClass(int maxConsecutiveClass) {
+    this.maxConsecutiveClass = maxConsecutiveClass;
+  }
+
+  public int getMaxClassPerDay() {
+    return MaxClassPerDay;
+  }
+
+  public void setMaxClassPerDay(int maxClassPerDay) {
+    MaxClassPerDay = maxClassPerDay;
+  }
+
+  public int getMaxClassPeerWeek() {
+    return maxClassPeerWeek;
+  }
+
+  public void setMaxClassPeerWeek(int maxClassPeerWeek) {
+    this.maxClassPeerWeek = maxClassPeerWeek;
+  }
 
   public datamodelDTO getScheduleModel() {
     return scheduleModel;

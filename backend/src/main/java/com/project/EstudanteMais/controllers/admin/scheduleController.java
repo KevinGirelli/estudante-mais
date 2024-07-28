@@ -2,7 +2,6 @@ package com.project.EstudanteMais.controllers.admin;
 
 import com.project.EstudanteMais.Entity.TeacherClasses;
 import com.project.EstudanteMais.Entity.classes;
-import com.project.EstudanteMais.Entity.classes_subjects;
 import com.project.EstudanteMais.repository.classesRepository;
 import com.project.EstudanteMais.repository.classes_subjectsRepository;
 import com.project.EstudanteMais.repository.teacherClassesRepository;
@@ -38,15 +37,18 @@ public class scheduleController {
   teacherClassesRepository teacherClassesRepository;
   @Autowired
   configPreferencesService configPreferencesService;
-  @PostMapping("/genSchedule/{settings}")
-  public ResponseEntity genSchedule(@PathVariable(value = "settings")String settings){
+  @PostMapping("/genSchedule")
+  public ResponseEntity genSchedule(){
     if(!this.configPreferencesService.isScheduleGenerated()){
+      if(this.configPreferencesService.getMaxClassPeerWeek() == 0){
+        return ResponseEntity.badRequest().build();
+      }
+
       datamodelDTO datamodel = new datamodelDTO();
-      var setting = settings.split(",");
       settingsDTO set = new settingsDTO(
-              Integer.parseInt(setting[0]),
-              Integer.parseInt(setting[1]),
-              Integer.parseInt(setting[2])
+              this.configPreferencesService.getMaxConsecutiveClass(),
+              this.configPreferencesService.getMaxClassPeerWeek(),
+              this.configPreferencesService.getMaxClassPerDay()
       );
       datamodel.setSettings(set);
       List<TeacherClasses> allTeachersSubjects = this.teacherClassesRepository.findAll();
@@ -85,17 +87,31 @@ public class scheduleController {
       });
       this.configPreferencesService.setScheduleModel(datamodel);
       this.callScheduleRequestService.callRequest();
+      this.configPreferencesService.setScheduleGenerated(true);
       return ResponseEntity.ok().build();
     }
-    this.configPreferencesService.setScheduleGenerated(true);
     return ResponseEntity.status(HttpStatus.FOUND).body(this.configPreferencesService.getScheduleModel());
   }
 
+  @PostMapping("/setScheduleSettings/{settings}")
+  public ResponseEntity setScheduleType(@PathVariable(value = "settings")String settings){
+    var setting = settings.split(",");
+    this.configPreferencesService.setMaxClassPeerWeek(Integer.parseInt(setting[0]));
+    this.configPreferencesService.setMaxClassPerDay(Integer.parseInt(setting[1]));
+    this.configPreferencesService.setMaxConsecutiveClass(Integer.parseInt(setting[2]));
+    return ResponseEntity.ok().build();
+  }
   @GetMapping("/getSchedule")
   public ResponseEntity getSchedule() throws IOException {
     if(this.configPreferencesService.isScheduleGenerated()){
       return ResponseEntity.ok(this.callScheduleRequestService.convertExcelToJson());
     }
     return ResponseEntity.badRequest().body("Schedule doesnt exist.");
+  }
+
+  @DeleteMapping("/deleteSchedule")
+  public ResponseEntity deleteSchedule(){
+    this.configPreferencesService.setScheduleGenerated(false);
+    return ResponseEntity.ok().build();
   }
 }

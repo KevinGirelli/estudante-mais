@@ -57,6 +57,8 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST,"/admin/schedule/genSchedule").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/admin/schedule/getSchedule").hasAuthority("ADMIN")
                     .requestMatchers("/ws/**").permitAll()
+                    .requestMatchers(HttpMethod.DELETE, "/admin/schedule/deleteSchedule").hasAuthority("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/admin/schedule/setScheduleSettings").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/getMessageHistory").hasAnyAuthority("TEACHER","STUDENT")
                     .requestMatchers(HttpMethod.GET, "/teacher/getAllClassesFromTeacher").hasAnyAuthority("TEACHER", "ADMIN")
                     .requestMatchers(HttpMethod.GET, "/admin/teacherDataManager/getAllTeacherFromClass").hasAnyAuthority("ADMIN", "STUDENT")

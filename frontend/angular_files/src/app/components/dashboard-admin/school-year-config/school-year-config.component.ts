@@ -5,6 +5,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgIf } from '@angular/common';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-school-year-config',
@@ -16,13 +18,28 @@ import { NgClass, NgIf } from '@angular/common';
     DropdownModule, 
     FormsModule,
     NgClass,
-    NgIf
+    NgIf,
+    ToastModule
   ],
   templateUrl: './school-year-config.component.html',
-  styleUrls: ['./school-year-config.component.scss']
+  styleUrls: ['./school-year-config.component.scss'],
+  providers: [MessageService]
 })
+
+
 export class SchoolYearConfigComponent {
+
+  constructor (private messageService: MessageService) {}
+
   isMenuOpen = false;
+
+  generationType: number = 0;
+  types = [
+    { label: 'Meio-Período', value: 25 },
+    { label: 'Período Integral', value: 50},
+  ];
+  consecType: number = 1
+  consecTypes = [1,2,3,4,5,6,7,8,9,10]
 
   startDate: Date | null = null;
   endDate: Date | null = null;
@@ -53,8 +70,39 @@ export class SchoolYearConfigComponent {
    })
 
    if(response.status == 200){
-    console.log("sucesso ao salvar")
+    this.messageService.add({ severity: 'success', summary: 'Configurações do ano letivo alteradas', detail: 'Configurações Salvas' })
    }
+
+   if(this.generationType == 25){
+    const response2 = await fetch("http://localhost:8080/admin/schedule/setScheduleSettings/"
+      + this.generationType + "," + "5" + "," + this.consecType
+    ,{
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    if(response2.status == 200){
+      this.messageService.add({ severity: 'success', summary: 'Configurações de geração de horários alteradas.', detail: 'Configurações Salvas' })
+    }
+   }
+   
+   if(this.generationType == 50){
+    const response2 = await fetch("http://localhost:8080/admin/schedule/setScheduleSettings/"
+      + this.generationType + "," + "10" + "," + this.consecType
+    ,{
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    if(response2.status == 200){
+      this.messageService.add({ severity: 'success', summary: 'Configurações de geração de horários alteradas.', detail: 'Configurações Salvas' })
+    }
+   }
+   
   }
 
   logout() {

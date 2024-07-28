@@ -1,3 +1,4 @@
+<p-toast/>
 <div class="nav">
   <div class="logo">
     <a href="admin">
@@ -41,6 +42,19 @@
     <label for="year-type">Tipo de Ano Letivo:</label>
     <p-dropdown [options]="yearTypes" [(ngModel)]="selectedYearType" placeholder="Selecione" class="custom-dropdown"></p-dropdown>
   </div>
+  
+  <h1>Geração de Horarios</h1>
+
+  <div class="form-item">
+    <label for="gen-type">Tipo de geração:</label>
+    <p-dropdown [options]="types" [(ngModel)]="generationType" placeholder="Selecione" class="custom-dropdown"></p-dropdown>
+  </div>
+
+  <div class="form-item">
+    <label for="consecType">Limite máximo de aulas consecutivas:</label>
+    <p-dropdown [options]="consecTypes" [(ngModel)]="consecType" placeholder="Selecione" class="custom-dropdown"></p-dropdown>
+  </div>
+
 
   <div *ngIf="selectedYearType === 'Bimestral'" class="form-item">
     <label for="end-bimester1">Data de Término do 1º Bimestre:</label>

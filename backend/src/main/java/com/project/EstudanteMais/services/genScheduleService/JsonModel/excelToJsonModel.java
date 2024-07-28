@@ -7,7 +7,6 @@ public class excelToJsonModel {
     List<String> hours = new ArrayList<>();
     List<jsonClasses> classes = new ArrayList<>();
 
-
   public excelToJsonModel(){}
 
   public excelToJsonModel(List<String> hours, List<jsonClasses> classes) {
