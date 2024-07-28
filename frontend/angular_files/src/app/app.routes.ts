@@ -22,6 +22,7 @@ import { MyGradesComponent } from './components/dashboard-student/my-grades/my-g
 import { SchoolYearConfigComponent } from './components/dashboard-admin/school-year-config/school-year-config.component';
 import { ScheduleComponent } from './components/dashboard-admin/schedule/schedule.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { PasswordRecoveryComponent } from './components/login-component/password-recovery/password-recovery.component';
 
 export const routes: Routes = [
   { path: "403", component: Error403Component },
@@ -29,6 +30,8 @@ export const routes: Routes = [
   { path: "", component: HomeComponentComponent },
 
   { path: "login", component: LoginComponentComponent },
+
+  { path: "passwordRecovery", component: PasswordRecoveryComponent },
 
   { path: "admin", component: DashboardAdminComponent },
 

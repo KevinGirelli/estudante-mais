@@ -6,7 +6,7 @@
     </div>
     <h2>Faça login na sua conta</h2>
     <div class="login-box">
-      <label class="label" for="matricula">Sua matrícula</label>
+      <label class="label" for="matricula">Seu Email</label>
       <div class="input-container">
         <input class="input-field" type="text" [(ngModel)]="matricula" id="matricula">
         <span class="input-icon pi pi-user"></span>
@@ -23,7 +23,7 @@
         <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary" class="custom-checkbox"/>
         <h6>Lembre-se de mim</h6>
       </div>
-      <a href="" class="">Esqueceu sua senha?</a>
+      <a href="passwordRecovery" class="">Esqueceu sua senha?</a>
     </div>
     <p-toast />
     <button class="btn" (click)="login()">Entrar</button>
