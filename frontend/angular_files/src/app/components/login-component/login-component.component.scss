@@ -44,7 +44,7 @@
       flex-direction: column;
       align-items: start;
       margin-top: 20px;
-      
+
       .label {
         font-size: 16px;
         color: #555555;
@@ -109,11 +109,10 @@
         transition: 0.5s;
         color: #1E2772;
       }
-  
+
       a:hover {
         text-decoration: underline;
       }
-
     }
 
     .btn {
@@ -155,17 +154,54 @@
   }
 }
 
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    justify-content: center;
+
+    .login-container {
+      margin: 0;
+      height: 100vh;
+      min-width: 100vw;
+      padding: 40px;
+      box-shadow: none;
+
+      .logo {
+        margin-top: 10vh;
+        gap: 5px;
+      }
+
+      .small-fields {
+        .keep-me-logged {
+          h6 {
+            font-size: 12px;
+          }
+        }        
+
+        a {
+          font-size: 12px;
+          text-wrap: nowrap;
+        }
+      }
+    }
+
+    .image-container {
+      display: none;
+    }
+  }
+}
+
 :host ::ng-deep {
   .card {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #eee;
+    background-color: #EEE;
 
     p-dialog {
       .p-dialog-header {
         background-color: #9747FF;
-        color: #ffffff;
+        color: #FFFFFF;
         font-size: 1.25rem;
         font-weight: 600;
         padding: 1rem;
@@ -176,7 +212,7 @@
 
       .p-dialog-content {
         padding: 2rem;
-        background-color: #ffffff;
+        background-color: #FFFFFF;
         border-radius: 0 0 15px 15px;
 
         .verification-code-container {
@@ -189,16 +225,16 @@
             height: 4rem;
             text-align: center;
             font-size: 2rem;
-            border: 1px solid #ccc;
+            border: 1px solid #CCC;
             border-radius: 8px;
-            background-color: #f9f9f9;
+            background-color: #F9F9F9;
             transition: 0.3s;
             color: #292F47;
 
             &:focus {
               border-color: #9747FF;
               outline: none;
-              background-color: #ffffff;
+              background-color: #FFFFFF;
             }
           }
         }
@@ -210,7 +246,7 @@
 
           .modal-btn-verify {
             background-color: #9747FF;
-            color: #ffffff;
+            color: #FFFFFF;
             border: none;
             border-radius: 8px;
             padding: 0.75rem 2rem;
