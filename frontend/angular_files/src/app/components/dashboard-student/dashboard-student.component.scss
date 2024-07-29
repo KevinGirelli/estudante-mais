@@ -136,6 +136,11 @@
 
   @media (max-width: 1024px) {
     .welcome-content,
+    .assessments-content{
+      flex-direction: column-reverse !important;
+    }
+    
+    .welcome-content,
     .notes-content,
     .assessments-content,
     .schedule-content,
