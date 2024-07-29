@@ -35,7 +35,7 @@ public class teacher implements UserDetails {
     @Column(name = "role")
     private UserRoles role;
 
-    @Column(name = "twostepverificaiton",nullable = false)
+    @Column(name = "twostepverification",nullable = false)
     Boolean twostepverification;
 
     @Column(name = "twoStepCode", nullable = true)

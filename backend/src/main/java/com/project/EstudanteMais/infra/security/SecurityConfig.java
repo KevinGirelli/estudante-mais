@@ -30,6 +30,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/twoStepVerify").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/auth/sendActiviateTwoStepMail").hasAnyAuthority("TEACHER","STUDENT")
+                    .requestMatchers(HttpMethod.POST, "/auth/activateTwoStep").hasAnyAuthority("TEACHER","STUDENT")
                     .requestMatchers(HttpMethod.POST,"/auth/verifyAdminToken").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.POST,"/auth/verifyStudentToken").hasAuthority("STUDENT")
                     .requestMatchers(HttpMethod.POST,"/auth/verifyTeacherToken").hasAuthority("TEACHER")

@@ -80,5 +80,5 @@ export const routes: Routes = [
 
   { path: "chat/:chatUser", component: ChatComponent },
 
-  { path: "auth2fa", component: AuthTwoFactorComponent }
+  { path: "auth2fa/:email/:type", component: AuthTwoFactorComponent }
 ];

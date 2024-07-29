@@ -1,5 +1,6 @@
 package com.project.EstudanteMais.controllers.auth;
 
+import com.project.EstudanteMais.Entity.dto.MessageDTO;
 import com.project.EstudanteMais.Entity.dto.loginDTO;
 import com.project.EstudanteMais.Entity.dto.tokenDTO;
 import com.project.EstudanteMais.Entity.dto.twoFactorCodeDTO;
@@ -26,6 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -98,7 +100,7 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(adminUser);
-        tokenDTO returnToken = new tokenDTO(token,100,"",adminUser.getUsername(),"");
+        tokenDTO returnToken = new tokenDTO(token,100,"",adminUser.getUsername(),"","");
 
         return ResponseEntity.ok(returnToken);
       }else{
@@ -137,7 +139,7 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(studentUser);
-        tokenDTO returnToken = new tokenDTO(token,010,studentUser.getStudentID().toString(),studentUser.getStudentFullname(),studentUser.getClasses().getClassID().toString());
+        tokenDTO returnToken = new tokenDTO(token,010,studentUser.getStudentID().toString(),studentUser.getStudentFullname(),studentUser.getClasses().getClassID().toString(),studentUser.getStudentEmail());
 
         return ResponseEntity.ok(returnToken);
       }else{
@@ -173,7 +175,7 @@ public class authController {
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
         var token = this.tokenService.GenerateToken(teacherUser);
-        tokenDTO returnToken = new tokenDTO(token,001,teacherUser.getTeacherID().toString(),teacherUser.getTeacherName(),"");
+        tokenDTO returnToken = new tokenDTO(token,001,teacherUser.getTeacherID().toString(),teacherUser.getTeacherName(),"",teacherUser.getTeacherEmail());
 
         return ResponseEntity.ok(returnToken);
       }else{
@@ -198,7 +200,7 @@ public class authController {
           Authentication auth = usernamepassword;
           SecurityContextHolder.getContext().setAuthentication(auth);
           var token = this.tokenService.GenerateToken(adminUser);
-          tokenDTO returnToken = new tokenDTO(token,100,"",adminUser.getUsername(),"");
+          tokenDTO returnToken = new tokenDTO(token,100,"",adminUser.getUsername(),"","");
 
           return ResponseEntity.accepted().body(returnToken);
         }
@@ -213,7 +215,7 @@ public class authController {
           Authentication auth = usernamepassword;
           SecurityContextHolder.getContext().setAuthentication(auth);
           var token = this.tokenService.GenerateToken(studentUser);
-          tokenDTO returnToken = new tokenDTO(token,010,studentUser.getStudentID().toString(),studentUser.getStudentFullname(),studentUser.getClasses().getClassID().toString());
+          tokenDTO returnToken = new tokenDTO(token,010,studentUser.getStudentID().toString(),studentUser.getStudentFullname(),studentUser.getClasses().getClassID().toString(),studentUser.getStudentEmail());
 
           return ResponseEntity.accepted().body(returnToken);
         }
@@ -229,7 +231,7 @@ public class authController {
           Authentication auth = usernamepassword;
           SecurityContextHolder.getContext().setAuthentication(auth);
           var token = this.tokenService.GenerateToken(teacherUser);
-          tokenDTO returnToken = new tokenDTO(token,001,teacherUser.getTeacherID().toString(),teacherUser.getTeacherName(),"");
+          tokenDTO returnToken = new tokenDTO(token,001,teacherUser.getTeacherID().toString(),teacherUser.getTeacherName(),"",teacherUser.getTeacherEmail());
 
           return ResponseEntity.accepted().body(returnToken);
         }
@@ -237,7 +239,86 @@ public class authController {
         return ResponseEntity.notFound().build();
       }
     }
-    return ResponseEntity.badRequest().build();
+    return ResponseEntity.internalServerError().build();
+  }
+  
+  @PostMapping("/sendActiviateTwoStepMail/{email}")
+  public ResponseEntity sendEmailToActivate(@PathVariable(value = "email")String email) throws IOException {
+    var getTeacher = (teacher) this.teacherRepository.findByteacherEmail(email);
+    var getStudent = (student) this.studentRepository.findBystudentEmailOrStudentRegistration(email,email);
+
+    if(getTeacher == null && getStudent == null){
+      return ResponseEntity.badRequest().build();
+    }
+
+    if(getTeacher != null){
+      if(getTeacher.getTwostepverification()){
+        return ResponseEntity.notFound().build();
+      }
+
+      var code = this.randomCodeService.GenerateCode();
+      code = this.randomCodeService.verifyCode(code);
+      this.registerCodeTimer.StartTRegisterTimer(code);
+      this.teacherRepository.updateTwoStepCode(code,getTeacher.getTeacherID());
+
+      Resource resource = resourceLoader.getResource("classpath:static/mail.html");
+      String htmlContent = new String(Files.readAllBytes(Paths.get(resource.getURI())));
+      htmlContent = htmlContent.replace("BigDog",getTeacher.getTeacherName())
+              .replace("value=a","value=" + code.charAt(0))
+              .replace("value=b","value=" + code.charAt(1))
+              .replace("value=c","value=" + code.charAt(2))
+              .replace("value=d","value=" + code.charAt(3))
+              .replace("value=e","value=" + code.charAt(4))
+              .replace("value=f","value=" + code.charAt(5))
+              .replace("seu código de autenticação:", "Seu código de redefinição de senha");
+
+      this.emailService.sendHtmlEmail("Código de redefinição de senha",email,htmlContent);
+      return ResponseEntity.ok().build();
+    }
+
+    if(getStudent != null){
+      if(getStudent.getTwostepverification()){
+        return ResponseEntity.notFound().build();
+      }
+      var code = this.randomCodeService.GenerateCode();
+      code = this.randomCodeService.verifyCode(code);
+      this.registerCodeTimer.StartTRegisterTimer(code);
+      this.studentRepository.updateTwoStepCode(code,getStudent.getStudentID());
+
+      Resource resource = resourceLoader.getResource("classpath:static/mail.html");
+      String htmlContent = new String(Files.readAllBytes(Paths.get(resource.getURI())));
+      htmlContent = htmlContent.replace("BigDog",getStudent.getStudentFullname())
+              .replace("value=a","value=" + code.charAt(0))
+              .replace("value=b","value=" + code.charAt(1))
+              .replace("value=c","value=" + code.charAt(2))
+              .replace("value=d","value=" + code.charAt(3))
+              .replace("value=e","value=" + code.charAt(4))
+              .replace("value=f","value=" + code.charAt(5))
+              .replace("seu código de autenticação:", "Seu código de redefinição de senha");
+
+      this.emailService.sendHtmlEmail("Código de redefinição de senha",email,htmlContent);
+      return ResponseEntity.ok().build();
+    }
+    return ResponseEntity.internalServerError().build();
+  }
+  @PostMapping("/activateTwoStep/{id}")
+  public ResponseEntity activateTwoStep(@PathVariable(value = "id")String id){
+    var getStudent = this.studentRepository.findBystudentID(UUID.fromString(id));
+    var getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(id));
+
+    if(getStudent != null){
+      this.studentRepository.updateTwoStepVerifyState(true,getStudent.getStudentID());
+      MessageDTO m = new MessageDTO("m","");
+      return ResponseEntity.ok(m);
+    }
+
+    if(getTeacher != null){
+      this.teacherRepository.updateTwoStepVerifyState(true,getTeacher.getTeacherID());
+      MessageDTO m = new MessageDTO("t","");
+      return ResponseEntity.ok(m);
+    }
+
+    return ResponseEntity.internalServerError().build();
   }
   @PostMapping("/verifyStudentToken")
   public ResponseEntity studentTokenVerify(){
