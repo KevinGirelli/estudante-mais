@@ -3,6 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { NgIf } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-password-recovery',
@@ -11,12 +14,16 @@ import { NgIf } from '@angular/common';
     FormsModule, 
     InputTextModule, 
     ButtonModule, 
-    NgIf
+    NgIf,
+    ToastModule
   ],
   templateUrl: './password-recovery.component.html',
-  styleUrls: ['./password-recovery.component.scss']
+  styleUrls: ['./password-recovery.component.scss'],
+  providers: [MessageService]
 })
 export class PasswordRecoveryComponent {
+  constructor (private messageService: MessageService, private route: Router) {}
+
   email!: string;
   verificationCode: string[] = ['', '', '', '', '', ''];
   codeSent = false;
@@ -24,9 +31,25 @@ export class PasswordRecoveryComponent {
   newPassword!: string;
   confirmPassword!: string;
 
-  onSubmitEmail() {
-    if (this.email) {
-      console.log(`Recuperação de senha para: ${this.email}`);
+  async onSubmitEmail() {
+    let dataToSend = {
+      message: this.email
+    }
+
+    const response = await fetch("http://localhost:8080/passwordRecover/recoverPassword",{
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(dataToSend)
+    })
+
+    if(response.status == 400){
+      this.messageService.add({ severity: 'erro', summary: 'Email inválido', detail: 'O email digitado não é válido'})
+    }
+    
+    if(response.status == 200){
+      this.messageService.add({ severity: 'info', summary: 'Email enviado.', detail: 'Um código de recuperação foi enviado ao seu email.'})
       this.codeSent = true;
     }
   }
@@ -45,22 +68,54 @@ export class PasswordRecoveryComponent {
     }
   }
 
-  verifyCode() {
-    const code = this.verificationCode.join('');
-    console.log(`Código inserido: ${code}`);
-    if (code.length === 6) {
-      this.passwordChange = true;
-      this.codeSent = false;
-    } else {
-      console.log('Código inválido');
+  async verifyCode() {
+    let dataToSend = {
+      message: this.verificationCode.join('')
+    }
+    const response = await fetch("http://localhost:8080/passwordRecover/verifyCode",{
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(dataToSend)
+    })
+
+    if(response.status == 200){
+      this.passwordChange = true
+    }
+
+    if(response.status == 400){
+      this.messageService.add({ severity: 'error', summary: 'Código inválido.', detail: 'O código fornecido está invalido'})
+    }
+
+    if(response.status == 404){
+      this.messageService.add({ severity: 'error', summary: 'Código expirado.', detail: 'O código expirou, por favor tente novamente.'})
     }
   }
 
-  changePassword() {
+  async changePassword() {
     if (this.newPassword === this.confirmPassword) {
-      console.log(`Nova senha: ${this.newPassword}`);
+      let dataToSend = {
+        message: this.verificationCode.join(''),
+        secondMessage: this.newPassword
+      } 
+      const response = await fetch("http://localhost:8080/passwordRecover/updatePassword",{
+        method: "POST",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(dataToSend)
+      })
+      
+      if(response.status == 200){
+        this.route.navigate(['login'])
+      }
+
+      if(response.status == 404){
+        this.messageService.add({ severity: 'error', summary: 'Código expirado.', detail: 'O código expirou, por favor tente novamente.'})
+      }
     } else {
-      console.log('As senhas não coincidem');
+      this.messageService.add({ severity: 'error', summary: 'Senhas não coincidem', detail: 'Digite a senha novamente.'})
     }
   }
 

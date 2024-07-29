@@ -69,6 +69,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   convertJsonToTable(data: any){
+    console.log(data)
     if(this.daySelected == 1){
       for(let i = 0; i <= data.classes.length-1; i++){
         if(data.classes[i].classSchedule[0]){

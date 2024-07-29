@@ -29,7 +29,9 @@ public class RegisterCodeTimerService {
   public void StartTRegisterTimer(String codeToRemove){
     try {
       Thread.sleep(100000);
-      this.configPreferencesService.getActiveCodes().remove(codeToRemove);
+      var codes = this.configPreferencesService.getActiveCodes();
+      codes.remove(codeToRemove);
+      this.configPreferencesService.setActiveCodes(codes);
     }catch (InterruptedException e){
       Thread.currentThread().interrupt();
     }
