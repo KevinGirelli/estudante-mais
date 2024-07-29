@@ -33,4 +33,9 @@ public interface teacherRepository extends JpaRepository<teacher, UUID> {
     @Transactional
     @Query(value = "UPDATE teacher SET teacher_password = ?1 WHERE teacherid = ?2",nativeQuery = true)
     void updateTeacherPassword(String encodedPassword, UUID teacherID);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE teacher SET twostepverification = ?1 WHERE teacherid = ?2",nativeQuery = true)
+    void updateTwoStepVerifyState(boolean state, UUID studentID);
 }

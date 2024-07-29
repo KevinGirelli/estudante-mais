@@ -25,6 +25,23 @@ export class DashboardTeacherComponent implements OnInit {
 
   constructor(private router: Router, private messageService: MessageService) {}
 
+  async activateTwoStep(){
+    const response = await fetch("http://localhost:8080/auth/sendActiviateTwoStepMail/" + localStorage.getItem("userEmail"),{
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    if(response.status == 404){
+      this.messageService.add({ severity: 'info', summary: 'Verificação ativada', detail: 'Sua verificação de dois fatores já esta ativada.' })
+    }
+
+    if(response.status == 200){
+      this.router.navigate(["auth2fa/" + localStorage.getItem("userEmail") + "/1"]);
+    }
+  }
+
   async ngOnInit(): Promise<void> {
     try {
       const verifyResponse = await fetch("http://localhost:8080/auth/verifyTeacherToken", {
@@ -56,18 +73,6 @@ export class DashboardTeacherComponent implements OnInit {
             detail: notification.detail
           });
         });
-      }
-
-      const userResponse = await fetch("http://localhost:8080/user/getUser/" + localStorage.getItem("userID"), {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      });
-
-      if (userResponse.status === 200) {
-        const userData = await userResponse.json();
-        this.teacherName = userData.name;
       }
     } catch (error) {
       console.error("Failed to fetch", error);

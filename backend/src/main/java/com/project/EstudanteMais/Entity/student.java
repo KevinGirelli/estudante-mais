@@ -154,7 +154,7 @@ public class student implements UserDetails {
     this.twoStepCode = twoStepCode;
   }
 
-  @Column(name = "twostepverificaiton",nullable = false)
+  @Column(name = "twostepverification",nullable = false)
   Boolean twostepverification;
 
   @Column(name = "twoStepCode", nullable = true)

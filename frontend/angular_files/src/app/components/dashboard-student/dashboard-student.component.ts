@@ -88,6 +88,23 @@ export class DashboardStudentComponent implements OnInit {
     this.router.navigate(["/chat/student"]);
   }
 
+  async activateTwoStep(){
+    const response = await fetch("http://localhost:8080/auth/sendActiviateTwoStepMail/" + localStorage.getItem("userEmail"),{
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    if(response.status == 404){
+      this.messageService.add({ severity: 'info', summary: 'Verificação ativada', detail: 'Sua verificação de dois fatores já esta ativada.' })
+    }
+
+    if(response.status == 200){
+      this.router.navigate(["auth2fa/" + localStorage.getItem("userEmail") + "/1"]);
+    }
+  }
+
   logout() {
   }
 }

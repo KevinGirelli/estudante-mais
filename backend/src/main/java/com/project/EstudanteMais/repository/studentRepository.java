@@ -42,4 +42,9 @@ public interface studentRepository extends JpaRepository<student, UUID> {
     @Transactional
     @Query(value = "UPDATE student SET student_password = ?1 WHERE studentid = ?2", nativeQuery = true)
     void updateStudentPassword(String password, UUID studentID);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE student SET twostepverification = ?1 WHERE studentid = ?2",nativeQuery = true)
+    void updateTwoStepVerifyState(boolean state, UUID studentID);
 }

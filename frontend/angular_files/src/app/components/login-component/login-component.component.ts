@@ -58,10 +58,12 @@ export class LoginComponentComponent {
               localStorage.setItem("userID", res.body.userID)
               localStorage.setItem("username", res.body.username)
               localStorage.setItem("classID", res.body.classID)
+              localStorage.setItem("userEmail", res.body.email)
               this.router.navigate(["student"]);
             } else if (res.body.type === 0o1) {
               localStorage.setItem("username", res.body.username)
               localStorage.setItem("userID", res.body.userID)
+              localStorage.setItem("userEmail", res.body.email)
               this.router.navigate(["teacher"]);
             }
           }
@@ -69,7 +71,7 @@ export class LoginComponentComponent {
           console.log("Credenciais inválidas");
           this.messageService.add({ severity: 'error', summary: 'Erro ao efetuar login', detail: 'Credenciais inválidas!' });
         } else if (res.status === 202) {
-          this.visible = true;  // Exibe o modal de verificação de dois fatores
+          this.router.navigate(['auth2fa/' + dados.emailOrCode + "/0"])
         }
       },
       (err: any) => {
@@ -91,56 +93,6 @@ export class LoginComponentComponent {
         nextInput.focus();
       }
     }
-  }
-
-  verifyCode() {
-    const code = this.verificationCode.join('');
-    const data = {
-      code: code
-    };
-
-    fetch("http://localhost:8080/auth/twoStepVerify", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }).then(res => {
-      if(res.status == 202){
-        res.json().then(data =>{
-          //Recebe o token e guarda no localStorage
-          localStorage.setItem("token", data.token);
-          
-          //se foi guardado corretamente, então redireciona
-          if(localStorage.getItem("token")){
-            if(data.type == 100){
-              this.router.navigate(["admin"]);
-            }
-            if(data.type == 0o10){
-              localStorage.setItem("username", data.username)
-              localStorage.setItem("userID", data.userID)
-              localStorage.setItem("classID", data.classID)
-              this.router.navigate(["student"]);
-            }
-            if(data.type == 0o1){
-              localStorage.setItem("username", data.username)
-              localStorage.setItem("userID", data.userID)
-              this.router.navigate(["teacher"]);
-            }
-          }
-        })
-      }
-
-      if(res.status == 400){
-        console.log("Código inválido");
-        this.messageService.add({ severity: 'error', summary: 'Erro ao efetuar login', detail: 'Seu código é inválido!' });
-      }
-
-      if(res.status == 404){
-        console.log("Código expirado")
-        this.messageService.add({ severity: 'error', summary: 'Erro ao efetuar login', detail: 'Seu código está expirado!' });
-      }
-    })
   }
 
   clearVerificationCode() {
