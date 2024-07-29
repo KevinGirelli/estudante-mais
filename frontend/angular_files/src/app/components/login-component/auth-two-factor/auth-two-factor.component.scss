@@ -107,3 +107,9 @@
     }
   }
 }
+
+@media (max-width: 500px) {
+  .verification-container {
+    box-shadow: none;
+  }
+}
