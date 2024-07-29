@@ -7,6 +7,9 @@ import com.project.EstudanteMais.Entity.dto.subjectsDTO;
 import com.project.EstudanteMais.Entity.dto.teachersDTO;
 import com.project.EstudanteMais.Entity.teacherSubject;
 import com.project.EstudanteMais.repository.*;
+import com.project.EstudanteMais.services.configPreferencesService;
+import com.project.EstudanteMais.services.genScheduleService.JsonModel.excelToJsonModel;
+import com.project.EstudanteMais.services.genScheduleService.callScheduleRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +32,9 @@ public class teacherController {
 
   @Autowired
   assessmentRepository assessmentRepository;
+
+  @Autowired
+  configPreferencesService configPreferencesService;
 
   @Autowired
   subjectsRepository subjectsRepository;
@@ -42,6 +50,9 @@ public class teacherController {
 
   @Autowired
   classesRepository classesRepository;
+
+  @Autowired
+  callScheduleRequestService callScheduleRequestService;
 
   @Autowired
   teacherSubjectRepository teacherSubjectRepository;
@@ -116,6 +127,30 @@ public class teacherController {
       return ResponseEntity.ok(students);
     }else{
       return ResponseEntity.internalServerError().build();
+    }
+  }
+
+  @GetMapping("/getTeacherSchedule/{ids}")
+  public ResponseEntity getTeacherSchedule(@PathVariable(value = "ids")String ids) throws IOException {
+    if(this.configPreferencesService.isScheduleGenerated()) {
+      var getClass = this.classesRepository.findByclassID(UUID.fromString(ids));
+      excelToJsonModel classFilter = new excelToJsonModel();
+
+      var jsonModel = this.callScheduleRequestService.convertExcelToJson();
+      jsonModel.getClasses().forEach(allClasses->{
+        allClasses.getClassSchedule().forEach(c->{
+          if(c.equals(getClass.getClassName())){
+            classFilter.setHours(jsonModel.getHours());
+            var temp = classFilter.getClasses();
+            temp.add(allClasses);
+            classFilter.setClasses(temp);
+          }
+        });
+      });
+
+      return ResponseEntity.ok(classFilter);
+    }else{
+      return ResponseEntity.badRequest().build();
     }
   }
 }

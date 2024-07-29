@@ -49,10 +49,8 @@ export class LoginComponentComponent {
     this.loginService.login(dados).subscribe(
       (res: HttpResponse<any>) => {
         if (res.status === 200) {
-          // Recebe o token e guarda no localStorage
           localStorage.setItem("token", res.body.token);
 
-          // se foi guardado corretamente, então redireciona
           if (localStorage.getItem("token")) {
             if (res.body.type === 100) {
               this.router.navigate(["admin"]);

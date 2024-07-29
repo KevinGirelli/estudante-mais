@@ -55,7 +55,7 @@ public class registerController {
   @Autowired
   genRegistrationCodeService genRegistrationCodeService;
 
-  private MessageDTO SucessMessage = new MessageDTO("User created sucessfuly");
+  private MessageDTO SucessMessage = new MessageDTO("User created sucessfuly", "");
 
   @PostMapping("/registerStudent")
   public ResponseEntity registerNewStudent(@RequestBody registerStudentDTO registerStudent){
@@ -111,7 +111,7 @@ public class registerController {
    if(this.classesRepository.findByclassName(classesToRegister.className()) != null){
      return ResponseEntity.badRequest().body("class already exist");
    }else{
-     teacher teacherMonitor = this.teacherRepository.findByteacherID(UUID.fromString("8a25a977-5d44-4bac-9c7c-9939eda32b52"));
+     teacher teacherMonitor = this.teacherRepository.findByteacherID(UUID.fromString("70944287-f499-401d-88c3-eed907ef2c5d"));
      if(teacherMonitor != null){
        classes newClass = new classes(classesToRegister.className(), classesToRegister.gradeType(), classesToRegister.gradeNumber(),teacherMonitor);
        this.classesRepository.save(newClass);

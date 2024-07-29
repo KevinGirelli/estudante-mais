@@ -3,11 +3,14 @@ package com.project.EstudanteMais.controllers.student;
 import com.project.EstudanteMais.Entity.assessment;
 import com.project.EstudanteMais.Entity.dto.returnAssessmentDTO;
 import com.project.EstudanteMais.repository.*;
+import com.project.EstudanteMais.services.configPreferencesService;
+import com.project.EstudanteMais.services.genScheduleService.JsonModel.excelToJsonModel;
 import com.project.EstudanteMais.services.genScheduleService.callScheduleRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +30,9 @@ public class studentController {
 
   @Autowired
   callScheduleRequestService callScheduleRequestService;
+
+  @Autowired
+  configPreferencesService configPreferencesService;
 
   @Autowired
   classes_subjectsRepository classesSubjectsRepository;
@@ -73,10 +79,27 @@ public class studentController {
     return ResponseEntity.internalServerError().build();
   }
 
-  @PostMapping("/viewSchedule")
-  public ResponseEntity viewStudentClassSchedule(){
-    this.callScheduleRequestService.callRequest();
-    return ResponseEntity.ok().build();
-  }
+  @PostMapping("/viewSchedule/{classID}")
+  public ResponseEntity viewStudentClassSchedule(@PathVariable(value = "classID")String classID) throws IOException {
+    if(this.configPreferencesService.isScheduleGenerated()){
+      var getClass = this.classesRepository.findByclassID(UUID.fromString(classID));
+      excelToJsonModel classFilter = new excelToJsonModel();
 
+      var jsonModel = this.callScheduleRequestService.convertExcelToJson();
+      jsonModel.getClasses().forEach(allClasses->{
+        allClasses.getClassSchedule().forEach(c->{
+          if(c.equals(getClass.getClassName())){
+            classFilter.setHours(jsonModel.getHours());
+            var temp = classFilter.getClasses();
+            temp.add(allClasses);
+            classFilter.setClasses(temp);
+          }
+        });
+      });
+
+      return ResponseEntity.ok(classFilter);
+    }else{
+      return ResponseEntity.notFound().build();
+    }
+  }
 }

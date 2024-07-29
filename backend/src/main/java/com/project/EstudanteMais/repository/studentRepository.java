@@ -37,4 +37,9 @@ public interface studentRepository extends JpaRepository<student, UUID> {
     @Transactional
     @Query(value = "UPDATE student SET classes_classid = ?1 WHERE studentid = ?2",nativeQuery = true)
     void updateStudentClass(UUID classID, UUID studentID);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE student SET student_password = ?1 WHERE studentid = ?2", nativeQuery = true)
+    void updateStudentPassword(String password, UUID studentID);
 }
