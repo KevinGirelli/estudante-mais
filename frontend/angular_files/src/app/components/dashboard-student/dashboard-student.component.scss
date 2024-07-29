@@ -12,11 +12,11 @@
   .two-factor-content {
     margin: 5vh;
     background-color: #FFFFFF;
-    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.1);
     border-radius: 8px 0 8px 0;
     width: 70vw;
     height: 50vh;
-    display: flex;
+    display: flex;    
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
     justify-content: space-between;
     padding: 2vw;
 
@@ -24,7 +24,7 @@
     .content-info,
     .schedule-info,
     .two-factor-info {
-      width: 50%;
+      width: 50vw;
       padding: 2vw;
       display: flex;
       flex-direction: column;
@@ -40,8 +40,7 @@
       span {
         font-size: 16px;
         color: #555;
-        margin-bottom: 2vh;
-        display: block;
+        margin-bottom: 1vh;
       }
 
       a {
@@ -121,15 +120,14 @@
     .assessments-image,
     .schedule-image,
     .two-factor-image {
-      width: 40vw;
+      width: 45vw;
       height: 50vh;
-      align-self: end;
+      align-self: center;
 
       img {
         width: 100%;
         height: 100%;
         border-radius: 8px 0 8px 0;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
       }
     }
   }
@@ -170,7 +168,7 @@
           width: 65vw;
           height: 4vh;
           margin-bottom: 2vh;
-          padding: 8px;
+          padding: 4px;
           font-size: 14px;
         }
       }
