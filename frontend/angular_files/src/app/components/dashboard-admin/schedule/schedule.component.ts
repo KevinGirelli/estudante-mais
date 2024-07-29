@@ -303,6 +303,7 @@ export class ScheduleComponent implements OnInit {
     if(response.status == 200){
       this.schedule = {}
       this.timeSlots = []
+      this.scheduleData = []
       this.messageService.add({ severity: 'success', summary: 'Horario deletado com sucesso', detail: 'Horário de aulas deletado.' })
     }
   }

@@ -41,7 +41,7 @@ public class callScheduleRequestService {
 
   public void callRequest(){
     CloseableHttpClient httpClient = HttpClients.createDefault();
-    HttpPost httpPost = new HttpPost("http://127.0.0.1:5000/genSchedule");
+    HttpPost httpPost = new HttpPost("http://localhost:5000/genSchedule");
     httpPost.setHeader("Content-Type", "application/json");
 
     Gson gson = new Gson();

@@ -11,6 +11,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin(origins = "https://native-randomly-swift.ngrok-free.app")
 public class chatController {
   @Autowired
   classesRepository classesRepository;

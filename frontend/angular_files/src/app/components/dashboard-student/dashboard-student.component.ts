@@ -33,10 +33,9 @@ export class DashboardStudentComponent implements OnInit {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
       });
-
+      console.log(verifyResponse.status)
       if (verifyResponse.status === 403) {
         this.router.navigate(["403"]);
-        return;
       }
 
       const notificationResponse = await fetch("http://localhost:8080/notification/getNotifications/" + localStorage.getItem("userID"), {

@@ -56,7 +56,6 @@ export class TeachersComponent implements OnInit  {
           const keys = Object.keys(data);
 
           keys.forEach(key => {
-            console.log(data)
             let addTeacher: Teacher = {
               teacherID: data[key].teacherID,
               teacherName: data[key].teacherName,
