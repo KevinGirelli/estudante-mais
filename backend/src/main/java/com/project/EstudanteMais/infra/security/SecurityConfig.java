@@ -38,6 +38,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST,"/admin/registerStudent").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.POST, "/admin/registerTeacher").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.POST, "/admin/registerSubject").hasAuthority("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/attendence/getAllStudentsFromClass").hasAuthority("TEACHER")
                     .requestMatchers(HttpMethod.PATCH, "/admin/studentDataManager/updateStudentPrimaryData").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.PATCH,"/admin/teacherDataManager/updateTeacherPrimaryData").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/admin/classesDataManager/getAllStudentsFromClass").hasAuthority("ADMIN")

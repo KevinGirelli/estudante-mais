@@ -111,7 +111,7 @@ public class registerController {
    if(this.classesRepository.findByclassName(classesToRegister.className()) != null){
      return ResponseEntity.badRequest().body("class already exist");
    }else{
-     teacher teacherMonitor = this.teacherRepository.findByteacherID(UUID.fromString("70944287-f499-401d-88c3-eed907ef2c5d"));
+     teacher teacherMonitor = this.teacherRepository.findByteacherID(UUID.fromString("62ebacb4-d8a0-4d2c-b0b4-56b6fe4b6013"));
      if(teacherMonitor != null){
        classes newClass = new classes(classesToRegister.className(), classesToRegister.gradeType(), classesToRegister.gradeNumber(),teacherMonitor);
        this.classesRepository.save(newClass);

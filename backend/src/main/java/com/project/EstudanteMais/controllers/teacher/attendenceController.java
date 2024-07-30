@@ -8,10 +8,7 @@ import com.project.EstudanteMais.repository.studentRepository;
 import com.project.EstudanteMais.repository.teacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -45,5 +42,15 @@ public class attendenceController {
       this.attendenceRepository.save(newAtt);
     });
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/getAllStudentsFromClass/{classID}")
+  public ResponseEntity getAllStudentsFromClass(@PathVariable(value = "classID") String id){
+    var allStudents = this.studentRepository.getAllStudentFromClass(UUID.fromString(id));
+    if(allStudents != null){
+      return ResponseEntity.ok(allStudents);
+    }else{
+      return ResponseEntity.internalServerError().build();
+    }
   }
 }

@@ -79,7 +79,7 @@ export class AttendanceComponent implements OnInit {
   }
 
   async showModal() {
-    const response = await fetch("http://localhost:8080/teacher/getAllStudentsFromClass/" + this.className, {
+    const response = await fetch("http://localhost:8080/attendence/getAllStudentsFromClass/" + this.className, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
@@ -89,7 +89,6 @@ export class AttendanceComponent implements OnInit {
     if (response.status == 200) {
       response.json().then(data => {
         const keys = Object.keys(data);
-        console.log(data);
         for (let i = 0; i <= keys.length - 1; i++) {
           const add: Student = {
             id: data[i].studentID,
