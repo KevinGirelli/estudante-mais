@@ -87,6 +87,7 @@ export class AttendanceComponent implements OnInit {
     });
 
     if (response.status == 200) {
+      this.students = []
       response.json().then(data => {
         const keys = Object.keys(data);
         for (let i = 0; i <= keys.length - 1; i++) {

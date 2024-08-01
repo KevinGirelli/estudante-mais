@@ -36,8 +36,13 @@ public class attendenceController {
       var split = students.split(",");
       student getStudent = this.studentRepository.findBystudentID(UUID.fromString(split[0]));
 
+      var splitDate = data.date().split("T");
+      var splitData2 = splitDate[0];
+      var splitData3 = splitData2.split("-");
+      var formattedDate = splitData3[2] + "/" + splitData3[1] + "/" +splitData3[0];
+
       attendence newAtt = new attendence(getStudent,getClass,getTeacher,
-              attendenceStatus.valueOf(split[1]),data.quantity(),data.date());
+              attendenceStatus.valueOf(split[1]),data.quantity(),formattedDate);
 
       this.attendenceRepository.save(newAtt);
     });

@@ -60,7 +60,11 @@ export class TeachersFromClassComponent implements OnInit{
             teacherCPF: data[i].cpf,
             subjects: data[i].subjects
           }
-          this.teachers.push(addTeacher)
+
+          const alreadyExists = this.teachers.some(teacher => teacher.teacherID === addTeacher.teacherID);
+          if(!alreadyExists){
+            this.teachers.push(addTeacher)
+          }   
         }
       })
     }

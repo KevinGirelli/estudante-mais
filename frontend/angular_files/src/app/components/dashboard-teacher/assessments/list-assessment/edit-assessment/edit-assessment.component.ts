@@ -33,7 +33,7 @@ interface Student {
 export class EditAssessmentComponent implements OnInit {
   assessmentId: string | null = null;
   assessmentName: string = '';
-  assessmentDate: Date | null = null;
+  assessmentDate: Date = new Date();
   classesSelected: string = '';
   subjectSelected: string = '';
   allClasses: { id: string, name: string }[] = [];
@@ -48,9 +48,12 @@ export class EditAssessmentComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     let assessment = this.dataSavar.getData()
+
+    let splitDate = assessment.date.split("/")
+
     this.assessmentId = assessment.id
     this.assessmentName = assessment.assessmentName
-    this.assessmentDate = assessment.date.split("T")[0]
+    this.assessmentDate = new Date(parseInt(splitDate[2],10),parseInt(splitDate[1],10)-1,parseInt(splitDate[0],10))
     this.classesSelected = assessment.classID;
     this.subjectSelected = assessment.subjectID
 
@@ -123,7 +126,6 @@ export class EditAssessmentComponent implements OnInit {
 
     if(response3.status == 200){
       response3.json().then(data =>{
-        console.log(data)
         for(let i = 0; i <=data.length -1; i++){
           let student = {
             id: data[i].studentID,
@@ -186,10 +188,11 @@ export class EditAssessmentComponent implements OnInit {
         body: JSON.stringify(sendData)
       })
   
-      if(response.status == 200){
-        console.log("Dados editados")
+      if(response.status == 400){
+        this.messageService.add({ severity: 'error', summary: 'Erro ao postar nota', detail: 'Erro ao postar nota do aluno(a) ' + s.name })
       }
     })
+    this.messageService.add({ severity: 'success', summary: 'Notas postadas.', detail: 'As notas foram postadas com sucesso.' })
   }
 
   async updateAssessment(): Promise<void> {

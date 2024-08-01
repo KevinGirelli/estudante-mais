@@ -96,24 +96,17 @@ export class RegisterComponent implements OnInit {
 
       if(res.status == 200){
         res.json().then(data => {
-          localStorage.setItem("classes",JSON.stringify(data))
-          console.log("data loaded sucessfuly.")
+          this.allClasses = []
+          for(let i = 0; i <= data.length-1; i++){
+            const add: Class = {
+              id: data[i].classID,
+              name: data[i].className
+            }
+            this.allClasses.push(add)
+          }
         })
       }
     })
-
-    const allClasses = localStorage.getItem("classes");
-    
-    if(allClasses){
-      const parsedData= JSON.parse(allClasses)
-    
-      const keys = Object.keys(parsedData);
-      keys.forEach(key => {
-        const value = parsedData[key];
-        const addClass: Class = {id: value.classID, name: value.className}
-        this.allClasses.push(addClass);
-      });
-    };
 
     this.subjects = [];
   }
@@ -146,7 +139,7 @@ export class RegisterComponent implements OnInit {
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
-
+  
   updateGradeNumbers() {
     if (this.gradeType === 'Fundamental 1') {
       this.gradeNumbers = [1, 2, 3, 4, 5];
@@ -178,6 +171,7 @@ export class RegisterComponent implements OnInit {
       console.log('Aluno registrado:', response);
       this.messageService.add({ severity: 'success', summary: 'Cadastro concluído', detail: 'Aluno registrado com sucesso!' });
       this.clearAlunoForm();
+      this.ngOnInit()
     }, error => {
       console.error('Erro ao registrar aluno:', error);
       this.messageService.add({ severity: 'error', summary: 'Erro durante o cadastro', detail: 'Erro ao registrar aluno!' });
@@ -202,6 +196,7 @@ export class RegisterComponent implements OnInit {
       console.log('Professor registrado:', response);
       this.messageService.add({ severity: 'success', summary: 'Cadastro concluído', detail: 'Professor registrado com sucesso!' });
       this.clearProfessorForm();
+      this.ngOnInit()
     }, error => {
       console.error('Erro ao registrar professor:', error);
       this.messageService.add({ severity: 'error', summary: 'Erro durante o cadastro', detail: 'Erro ao registrar professor!' });
@@ -219,13 +214,13 @@ export class RegisterComponent implements OnInit {
       gradeNumber: this.gradeNumber,
       subjects: this.classeAllSubjects
     };
-    console.log(classData.subjects)
 
 
     this.registerService.registerClass(classData).subscribe(response => {
       console.log('Turma registrada:', response);
       this.messageService.add({ severity: 'success', summary: 'Cadastro concluído', detail: 'Turma registrada com sucesso!' });
       this.clearTurmaForm();
+      this.ngOnInit();
     }, error => {
       console.error('Erro ao registrar turma:', error);
       this.messageService.add({ severity: 'error', summary: 'Erro durante o cadastro', detail: 'Erro ao registrar turma!' });

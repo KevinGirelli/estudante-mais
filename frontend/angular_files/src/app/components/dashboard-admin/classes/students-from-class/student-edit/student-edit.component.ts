@@ -54,7 +54,7 @@ export class StudentEditComponent implements OnInit {
       this.email = student.email;
       this.password = student.password;
       this.cpf = student.cpf;
-      this.age = new Date(student.age).toISOString().split('T')[0];
+      this.age = student.age
       this.classesSelected = student.classID;
     }
 
@@ -164,7 +164,7 @@ export class StudentEditComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(['admin/students/']);
+    this.router.navigate(['admin/classes/studentsFromClass']);
   }
 
   logout() {

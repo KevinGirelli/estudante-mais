@@ -10,7 +10,7 @@ interface Assessment {
   assessmentName: string;
   class: string;
   subject: string;
-  date: string;
+  date: Date | null;
   classID: string;
   subjectID: string;
 }

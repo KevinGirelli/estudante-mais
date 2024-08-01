@@ -52,6 +52,8 @@ export const routes: Routes = [
 
   { path: "admin/teachers/:editTeacher", component: TeacherEditComponent },
 
+  { path: "admin/classes/studentsFromClass", component: StudentsFromClassComponent },
+
   { path: "admin/schedule", component: ScheduleComponent },
 
   { path: "admin/school/year/config",  component: SchoolYearConfigComponent },

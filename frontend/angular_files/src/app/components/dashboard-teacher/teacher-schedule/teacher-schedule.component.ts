@@ -71,7 +71,7 @@ export class TeacherScheduleComponent implements OnInit {
 
     if(response.status == 200){
       response.json().then(data =>{
-        console.log(data)
+        this.teacherSchedule = []
         if(data.hours.length == 60){
           let monday = 1
           let tuesday = 13

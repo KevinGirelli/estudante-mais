@@ -47,9 +47,16 @@ public class classesDataManager {
       List<classesDTO> allClassesDTO = new ArrayList<>();
 
       allClasses.forEach(classes -> {
+        if(classes.getClassMonitor() != null){
           classesDTO classesDTO = new classesDTO(uuiDformatter.formatUuid(classes.getClassID()),classes.getClassName(),
-          classes.getGradeNumber(),classes.getGradeType(),classes.getClassMonitor().getTeacherName());
+                  classes.getGradeNumber(),classes.getGradeType(),classes.getClassMonitor().getTeacherName());
           allClassesDTO.add(classesDTO);
+        }else{
+          classesDTO classesDTO = new classesDTO(uuiDformatter.formatUuid(classes.getClassID()),classes.getClassName(),
+                  classes.getGradeNumber(),classes.getGradeType(),null);
+          allClassesDTO.add(classesDTO);
+        }
+
       });
       return ResponseEntity.ok(allClassesDTO);
     }

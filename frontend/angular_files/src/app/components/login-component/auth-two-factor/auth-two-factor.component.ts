@@ -73,6 +73,7 @@ export class AuthTwoFactorComponent implements OnInit {
 
           if(response2.status == 200){
             response2.json().then(data =>{
+              console.log(data)
               if(data.message == "s"){
                 this.routes.navigate(['student'])
               }
