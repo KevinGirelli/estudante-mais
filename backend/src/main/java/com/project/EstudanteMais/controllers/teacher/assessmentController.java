@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,9 +54,14 @@ public class assessmentController {
     var getClass = this.classesRepository.findByclassID(UUID.fromString(asses.classID()));
     var getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(asses.teacherID()));
     var getSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(asses.subjectID()));
+
+    var splitDate = asses.data().split("T");
+    var splitData2 = splitDate[0];
+    var splitData3 = splitData2.split("-");
+    var formattedDate = splitData3[2] + "/" + splitData3[1] + "/" +splitData3[0];
     assessment newAssessment = new assessment(
             asses.name(),
-            asses.data(),
+            formattedDate,
             getClass,
             getTeacher,
             getSubject

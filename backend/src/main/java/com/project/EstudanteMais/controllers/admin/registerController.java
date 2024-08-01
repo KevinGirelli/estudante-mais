@@ -111,23 +111,19 @@ public class registerController {
    if(this.classesRepository.findByclassName(classesToRegister.className()) != null){
      return ResponseEntity.badRequest().body("class already exist");
    }else{
-     teacher teacherMonitor = this.teacherRepository.findByteacherID(UUID.fromString("62ebacb4-d8a0-4d2c-b0b4-56b6fe4b6013"));
-     if(teacherMonitor != null){
-       classes newClass = new classes(classesToRegister.className(), classesToRegister.gradeType(), classesToRegister.gradeNumber(),teacherMonitor);
-       this.classesRepository.save(newClass);
+     classes newClass = new classes(classesToRegister.className(), classesToRegister.gradeType(), classesToRegister.gradeNumber(),null);
+     this.classesRepository.save(newClass);
 
-       classes getClass = this.classesRepository.findByclassName(classesToRegister.className());
-       if(getClass != null){
-         System.out.println(classesToRegister.subjects());
-         classesToRegister.subjects().forEach(subject ->{
-           var split = subject.split("/");
-           if(Integer.parseInt(split[1]) > 0){
-             subjects newSubjects = this.subjectsRepository.findBysubjectID(UUID.fromString(split[0]));
-             classes_subjects classesSubjects = new classes_subjects(newSubjects,Integer.parseInt(split[1]),getClass);
-             this.classesSubjectsRepository.save(classesSubjects);
-           }
-         });
-       }
+     classes getClass = this.classesRepository.findByclassName(classesToRegister.className());
+     if(getClass != null){
+       classesToRegister.subjects().forEach(subject ->{
+         var split = subject.split("/");
+         if(Integer.parseInt(split[1]) > 0){
+           subjects newSubjects = this.subjectsRepository.findBysubjectID(UUID.fromString(split[0]));
+           classes_subjects classesSubjects = new classes_subjects(newSubjects,Integer.parseInt(split[1]),getClass);
+           this.classesSubjectsRepository.save(classesSubjects);
+         }});
+
 
        return ResponseEntity.ok(this.SucessMessage);
      }else{

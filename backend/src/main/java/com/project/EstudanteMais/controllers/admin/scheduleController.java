@@ -50,7 +50,6 @@ public class scheduleController {
               this.configPreferencesService.getMaxClassPeerWeek(),
               this.configPreferencesService.getMaxClassPerDay()
       );
-      System.out.println(set);
       datamodel.setSettings(set);
       List<TeacherClasses> allTeachersSubjects = this.teacherClassesRepository.findAll();
       List<classes> allClasses = this.classesRepository.findAll();

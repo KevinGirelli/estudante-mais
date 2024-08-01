@@ -33,7 +33,7 @@ export class DashboardStudentComponent implements OnInit {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
       });
-      console.log(verifyResponse.status)
+    
       if (verifyResponse.status === 403) {
         this.router.navigate(["403"]);
       }
@@ -60,19 +60,6 @@ export class DashboardStudentComponent implements OnInit {
             }
           });
         });
-      }
-
-      const userResponse = await fetch("http://localhost:8080/user/getUser/" + localStorage.getItem("userID"), {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      });
-
-      if (userResponse.status === 200) {
-        const userData = await userResponse.json();
-        this.studentName = userData.name;
-        this.isTwoFactorAuthenticated = userData.twoFactorAuthenticated;
       }
     } catch (error) {
       console.error("Failed to fetch", error);

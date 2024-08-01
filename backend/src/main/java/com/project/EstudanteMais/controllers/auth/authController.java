@@ -270,9 +270,9 @@ public class authController {
               .replace("value=d","value=" + code.charAt(3))
               .replace("value=e","value=" + code.charAt(4))
               .replace("value=f","value=" + code.charAt(5))
-              .replace("seu código de autenticação:", "Seu código de redefinição de senha");
+              .replace("este é o seu código de autenticação:", "Seu código de ativação");
 
-      this.emailService.sendHtmlEmail("Código de redefinição de senha",email,htmlContent);
+      this.emailService.sendHtmlEmail("Código de ativação",email,htmlContent);
       return ResponseEntity.ok().build();
     }
 
@@ -294,9 +294,9 @@ public class authController {
               .replace("value=d","value=" + code.charAt(3))
               .replace("value=e","value=" + code.charAt(4))
               .replace("value=f","value=" + code.charAt(5))
-              .replace("seu código de autenticação:", "Seu código de redefinição de senha");
+              .replace("este é o seu código de autenticação:", "este é o seu código de ativação");
 
-      this.emailService.sendHtmlEmail("Código de redefinição de senha",email,htmlContent);
+      this.emailService.sendHtmlEmail("Código de ativação",email,htmlContent);
       return ResponseEntity.ok().build();
     }
     return ResponseEntity.internalServerError().build();
@@ -308,7 +308,7 @@ public class authController {
 
     if(getStudent != null){
       this.studentRepository.updateTwoStepVerifyState(true,getStudent.getStudentID());
-      MessageDTO m = new MessageDTO("m","");
+      MessageDTO m = new MessageDTO("s","");
       return ResponseEntity.ok(m);
     }
 

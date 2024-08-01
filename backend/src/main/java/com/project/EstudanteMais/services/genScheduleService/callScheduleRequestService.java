@@ -41,12 +41,13 @@ public class callScheduleRequestService {
 
   public void callRequest(){
     CloseableHttpClient httpClient = HttpClients.createDefault();
-    HttpPost httpPost = new HttpPost("http://localhost:5000/genSchedule");
-    httpPost.setHeader("Content-Type", "application/json");
+    HttpPost httpPost = new HttpPost("http://127.0.0.1:5000/genSchedule");
+    httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
 
     Gson gson = new Gson();
     try{
-      HttpEntity stringEntity = new StringEntity(gson.toJson(this.configPreferencesService.getScheduleModel()));
+      System.out.println(gson.toJson(this.configPreferencesService.getScheduleModel()));
+      HttpEntity stringEntity = new StringEntity(gson.toJson(this.configPreferencesService.getScheduleModel()),"UTF-8");
       httpPost.setEntity(stringEntity);
       CloseableHttpResponse response = null;
 

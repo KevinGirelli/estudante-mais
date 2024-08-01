@@ -10,7 +10,7 @@ interface Student {
   email: string;
   cpf: string;
   age: Date;
-  classID: string
+  classID: any
 }
 
 @Component({
@@ -35,7 +35,7 @@ export class StudentsFromClassComponent implements OnInit {
   }
 
   ngOnInit() {
-    fetch("http://localhost:8080/admin/classesDataManager/getAllStudentsFromClass/" + this.datasaver.getData(),{
+    fetch("http://localhost:8080/admin/classesDataManager/getAllStudentsFromClass/" + localStorage.getItem("classID"),{
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
@@ -57,7 +57,7 @@ export class StudentsFromClassComponent implements OnInit {
               email: data[i].student_email,
               cpf: data[i].studentcpf,
               age: data[i].student_age,
-              classID: this.datasaver.getData()
+              classID: localStorage.getItem("classID")
             }
             this.students.push(addClass)
           }

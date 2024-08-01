@@ -282,6 +282,7 @@ export class ScheduleComponent implements OnInit {
         response2.json().then(data =>{
           this.convertJsonToTable(data)
           this.scheduleData = data
+          console.log(data)
         }) 
         this.messageService.add({ severity: 'success', summary: 'Horario gerado com sucesso', detail: 'Horário de aulas gerado.' })
       }  
