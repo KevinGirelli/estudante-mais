@@ -1,0 +1,175 @@
+.absences-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+
+  .content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin-left: 5vw;
+    height: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    padding: 20px;
+
+    .back {
+      align-self: flex-start;
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 1rem;
+      padding: 8px;
+      background-color: #9747FF;
+      transition: 0.5s;
+      margin: 5vh 3vw;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: #6F2EEB;
+      }
+    }
+
+    h1 {
+      margin: 5vh 0;
+      color: #292F47;
+    }
+
+    .selects {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 20px;
+
+      p-dropdown {
+        width: 30vw;
+        margin-bottom: 15px;
+
+        ::ng-deep .p-dropdown {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #CCC;
+          border-radius: 4px;
+          background-color: #EEE;
+
+          &:focus {
+            outline: none;
+            box-shadow: none;
+          }
+        }
+
+        .p-dropdown-label {
+          font-size: 16px;
+          color: #555555;
+        }
+      }
+    }
+
+    .absences-list {
+      width: 30vw;
+
+      .absence-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #CCC;
+
+        span {
+          font-size: 16px;
+          color: #555555;
+        }
+
+        input {
+          width: 4vw;
+          height: 6vh;
+          border: 1px solid #CCC;
+          border-radius: 4px;
+          background-color: #EEE;
+          font-size: 16px;
+          color: #555555;
+          text-align: center;
+
+          &:focus {
+            outline: none;
+            box-shadow: none;
+          }
+        }
+      }
+    }
+
+    .total-absences {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #555555;
+    }
+  }
+
+  .image {
+    height: 100%;
+    width: 55%;
+    align-items: flex-end;
+    justify-content: center;
+    background-color: #FFFFFF;
+    z-index: 0;
+
+    img {
+      margin-top: 20vh;
+      margin-left: 2vw;
+      width: 50vw;
+      height: 60vh;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .absences-container {
+    flex-direction: column;
+
+    .content {
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+
+      .back {
+        margin: 2vh 0;
+      }
+
+      h1 {
+        margin: 3vh 0;
+        text-align: center;
+      }
+
+      .selects {
+        p-dropdown {
+          width: 80vw;
+        }
+      }
+
+      .absences-list {
+        width: 80vw;
+
+        .absence-item {
+          span {
+            font-size: 14px;
+          }
+
+          input {
+            width: 40px;
+          }
+        }
+      }
+
+      .total-absences {
+        font-size: 16px;
+      }
+    }
+
+    .image {
+      display: none;
+    }
+  }
+}

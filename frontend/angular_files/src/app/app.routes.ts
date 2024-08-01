@@ -26,6 +26,7 @@ import { PasswordRecoveryComponent } from './components/login-component/password
 import { StudentScheduleComponent } from './components/dashboard-student/student-schedule/student-schedule.component';
 import { TeacherScheduleComponent } from './components/dashboard-teacher/teacher-schedule/teacher-schedule.component';
 import { AuthTwoFactorComponent } from './components/login-component/auth-two-factor/auth-two-factor.component';
+import { MyAbsencesComponent } from './components/dashboard-student/my-absences/my-absences.component';
 
 export const routes: Routes = [
   { path: "403", component: Error403Component },
@@ -77,6 +78,8 @@ export const routes: Routes = [
   { path: "student/grades", component: MyGradesComponent },
 
   { path: "student/schedule", component: StudentScheduleComponent },
+
+  { path: "student/absences", component: MyAbsencesComponent },
 
   { path: "chat/:chatUser", component: ChatComponent },
 

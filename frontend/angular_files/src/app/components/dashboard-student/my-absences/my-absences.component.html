@@ -1,0 +1,32 @@
+<div class="absences-container">
+  <div class="content">
+    <a href="/student" class="back pi pi-arrow-left"></a>
+    <h1>Minhas Faltas</h1>
+    <div class="selects">
+      <p-dropdown 
+        [options]="subjects" 
+        [(ngModel)]="selectedSubject" 
+        placeholder="Selecione a matéria"
+        (onChange)="onSelectChange()">
+      </p-dropdown>
+      <p-dropdown 
+        [options]="periods" 
+        [(ngModel)]="selectedPeriod" 
+        placeholder="Selecione o período"
+        (onChange)="onSelectChange()">
+      </p-dropdown>
+    </div>
+    <div class="absences-list" *ngIf="absences.length > 0">
+      <div *ngFor="let absence of absences" class="absence-item">
+        <span>{{ absence.date }}</span>
+        <input type="number" [value]="absence.count" readonly />
+      </div>
+    </div>
+    <div *ngIf="totalAbsences > 0" class="total-absences">
+      Total de Faltas: {{ totalAbsences }}
+    </div>
+  </div>
+  <div class="image">
+    <img src="../../../../assets/images/teacher/assessments/studentAbsences_image.png" alt="">
+  </div>
+</div>
