@@ -51,32 +51,26 @@ export class ClassesComponent implements OnInit {
         this.router.navigate(["403"])
       }
     })
+
     fetch("http://localhost:8080/admin/classesDataManager/getClassesAsync",{
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
-    }).then(res => {
-      if(res.status == 403){
-        console.log("REDIRECT")
+    }).then(res =>{
+     res.json().then(data =>{
+      for(let i = 0; i <= data.length-1;i++){
+        let addClass: Class = {
+          classID: data[i].classID,
+          className: data[i].className,
+          gradeType: data[i].gradeType,
+          gradeNumber: data[i].gradeNumber,
+          classMonitor: data[i].classMonitor || "A definir"
+        }
+        this.classes.push(addClass)
       }
-
-      if(res.status == 200){
-        res.json().then(data => {
-          for(let i = 0; i <= data.length-1; i++){
-            const add: Class = {
-              classID: data[i].classID,
-              className: data[i].className,
-              gradeType: data[i].gradeType,
-              gradeNumber: data[i].gradeNumber,
-              classMonitor: data[i].classMonitor || "A definir"
-            }
-            this.classes.push(add)
-          }
-        })
-      }
+     })
     })
-   
   }
 
   openModalSwitch(selectedClass: Class) {
@@ -86,7 +80,7 @@ export class ClassesComponent implements OnInit {
 
   navigateToStudents() {
     if (this.selectedClass) {
-      localStorage.setItem("classID", this.selectedClass.classID)
+      this.datasaver.setData(this.selectedClass.classID)
       this.router.navigate(['admin/class/students', this.selectedClass.className]);
     }
   }

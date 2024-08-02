@@ -270,6 +270,13 @@ export class ScheduleComponent implements OnInit {
       this.messageService.add({ severity: 'info', summary: 'Horário atualizado', detail: 'Horário de aulas atualizado.' })
     }
 
+    if(response.status == 409){
+      response.json().then(data =>{
+        this.messageService.add({ severity: 'info', summary: 'Geração cancelada', detail: `Geração cancelada devido 
+          ao limite de aulas excedido pelo professor(a): ${data.message}, por favor remova ${data.secondMessage} aulas deste professor(a) para prosseguir.` })
+      })
+    }
+
     if(response.status == 200){
       const response2 = await fetch("http://localhost:8080/admin/schedule/getSchedule",{
         method: "GET",
@@ -282,7 +289,6 @@ export class ScheduleComponent implements OnInit {
         response2.json().then(data =>{
           this.convertJsonToTable(data)
           this.scheduleData = data
-          console.log(data)
         }) 
         this.messageService.add({ severity: 'success', summary: 'Horario gerado com sucesso', detail: 'Horário de aulas gerado.' })
       }  

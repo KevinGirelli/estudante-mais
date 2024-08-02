@@ -1,10 +1,11 @@
 package com.project.EstudanteMais.controllers.admin;
 
-import com.project.EstudanteMais.Entity.TeacherClasses;
 import com.project.EstudanteMais.Entity.classes;
+import com.project.EstudanteMais.Entity.dto.MessageDTO;
 import com.project.EstudanteMais.repository.classesRepository;
 import com.project.EstudanteMais.repository.classes_subjectsRepository;
 import com.project.EstudanteMais.repository.teacherClassesRepository;
+import com.project.EstudanteMais.repository.teacherRepository;
 import com.project.EstudanteMais.services.configPreferencesService;
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.datamodelDTO;
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.models.classDTO;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping("/admin/schedule")
@@ -29,8 +31,10 @@ public class scheduleController {
   classes_subjectsRepository classesSubjectsRepository;
 
   @Autowired
-  classesRepository classesRepository;
+  teacherRepository teacherRepository;
 
+  @Autowired
+  classesRepository classesRepository;
   @Autowired
   callScheduleRequestService callScheduleRequestService;
   @Autowired
@@ -44,6 +48,7 @@ public class scheduleController {
         return ResponseEntity.badRequest().build();
       }
 
+      //Creating json datamodel to send to scheduleGen
       datamodelDTO datamodel = new datamodelDTO();
       settingsDTO set = new settingsDTO(
               this.configPreferencesService.getMaxConsecutiveClass(),
@@ -51,7 +56,6 @@ public class scheduleController {
               this.configPreferencesService.getMaxClassPerDay()
       );
       datamodel.setSettings(set);
-      List<TeacherClasses> allTeachersSubjects = this.teacherClassesRepository.findAll();
       List<classes> allClasses = this.classesRepository.findAll();
       AtomicInteger groupIndex = new AtomicInteger();
       allClasses.forEach(c ->{
@@ -85,6 +89,35 @@ public class scheduleController {
         datamodel.setSubjectGroup(currentGroups);
         groupIndex.set(groupIndex.get() + 1);
       });
+
+      //checking if teacher has more classes than allowed
+      var allTeachers = this.teacherRepository.findAll();
+      AtomicReference<String> teacher = new AtomicReference<>("");
+      AtomicInteger totalClassesNumber = new AtomicInteger();
+      AtomicInteger teacherNumberOfClasses = new AtomicInteger();
+
+      allTeachers.forEach(t-> {
+        teacherNumberOfClasses.set(0);
+        datamodel.getSubjectGroup().forEach(sj ->{
+          sj.subjects().forEach(s->{
+            if(s.teacherName().equals(t.getTeacherName())){
+              teacherNumberOfClasses.set(teacherNumberOfClasses.get() + s.numberOfClasses());
+            }
+          });
+        });
+
+        if(teacherNumberOfClasses.get() > this.configPreferencesService.getMaxClassPeerWeek()){
+          teacher.set(t.getTeacherName());
+          totalClassesNumber.set(teacherNumberOfClasses.get());
+        }
+      });
+
+      if(!teacher.get().equals("") && totalClassesNumber.get() > 25){
+        var message = new MessageDTO(teacher.get(),Integer.toString(totalClassesNumber.get() - this.configPreferencesService.getMaxClassPeerWeek()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+      }
+
+
       this.configPreferencesService.setScheduleModel(datamodel);
       this.callScheduleRequestService.callRequest();
       this.configPreferencesService.setScheduleGenerated(true);
