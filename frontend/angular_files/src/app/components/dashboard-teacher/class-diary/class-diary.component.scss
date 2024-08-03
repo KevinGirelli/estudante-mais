@@ -1,0 +1,228 @@
+:host {
+  display: block;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+  width: 70vw;
+  min-height: 40vh;
+  margin: 20vh auto;
+  box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 22px;
+
+  .header-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2vh;
+
+    .back {
+      align-self: flex-start;
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 1rem;
+      padding: 8px;
+      background-color: #9747FF;
+      transition: 0.5s;
+      border-radius: 4px;
+      margin: 1vh 0;
+
+      &:hover {
+        background-color: #6F2EEB;
+      }
+    }
+
+    h1 {
+      color: #292F47;
+      margin-right: 22vw;
+    }
+  }
+
+  .p-tabview {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  .header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    p-dropdown {
+      width: 40%;
+      height: 6vh;
+      border-radius: 8px;
+      border: 1px solid #CCC;
+      background-color: #F9F9F9;
+
+      &:focus {
+        border-color: #9747FF;
+        outline: none;
+        background-color: #FFFFFF;
+      }
+    }
+
+    ::ng-deep .p-dropdown {
+      width: 100%;
+      height: 6vh;
+      align-items: center;
+      border: none;
+      background-color: transparent;
+      
+      .p-inputtext {
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+      }
+    }
+
+    button {
+      width: 2.5vw;
+      height: 4vh;
+      background-color: #9747FF;
+      border: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #6a3ce9;
+      }
+    }
+  }
+
+  ::ng-deep .p-datatable {
+    margin-top: 1rem;
+    overflow: hidden;
+    background-color: #fff;
+
+    .p-datatable-thead > tr > th {
+      background-color: #9747FF;
+      color: #F9F9F9;
+      text-align: center;
+    }
+
+    .p-datatable-tbody > tr {
+      &:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+    }
+
+    .p-datatable-tbody > tr > td {
+      text-align: center;
+      padding: 0.75rem;
+    }
+
+    button {
+      margin: 0 0.5vw;
+    }
+  }
+
+  ::ng-deep .p-dialog {
+    .p-dialog-header {
+      background-color: #9747FF;
+      color: #FFFFFF;
+      font-size: 1.25rem;
+      font-weight: 600;
+      padding: 1rem;
+      border-radius: 15px 15px 0 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .p-dialog-content {
+      padding: 2rem;
+      background-color: #FFFFFF;
+      border-radius: 0 0 15px 15px;
+      width: 40vw;
+
+      .p-dialog-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .p-field {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 1rem;
+
+          label {
+            font-weight: 600;
+          }
+
+          input,
+          p-calendar,
+          p-dropdown {
+            width: 100%;
+            height: 6vh;
+            border-radius: 8px;
+            border: 1px solid #CCC;
+            background-color: #F9F9F9;
+
+            &:focus {
+              border-color: #9747FF;
+              outline: none;
+              background-color: #FFFFFF;
+            }
+          }
+
+          ::ng-deep .p-dropdown {
+            height: 6vh;
+            align-items: center;
+            border: none;
+            background-color: transparent;
+            
+            .p-inputtext {
+              border: none;
+              background-color: transparent;
+              box-shadow: none;
+            }
+          }
+
+          ::ng-deep .p-calendar {
+            border: none;
+            background-color: transparent;
+
+            .p-inputtext {
+              border: none;
+              background-color: transparent;
+              box-shadow: none;
+            }
+          }
+        }
+      }
+
+      .btn {
+        background-color: #9747FF;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: #6a3ce9;
+        }
+      }
+    }
+
+    ::ng-deep .p-dialog-header .p-dialog-header-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: #FFF;
+      transition: 0.5s;
+
+      &:hover {
+        color: #6a3ce9;
+      }
+    }
+  }
+
+  ::ng-deep .p-tabview-nav {
+    border: none;
+  }
+}

@@ -27,6 +27,7 @@ import { StudentScheduleComponent } from './components/dashboard-student/student
 import { TeacherScheduleComponent } from './components/dashboard-teacher/teacher-schedule/teacher-schedule.component';
 import { AuthTwoFactorComponent } from './components/login-component/auth-two-factor/auth-two-factor.component';
 import { MyAbsencesComponent } from './components/dashboard-student/my-absences/my-absences.component';
+import { ClassDiaryComponent } from './components/dashboard-teacher/class-diary/class-diary.component';
 
 export const routes: Routes = [
   { path: "403", component: Error403Component },
@@ -72,6 +73,8 @@ export const routes: Routes = [
   { path: "teacher/attendance", component: AttendanceComponent },
 
   { path: "teacher/schedule", component: TeacherScheduleComponent },
+
+  { path: "teacher/diary", component: ClassDiaryComponent },
 
   { path: "student", component: DashboardStudentComponent },
 

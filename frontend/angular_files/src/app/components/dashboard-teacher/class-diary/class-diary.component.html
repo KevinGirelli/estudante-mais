@@ -1,0 +1,68 @@
+<p-tabView>
+  <div class="header-item">
+    <a href="/teacher" class="back pi pi-arrow-left"></a>
+    <h1>Diário de Classes</h1>
+  </div>
+  <p-tabPanel>
+    <div class="header-actions">
+      <p-dropdown [options]="classOptions" [(ngModel)]="selectedClass" placeholder="Selecione a Turma"></p-dropdown>
+      <button pButton type="button" icon="pi pi-plus" (click)="showAddDiaryModal()" [disabled]="!selectedClass"></button>
+    </div>
+
+    <p-table [value]="filteredDiaryEntries" [paginator]="true" [rows]="5">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Data</th>
+          <th>Disciplina</th>
+          <th>Conteúdo</th>
+          <th>Presenças</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-diary>
+        <tr>
+          <td>{{ diary.date | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ diary.subject }}</td>
+          <td>{{ diary.content }}</td>
+          <td>{{ diary.attendance }}</td>
+          <td>
+            <button pButton type="button" icon="pi pi-pencil" (click)="editDiary(diary)"></button>
+            <button pButton type="button" icon="pi pi-trash" (click)="deleteDiary(diary)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <p-dialog header="Adicionar Diário" [(visible)]="displayAddDiaryModal" [modal]="true" [closable]="true" [draggable]="false">
+      <div class="p-fluid p-dialog-form">
+        <div class="p-field">
+          <label for="date">Data</label>
+          <p-calendar 
+            id="date" 
+            [(ngModel)]="newDiary.date" 
+            dateFormat="dd/mm/yy"
+            view="date">
+          </p-calendar>
+        </div>
+        <div class="p-field">
+          <label for="subject">Disciplina</label>
+          <p-dropdown 
+            id="subject" 
+            [options]="subjectOptions" 
+            [(ngModel)]="newDiary.subject" 
+            placeholder="Selecione a Disciplina">
+          </p-dropdown>
+        </div>
+        <div class="p-field">
+          <label for="content">Conteúdo</label>
+          <input id="content" type="text" pInputText [(ngModel)]="newDiary.content">
+        </div>
+        <div class="p-field">
+          <label for="attendance">Presenças</label>
+          <input id="attendance" type="text" pInputText [(ngModel)]="newDiary.attendance">
+        </div>
+        <button pButton label="Salvar" class="btn" (click)="addDiary()"></button>
+      </div>
+    </p-dialog>
+  </p-tabPanel>
+</p-tabView>
