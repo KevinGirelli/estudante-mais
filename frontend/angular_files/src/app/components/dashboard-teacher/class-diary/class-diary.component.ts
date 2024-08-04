@@ -53,7 +53,9 @@ export class ClassDiaryComponent {
   ];
 
   displayAddDiaryModal = false;
+  displayEditDiaryModal = false;
   newDiary: DiaryEntry = { date: new Date(), subject: '', content: '', attendance: '', class: '' };
+  selectedDiary: DiaryEntry = { date: new Date(), subject: '', content: '', attendance: '', class: '' };
 
   get filteredDiaryEntries(): DiaryEntry[] {
     return this.classDiary.filter(entry => entry.class === this.selectedClass);
@@ -74,6 +76,16 @@ export class ClassDiaryComponent {
   }
 
   editDiary(diary: DiaryEntry) {
+    this.selectedDiary = { ...diary };
+    this.displayEditDiaryModal = true;
+  }
+
+  updateDiary() {
+    const index = this.classDiary.findIndex(d => d === this.selectedDiary);
+    if (index !== -1) {
+      this.classDiary[index] = this.selectedDiary;
+      this.displayEditDiaryModal = false;
+    }
   }
 
   deleteDiary(diary: DiaryEntry) {

@@ -64,5 +64,37 @@
         <button pButton label="Salvar" class="btn" (click)="addDiary()"></button>
       </div>
     </p-dialog>
+
+    <p-dialog header="Editar Diário" [(visible)]="displayEditDiaryModal" [modal]="true" [closable]="true" [draggable]="false">
+      <div class="p-fluid p-dialog-form">
+        <div class="p-field">
+          <label for="editDate">Data</label>
+          <p-calendar 
+            id="editDate" 
+            [(ngModel)]="selectedDiary.date" 
+            dateFormat="dd/mm/yy"
+            view="date">
+          </p-calendar>
+        </div>
+        <div class="p-field">
+          <label for="editSubject">Disciplina</label>
+          <p-dropdown 
+            id="editSubject" 
+            [options]="subjectOptions" 
+            [(ngModel)]="selectedDiary.subject" 
+            placeholder="Selecione a Disciplina">
+          </p-dropdown>
+        </div>
+        <div class="p-field">
+          <label for="editContent">Conteúdo</label>
+          <input id="editContent" type="text" pInputText [(ngModel)]="selectedDiary.content">
+        </div>
+        <div class="p-field">
+          <label for="editAttendance">Presenças</label>
+          <input id="editAttendance" type="text" pInputText [(ngModel)]="selectedDiary.attendance">
+        </div>
+        <button pButton label="Salvar" class="btn" (click)="updateDiary()"></button>
+      </div>
+    </p-dialog>
   </p-tabPanel>
 </p-tabView>
