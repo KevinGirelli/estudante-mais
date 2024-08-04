@@ -9,7 +9,8 @@
   .attendance-content,
   .assessments-content,
   .schedule-content,
-  .two-factor-content {
+  .two-factor-content,
+  .diaryClass-content {
     margin: 5vh;
     background-color: #FFFFFF;
     border-radius: 8px 0 8px 0;
@@ -119,7 +120,8 @@
     .attendance-image,
     .assessments-image,
     .schedule-image,
-    .two-factor-image {
+    .two-factor-image,
+    .diaryClass-image {
       width: 45vw;
       height: 50vh;
       align-self: center;
@@ -134,7 +136,8 @@
 
   @media (max-width: 1024px) {
     .welcome-content,
-    .assessments-content{
+    .assessments-content,
+    .diaryClass-content {
       flex-direction: column-reverse !important;
     }
     
@@ -142,7 +145,8 @@
     .attendance-content,
     .assessments-content,
     .schedule-content,
-    .two-factor-content {
+    .two-factor-content,
+    .diaryClass-content {
       flex-direction: column;
       align-items: center;
       height: auto;
@@ -166,9 +170,8 @@
 
         a {
           width: 70vw;
-          height: 4.5vh;
+          height: 4vh;
           margin-bottom: 2vh;
-          padding: 4px;
           font-size: 14px;
         }
       }
@@ -194,7 +197,8 @@
       .attendance-image,
       .assessments-image,
       .schedule-image,
-      .two-factor-image {
+      .two-factor-image,
+      .diaryClass-image {
         width: 100%;
         height: 50%;
 
