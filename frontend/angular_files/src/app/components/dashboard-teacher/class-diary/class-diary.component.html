@@ -9,7 +9,14 @@
       <button pButton type="button" icon="pi pi-plus" (click)="showAddDiaryModal()" [disabled]="!selectedClass"></button>
     </div>
 
-    <p-table [value]="filteredDiaryEntries" [paginator]="true" [rows]="5">
+    <p *ngIf="!selectedClass" class="message">
+      Por favor, selecione uma turma para ver ou adicionar diários.
+    </p>
+    <p *ngIf="selectedClass && filteredDiaryEntries.length === 0" class="message">
+      Não há diários disponíveis para a turma selecionada.
+    </p>
+
+    <p-table *ngIf="selectedClass && filteredDiaryEntries.length > 0" [value]="filteredDiaryEntries" [paginator]="true" [rows]="5">
       <ng-template pTemplate="header">
         <tr>
           <th>Data</th>

@@ -20,7 +20,7 @@
       font-size: 1rem;
       padding: 8px;
       background-color: #9747FF;
-      transition: 0.5s;
+      transition: background-color 0.5s;
       border-radius: 4px;
       margin: 1vh 0;
 
@@ -67,7 +67,7 @@
       align-items: center;
       border: none;
       background-color: transparent;
-      
+
       .p-inputtext {
         border: none;
         background-color: transparent;
@@ -171,7 +171,7 @@
             align-items: center;
             border: none;
             background-color: transparent;
-            
+
             .p-inputtext {
               border: none;
               background-color: transparent;
@@ -201,7 +201,7 @@
         font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: background-color 0.3s;
 
         &:hover {
           background-color: #6a3ce9;
@@ -214,7 +214,7 @@
       top: 1rem;
       right: 1rem;
       color: #FFF;
-      transition: 0.5s;
+      transition: color 0.5s;
 
       &:hover {
         color: #6a3ce9;
@@ -224,5 +224,62 @@
 
   ::ng-deep .p-tabview-nav {
     border: none;
+  }
+
+  .message {
+    align-self: center;
+    text-align: center;
+    color: #292F47;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 2rem;
+    background-color: #F9F9F9;
+    border-radius: 8px;
+    margin-top: 2rem;
+
+    .icon {
+      font-size: 2rem;
+      color: #9747FF;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  :host {
+    padding: 1rem;
+    width: 100vw;
+    margin: 5vh auto;
+    box-shadow: none;
+  }
+
+  .header-item {
+    align-items: center;
+
+    h1 {
+      font-size: 1.5rem;
+      margin-right: 15vw !important;
+    }
+  }
+
+  .header-actions {
+    align-items: flex-start;
+
+    p-dropdown {
+      width: 70% !important;
+    }
+
+    button {
+      width: 10% !important;
+    }
+  }
+
+  ::ng-deep .p-dialog-content {
+    width: 100vw !important;
+  }
+
+  .no-diaries-message {
+    font-size: 0.875rem;
+    padding: 1rem;
   }
 }
