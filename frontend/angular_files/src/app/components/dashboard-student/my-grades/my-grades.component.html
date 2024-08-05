@@ -6,13 +6,13 @@
       <p-dropdown 
         [options]="subjects" 
         [(ngModel)]="selectedSubject" 
-        placeholder="Selecione a matéria"
+        [placeholder]="selectedSubject ? '' : 'Selecione a matéria'"
         (onChange)="onSelectChange()">
       </p-dropdown>
       <p-dropdown 
         [options]="periods" 
         [(ngModel)]="selectedPeriod" 
-        placeholder="Selecione o período"
+        [placeholder]="selectedPeriod ? '' : 'Selecione o período'"
         (onChange)="onSelectChange()">
       </p-dropdown>
     </div>

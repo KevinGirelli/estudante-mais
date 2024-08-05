@@ -6,22 +6,26 @@
       <p-dropdown 
         [options]="subjects" 
         [(ngModel)]="selectedSubject" 
-        placeholder="Selecione a matéria"
-        >
+        [placeholder]="selectedSubject ? '' : 'Selecione a matéria'">
       </p-dropdown>
       <p-dropdown 
         [options]="periods" 
         [(ngModel)]="selectedPeriod" 
-        placeholder="Selecione o período"
+        [placeholder]="selectedPeriod ? '' : 'Selecione o período'"
         (onChange)="onSelectChange()">
       </p-dropdown>
     </div>
-    <div class="absences-list" *ngIf="absences.length > 0">
-      <div *ngFor="let absence of absences" class="absence-item">
-        <span>{{ absence.date }}</span>
-        <input type="number" [value]="absence.count" readonly />
-      </div>
-    </div>
+    <p-listbox 
+      *ngIf="absences.length > 0" 
+      [options]="absences" 
+      optionLabel="date">
+      <ng-template let-absence pTemplate="item">
+        <div class="absence-item">
+          <span>{{ absence.date }}</span>
+          <input type="number" [value]="absence.count" readonly />
+        </div>
+      </ng-template>
+    </p-listbox>
     <div *ngIf="totalAbsences > 0" class="total-absences">
       Total de Faltas: {{ totalAbsences }}
     </div>

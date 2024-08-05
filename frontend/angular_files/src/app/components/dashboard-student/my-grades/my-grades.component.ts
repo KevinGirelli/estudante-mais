@@ -11,7 +11,13 @@ interface Grade {
 @Component({
   selector: 'app-my-grades',
   standalone: true,
-  imports: [DropdownModule, FormsModule, ListboxModule, NgForOf, NgIf],
+  imports: [
+    DropdownModule,
+    FormsModule, 
+    ListboxModule, 
+    NgForOf, 
+    NgIf
+  ],
   templateUrl: './my-grades.component.html',
   styleUrls: ['./my-grades.component.scss']
 })

@@ -24,6 +24,15 @@ interface Absence {
   styleUrls: ['./my-absences.component.scss']
 })
 export class MyAbsencesComponent implements OnInit{
+  subjects: { label: string, value: string }[] = [];
+  selectedSubject!: string;
+
+  periods: { label: string, value: number }[] = [];
+  selectedPeriod!: string;
+
+  absences: Absence[] = [];
+  totalAbsences: number = 0;
+
   async ngOnInit(): Promise<void> {
     const quarterType = await fetch("http://localhost:8080/grades/getCurrentType",{
       method: "GET",
@@ -69,7 +78,6 @@ export class MyAbsencesComponent implements OnInit{
       })
     }
 
-
     if(response1.status == 200){
       response1.json().then(data =>{
         for(let i = 0; i <= data.length-1; i++){
@@ -82,18 +90,7 @@ export class MyAbsencesComponent implements OnInit{
         }
       })
     }
-
   }
-  subjects: { label: string, value: string }[] = [];
-  selectedSubject!: string;
-
-  periods: { label: string, value: number }[] = [];
-  selectedPeriod!: string;
-
-  absences: Absence[] = [];
-  totalAbsences: number = 0;
-
-  allAbsences: { [key: string]: { [key: string]: Absence[] } } = {};
 
   async onSelectChange() {
     const response = await fetch("http://localhost:8080/absense/getAbsenseFromSubject/" + this.selectedSubject + 
@@ -121,8 +118,6 @@ export class MyAbsencesComponent implements OnInit{
           this.totalAbsences = total
         }
       })
-    }else{
-      
     }
   }
 }
