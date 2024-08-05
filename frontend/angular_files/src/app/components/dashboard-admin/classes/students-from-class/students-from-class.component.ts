@@ -49,7 +49,6 @@ export class StudentsFromClassComponent implements OnInit {
       if(res.status == 200){
         res.json().then(data =>{
           const keys = Object.keys(data)
-          
           for(let i = 0; i <= keys.length-1; i++){
             const addClass: Student = {
               studentID: data[i].studentID,

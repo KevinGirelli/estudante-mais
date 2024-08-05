@@ -23,6 +23,12 @@ public class attendence {
   @Column(name = "status")
   attendenceStatus status;
 
+  @Column(name = "quarter")
+  int quarter;
+
+  @ManyToOne
+  subjects subjects;
+
   @Column(name = "numberOfClasses")
   int numberOfClasses;
 
@@ -31,23 +37,43 @@ public class attendence {
 
   public attendence(){super();}
 
-  public attendence(com.project.EstudanteMais.Entity.student student, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher, attendenceStatus status, int numberOfClasses, String missDate) {
-    this.student = student;
-    this.classes = classes;
-    this.teacher = teacher;
-    this.status = status;
-    this.numberOfClasses = numberOfClasses;
-    this.missDate = missDate;
-  }
-
-  public attendence(UUID attendenceID, com.project.EstudanteMais.Entity.student student, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher, attendenceStatus status, int numberOfClasses, String missDate) {
+  public attendence(UUID attendenceID, com.project.EstudanteMais.Entity.student student, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher, attendenceStatus status, int quarter, com.project.EstudanteMais.Entity.subjects subjects, int numberOfClasses, String missDate) {
     this.attendenceID = attendenceID;
     this.student = student;
     this.classes = classes;
     this.teacher = teacher;
     this.status = status;
+    this.quarter = quarter;
+    this.subjects = subjects;
     this.numberOfClasses = numberOfClasses;
     this.missDate = missDate;
+  }
+
+  public attendence(com.project.EstudanteMais.Entity.student student, com.project.EstudanteMais.Entity.classes classes, com.project.EstudanteMais.Entity.teacher teacher, attendenceStatus status, int quarter, com.project.EstudanteMais.Entity.subjects subjects, int numberOfClasses, String missDate) {
+    this.student = student;
+    this.classes = classes;
+    this.teacher = teacher;
+    this.status = status;
+    this.quarter = quarter;
+    this.subjects = subjects;
+    this.numberOfClasses = numberOfClasses;
+    this.missDate = missDate;
+  }
+
+  public com.project.EstudanteMais.Entity.subjects getSubjects() {
+    return subjects;
+  }
+
+  public void setSubjects(com.project.EstudanteMais.Entity.subjects subjects) {
+    this.subjects = subjects;
+  }
+
+  public int getQuarter() {
+    return quarter;
+  }
+
+  public void setQuarter(int quarter) {
+    this.quarter = quarter;
   }
 
   public com.project.EstudanteMais.Entity.teacher getTeacher() {

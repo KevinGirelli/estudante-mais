@@ -80,7 +80,7 @@ export class ClassesComponent implements OnInit {
 
   navigateToStudents() {
     if (this.selectedClass) {
-      this.datasaver.setData(this.selectedClass.classID)
+      localStorage.setItem("classID", this.selectedClass.classID)
       this.router.navigate(['admin/class/students', this.selectedClass.className]);
     }
   }

@@ -37,9 +37,6 @@ public class teacherController {
   configPreferencesService configPreferencesService;
 
   @Autowired
-  subjectsRepository subjectsRepository;
-
-  @Autowired
   teacherClassesRepository teacherClassesRepository;
 
   @Autowired
@@ -58,12 +55,13 @@ public class teacherController {
   teacherSubjectRepository teacherSubjectRepository;
   @GetMapping("/getTeacherSubject/{teacherID}")
   public ResponseEntity getTeacherSubject(@PathVariable(value = "teacherID")String teacherID){
-    List<teacherSubject> teacherSubjects = this.teacherSubjectRepository.findByteacher(this.teacherRepository.findByteacherID(UUID.fromString(teacherID)));
+    List<TeacherClasses> teacherSubjects = this.teacherClassesRepository.findByteacher(this.teacherRepository.findByteacherID(UUID.fromString(teacherID)));
     subjectsDTO subjects = new subjectsDTO();
     if(teacherSubjects != null){
         List<String> temp = new ArrayList<>();
         teacherSubjects.forEach(subject ->{
-          temp.add(subject.getSubject().getSubjectID().toString() + "," + subject.getSubject().getSubjectname());
+          temp.add(subject.getSubjects().getSubjectID().toString() + "," + subject.getSubjects().getSubjectname() + ","
+          + subject.getClasses().getClassName() + "," + subject.getClasses().getClassID().toString());
         });
         subjects.setSubjectsIDS(temp);
         return ResponseEntity.ok(subjects);

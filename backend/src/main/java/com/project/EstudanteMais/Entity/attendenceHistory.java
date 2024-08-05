@@ -12,14 +12,14 @@ public class attendenceHistory {
   UUID registrationID;
 
   @Column(name = "registrationDate",nullable = false)
-  private Date registrationDate;
+  public String registrationDate;
 
   @ManyToOne
   attendence missedClasses;
 
   public attendenceHistory(){super();}
 
-  public attendenceHistory(Date registrationDate, attendence missedClasses){
+  public attendenceHistory(String registrationDate, attendence missedClasses){
     this.registrationDate = registrationDate;
     this.missedClasses = missedClasses;
   }
@@ -32,11 +32,11 @@ public class attendenceHistory {
     this.registrationID = registrationID;
   }
 
-  public Date getRegistrationDate() {
+  public String getRegistrationDate() {
     return registrationDate;
   }
 
-  public void setRegistrationDate(Date registrationDate) {
+  public void setRegistrationDate(String registrationDate) {
     this.registrationDate = registrationDate;
   }
 

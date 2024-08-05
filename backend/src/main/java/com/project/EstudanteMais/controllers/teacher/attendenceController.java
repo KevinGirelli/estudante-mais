@@ -2,19 +2,22 @@ package com.project.EstudanteMais.controllers.teacher;
 
 import com.project.EstudanteMais.Entity.*;
 import com.project.EstudanteMais.Entity.dto.registryAttendenceDTO;
-import com.project.EstudanteMais.repository.attendenceRepository;
-import com.project.EstudanteMais.repository.classesRepository;
-import com.project.EstudanteMais.repository.studentRepository;
-import com.project.EstudanteMais.repository.teacherRepository;
+import com.project.EstudanteMais.repository.*;
+import com.project.EstudanteMais.services.configPreferencesService;
+import com.project.EstudanteMais.services.formatDateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 @RequestMapping("/attendence")
 public class attendenceController {
+
+  @Autowired
+  configPreferencesService configPreferencesService;
 
   @Autowired
   studentRepository studentRepository;
@@ -28,23 +31,52 @@ public class attendenceController {
   @Autowired
   attendenceRepository attendenceRepository;
 
+  @Autowired
+  attendenceHistoryRepository attendenceHistoryRepository;
+
+  @Autowired
+  subjectsRepository subjectsRepository;
+
+  @Autowired
+  formatDateService formatDateService;
+
   @PostMapping("/registryAttendence")
   public ResponseEntity registryNewAttendence(@RequestBody registryAttendenceDTO data){
     classes getClass = this.classesRepository.findByclassID(UUID.fromString(data.classID()));
     teacher getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(data.teacherID()));
+    subjects getSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(data.subjectID()));
+    String formattedDate  = this.formatDateService.formatDate(data.date());
+
+    AtomicBoolean alreadyPosted = new AtomicBoolean();
+
+    var verify = this.attendenceHistoryRepository.findByregistrationDate(formattedDate);
+    verify.forEach(a ->{
+      if(a.getMissedClasses().getClasses() == getClass){
+        if(a.getMissedClasses().getTeacher() == getTeacher){
+          if(a.getMissedClasses().getSubjects() == getSubject){
+            alreadyPosted.set(true);
+          }
+        }
+      }
+    });
+
+    if(alreadyPosted.get()){
+      return ResponseEntity.badRequest().build();
+    }
+
     data.students().forEach(students ->{
       var split = students.split(",");
       student getStudent = this.studentRepository.findBystudentID(UUID.fromString(split[0]));
-
-      var splitDate = data.date().split("T");
-      var splitData2 = splitDate[0];
-      var splitData3 = splitData2.split("-");
-      var formattedDate = splitData3[2] + "/" + splitData3[1] + "/" +splitData3[0];
-
       attendence newAtt = new attendence(getStudent,getClass,getTeacher,
-              attendenceStatus.valueOf(split[1]),data.quantity(),formattedDate);
+              attendenceStatus.valueOf(split[1]),this.configPreferencesService.getCurrentQuarterType(),getSubject,data.quantity(),formattedDate);
 
-      this.attendenceRepository.save(newAtt);
+      attendence savedAttendece = this.attendenceRepository.save(newAtt);
+
+      attendenceHistory registry = new attendenceHistory(
+              formattedDate,
+              savedAttendece
+      );
+      this.attendenceHistoryRepository.save(registry);
     });
     return ResponseEntity.ok().build();
   }

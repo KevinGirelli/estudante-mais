@@ -72,6 +72,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/assess/createNewAssessment").hasAnyAuthority("TEACHER","ADMIN")
                     .requestMatchers(HttpMethod.GET, "/teacher/getTeacherSubject").hasAnyAuthority("TEACHER","ADMIN")
                     .requestMatchers(HttpMethod.POST, "/admin/registerClass").hasAuthority("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/absense/getAbsenseFromSubject").hasAuthority("STUDENT")
                     .requestMatchers(HttpMethod.GET, "admin/subjectDataManager/getSubjects").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "admin/classesDataManager/getClassesAsync").hasAnyAuthority("ADMIN","TEACHER")
                     .anyRequest().authenticated())

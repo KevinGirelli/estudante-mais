@@ -7,7 +7,7 @@
       <div class="form-item">
         <label class="label" for="className">Turma</label>
         <select class="input-field" [(ngModel)]="className" id="className">
-          <option *ngFor="let class of classes" [value]="class.id">{{class.name}}</option>
+          <option *ngFor="let class of classes" [value]="class.classID">{{class.name}}</option>
         </select>        
       </div>
       <div class="form-item">
@@ -39,6 +39,7 @@
         view="date" 
         [(ngModel)]="attendanceDate"
         dateFormat="dd/mm/yy"
+        [disabled]="isDisabled">
       ></p-calendar>
     </div>
     <div class="form-item">

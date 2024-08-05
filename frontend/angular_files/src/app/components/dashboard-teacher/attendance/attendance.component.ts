@@ -18,6 +18,9 @@ interface Student {
 interface Class {
   id: string;
   name: string;
+  className: string
+  classID: string
+  subjectName: string;
 }
 
 @Component({
@@ -51,9 +54,11 @@ export class AttendanceComponent implements OnInit {
   className: string = '';
   quantity: number = 0;
   attendanceDate: Date = new Date();
+  isDisabled: boolean = true
+
 
   async ngOnInit(): Promise<void> {
-    const response = await fetch("http://localhost:8080/teacher/getAllClassesFromTeacher/" + localStorage.getItem("userID"), {
+    const response = await fetch("http://localhost:8080/teacher/getTeacherSubject/" + localStorage.getItem("userID"), {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
@@ -66,20 +71,23 @@ export class AttendanceComponent implements OnInit {
 
     if (response.status == 200) {
       response.json().then(data => {
-        const keys = Object.keys(data);
-        for (let i = 0; i <= keys.length - 1; i++) {
-          const add: Class = {
-            id: data[i].classID,
-            name: data[i].className
-          };
-          this.classes.push(add);
+        for(let i = 0; i <= data.subjectsIDS.length-1; i++){
+          let dataSplit = data.subjectsIDS[i].split(",")
+          let addClass: Class = {
+            id: dataSplit[0],
+            name: dataSplit[2] + "-" + dataSplit[1],
+            classID: dataSplit[0] + "," + dataSplit[3],
+            className: dataSplit[2],
+            subjectName: dataSplit[1]
+          }
+          this.classes.push(addClass);
         }
       });
     }
   }
 
   async showModal() {
-    const response = await fetch("http://localhost:8080/attendence/getAllStudentsFromClass/" + this.className, {
+    const response = await fetch("http://localhost:8080/attendence/getAllStudentsFromClass/" + this.className.split(",")[1], {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
@@ -131,26 +139,33 @@ export class AttendanceComponent implements OnInit {
     });
 
     const sendData = {
-      classID: this.className,
+      classID: this.className.split(",")[1],
       teacherID: localStorage.getItem("userID"),
       quantity: this.quantity,
       date: this.attendanceDate,
-      students: students
+      students: students,
+      subjectID: this.className.split(",")[0]
     };
 
-    const response = await fetch("http://localhost:8080/attendence/registryAttendence", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token")
-      },
-      body: JSON.stringify(sendData)
-    });
-
-    if (response.status == 200) {
-      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Presenças registradas com sucesso!' });
-    } else {
-      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao registrar presenças!' });
+    if(sendData.students.length == 0){
+      this.messageService.add({ severity: 'info', summary: 'Alunos insuficientes', detail: 'Nenhum aluno encontrado para está turma, a chamada não foi registrada.'});
+    }else{
+      const response = await fetch("http://localhost:8080/attendence/registryAttendence", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        body: JSON.stringify(sendData)
+      });
+  
+      if (response.status == 200) {
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Presenças registradas com sucesso!' });
+      } else if(response.status == 400) {
+        this.messageService.add({ severity: 'info', summary: 'Chamada já registrada.', detail: 'A chamada para está turma ja foi registrada hoje.' + 
+          " Contate o administrador da instituição caso houve algum tipo de engano."
+        });
+      }
     }
   }
 
