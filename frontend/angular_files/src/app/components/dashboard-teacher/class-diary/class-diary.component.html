@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <p-tabView>
   <div class="header-item">
     <a href="/teacher" class="back pi pi-arrow-left"></a>
@@ -5,7 +6,7 @@
   </div>
   <p-tabPanel>
     <div class="header-actions">
-      <p-dropdown [options]="classOptions" [(ngModel)]="selectedClass" placeholder="Selecione a Turma"></p-dropdown>
+      <p-dropdown [options]="classOptions" (onChange)="onClassesChange()" optionLabel="className" [(ngModel)]="selectedClass" placeholder="Selecione a Turma"></p-dropdown>
       <button pButton type="button" icon="pi pi-plus" (click)="showAddDiaryModal()" [disabled]="!selectedClass"></button>
     </div>
 
@@ -22,16 +23,16 @@
           <th>Data</th>
           <th>Disciplina</th>
           <th>Conteúdo</th>
-          <th>Presenças</th>
+          <th>Observações</th>
           <th>Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-diary>
         <tr>
           <td>{{ diary.date | date: 'dd/MM/yyyy' }}</td>
-          <td>{{ diary.subject }}</td>
+          <td>{{ diary.subject.subjectName }}</td>
           <td>{{ diary.content }}</td>
-          <td>{{ diary.attendance }}</td>
+          <td>{{ diary.obs }}</td>
           <td>
             <button pButton type="button" icon="pi pi-pencil" (click)="editDiary(diary)"></button>
             <button pButton type="button" icon="pi pi-trash" (click)="deleteDiary(diary)"></button>
@@ -55,7 +56,8 @@
           <label for="subject">Disciplina</label>
           <p-dropdown 
             id="subject" 
-            [options]="subjectOptions" 
+            [options]="subjectOptionFilter"
+            optionLabel="subjectName"
             [(ngModel)]="newDiary.subject" 
             placeholder="Selecione a Disciplina">
           </p-dropdown>
@@ -65,8 +67,8 @@
           <input id="content" type="text" pInputText [(ngModel)]="newDiary.content">
         </div>
         <div class="p-field">
-          <label for="attendance">Presenças</label>
-          <input id="attendance" type="text" pInputText [(ngModel)]="newDiary.attendance">
+          <label for="obs">Observações</label>
+          <input id="obs" type="text" pInputText [(ngModel)]="newDiary.obs">
         </div>
         <button pButton label="Salvar" class="btn" (click)="addDiary()"></button>
       </div>
@@ -87,8 +89,9 @@
           <label for="editSubject">Disciplina</label>
           <p-dropdown 
             id="editSubject" 
-            [options]="subjectOptions" 
+            [options]="subjectOptionFilter" 
             [(ngModel)]="selectedDiary.subject" 
+            optionLabel="subjectName"
             placeholder="Selecione a Disciplina">
           </p-dropdown>
         </div>
@@ -97,8 +100,8 @@
           <input id="editContent" type="text" pInputText [(ngModel)]="selectedDiary.content">
         </div>
         <div class="p-field">
-          <label for="editAttendance">Presenças</label>
-          <input id="editAttendance" type="text" pInputText [(ngModel)]="selectedDiary.attendance">
+          <label for="editOBS">Observações</label>
+          <input id="editOBS" type="text" pInputText [(ngModel)]="selectedDiary.obs">
         </div>
         <button pButton label="Salvar" class="btn" (click)="updateDiary()"></button>
       </div>

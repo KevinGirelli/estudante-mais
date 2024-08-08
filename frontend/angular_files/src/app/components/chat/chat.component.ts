@@ -214,7 +214,7 @@ export class ChatComponent implements OnInit {
 
       if(this.currentUser == "teacher"){
         let backendMessage = {
-          senderName: "Professor " + message.sender,
+          senderName: "Professor(a) " + message.sender,
           message: this.newMessage,
         }
         
