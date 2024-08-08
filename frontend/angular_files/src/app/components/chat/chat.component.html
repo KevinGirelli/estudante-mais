@@ -1,30 +1,34 @@
-<div class="chat-container">
-  <div class="sidebar" [ngClass]="{'expanded': sidebarExpanded}">
-    <a (click)="back()" class="back pi pi-arrow-left"></a>
-    <h3>Minhas Conversas</h3>
-    <div class="conversation-list" *ngIf="sidebarExpanded">
-      <button *ngFor="let conversation of conversations"
-              pButton
-              label="{{ conversation }}"
-              (click)="loadConversation(conversation)"
-              [class.active]="conversation === currentConversation">
-      </button>
-    </div>
+<p-sidebar [(visible)]="sidebarExpanded" (onHide)="toggleSidebar()" [baseZIndex]="1000" [style]="{'width': '300px'}" [showCloseIcon]="false">
+  <div class="sidebar-header">
+    <button pButton type="button" icon="pi pi-arrow-left" (click)="back()" class="p-button-text back-button"></button>
   </div>
-  <div class="chat-window">
-    <div class="messages">
-      <div *ngFor="let message of messages" class="message" [ngClass]="{'aluno': message.sender === 'student', 'professor': message.sender === 'teacher'}">
-        <div class="message-content">
-          <strong>{{ message.sender }}:</strong> {{ message.content }}
-        </div>
-        <div class="timestamp">{{ message.timestamp | date:'shortTime' }}</div>
+  <ul>
+    <li *ngFor="let conversation of conversations" (click)="loadConversation(conversation)">
+      {{ conversation }}
+    </li>
+  </ul>
+</p-sidebar>
+<div *ngIf="sidebarExpanded" class="overlay" (click)="toggleSidebar()"></div>
+<div class="chat-container">
+  <div class="header">
+    <button class="menu-button p-button p-component p-button-text" *ngIf="!sidebarExpanded" (click)="toggleSidebar()">
+      <span class="pi pi-bars"></span>
+    </button>
+    <h2 class="conversation-title">{{ currentConversation }}</h2>
+  </div>
+  <div class="messages">
+    <div *ngFor="let message of messages"
+         class="message"
+         [ngClass]="{'sent': message.sender === getUsername(), 'received': message.sender !== getUsername()}">
+      <div class="message-content">
+        <span class="sender">{{ message.sender }}</span>
+        <span class="content">{{ message.content }}</span>
+        <span class="timestamp">{{ message.timestamp | date: 'shortTime' }}</span>
       </div>
     </div>
-    <div class="input-container">
-      <input pInputText [(ngModel)]="newMessage" placeholder="Digite uma mensagem..." />
-      <button type="button" class="send-button" (click)="sendMessage()">
-        <i class="pi pi-send"></i>
-      </button>
-    </div>
+  </div>
+  <div class="input-area">
+    <input pInputText type="text" [(ngModel)]="newMessage" placeholder="Digite sua mensagem..." />
+    <button pButton type="button" icon="pi pi-send" (click)="sendMessage()" class="send-button"></button>
   </div>
 </div>
