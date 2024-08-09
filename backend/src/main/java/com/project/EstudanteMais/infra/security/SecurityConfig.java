@@ -76,6 +76,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/classDiary/editClassDiary").hasAuthority("TEACHER")
                     .requestMatchers(HttpMethod.GET,"/classDiary/getClassDiary").hasAuthority("TEACHER")
                     .requestMatchers(HttpMethod.DELETE, "/classDiary/deleteClassDiary").hasAuthority("TEACHER")
+                    .requestMatchers(HttpMethod.GET, "/admin/schedule/getScheduleSettings").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/absense/getAbsenseFromSubject").hasAuthority("STUDENT")
                     .requestMatchers(HttpMethod.GET, "admin/subjectDataManager/getSubjects").hasAuthority("ADMIN")
                     .requestMatchers(HttpMethod.GET, "admin/classesDataManager/getClassesAsync").hasAnyAuthority("ADMIN","TEACHER")

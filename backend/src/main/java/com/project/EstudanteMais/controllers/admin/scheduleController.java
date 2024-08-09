@@ -134,6 +134,15 @@ public class scheduleController {
     this.configPreferencesService.setMaxConsecutiveClass(Integer.parseInt(setting[2]));
     return ResponseEntity.ok().build();
   }
+
+  @GetMapping("/getScheduleSettings")
+  public ResponseEntity getScheduleSettings(){
+    List<Integer> scheduleSettings = new ArrayList<>();
+    scheduleSettings.add(this.configPreferencesService.getMaxClassPeerWeek());
+    scheduleSettings.add(this.configPreferencesService.getMaxClassPerDay());
+    scheduleSettings.add(this.configPreferencesService.getMaxConsecutiveClass());
+    return ResponseEntity.ok(scheduleSettings);
+  }
   @GetMapping("/getSchedule")
   public ResponseEntity getSchedule() throws IOException {
     if(this.configPreferencesService.isScheduleGenerated()){

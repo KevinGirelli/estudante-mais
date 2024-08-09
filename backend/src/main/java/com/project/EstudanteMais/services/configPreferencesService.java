@@ -15,11 +15,11 @@ public class configPreferencesService {
 
   //scheduleGen config
 
-  private int maxConsecutiveClass = 0;
+  private int maxConsecutiveClass = 2;
 
-  private int MaxClassPerDay = 0;
+  private int MaxClassPerDay = 5;
 
-  private int maxClassPeerWeek = 0;
+  private int maxClassPeerWeek = 25;
 
 
   //Admin preferences config

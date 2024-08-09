@@ -41,6 +41,9 @@ public class classesDataManager {
   @Autowired
   subjectsRepository subjectsRepository;
 
+  @Autowired
+  teacherRepository teacherRepository;
+
   @GetMapping("/getClassesAsync")
   public ResponseEntity getClasses(){
       var allClasses = this.classesRepository.findAll();
@@ -71,8 +74,10 @@ public class classesDataManager {
      }
   }
 
-  @GetMapping("/getSearchAllClassesRelatedToSubject/{subjectsIDS}")
-  public ResponseEntity getAllClassesRelatedToSubject(@PathVariable(value = "subjectsIDS") String subjects){
+  @GetMapping("/getSearchAllClassesRelatedToSubject/{subjectsIDS}/{teacherID}")
+  public ResponseEntity getAllClassesRelatedToSubject(@PathVariable(value = "subjectsIDS") String subjects, @PathVariable(value = "teacherID")String teacherID){
+    var getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(teacherID));
+
     List<String> ids = new ArrayList<>();
     var split = subjects.split(",");
     for(int c = 0; c <= split.length-1; c++){
@@ -80,13 +85,19 @@ public class classesDataManager {
     }
     List<classes_subjects> allClasses = new ArrayList<>();
     List<avaliableClassesDTO> avaliableClasses = new ArrayList<>();
+    List<classes_subjects> ownTeacherClasses = new ArrayList<>();
 
     ids.forEach(subject ->{
         var getSubject =  this.subjectsRepository.findBysubjectID(UUID.fromString(subject));
         List<classes_subjects> allClassesBySubject = this.classesSubjectsRepository.findBysubjects(getSubject);
         allClassesBySubject.forEach(classToADD -> {
-            if(this.teacherClassesRepository.findByClassesAndSubjects(classToADD.getClasses(),classToADD.getSubjects()) == null){
+            var verify = this.teacherClassesRepository.findByClassesAndSubjects(classToADD.getClasses(),classToADD.getSubjects());
+            if(verify == null){
               allClasses.add(classToADD);
+            }else{
+              if(verify.getTeacher().getTeacherID().toString().equals(getTeacher.getTeacherID().toString())){
+                ownTeacherClasses.add(classToADD);
+              }
             }
         });
     });
@@ -96,9 +107,24 @@ public class classesDataManager {
               this.uuiDformatter.formatUuid(classes.getSubjects().getSubjectID()),
               classes.getClasses().getClassName(),
               classes.getSubjects().getSubjectname(),
-              classes.getNumberOfClasses()
+              classes.getNumberOfClasses(),
+              false
       );
       avaliableClasses.add(addClass);
+    });
+
+    ownTeacherClasses.forEach(classes ->{
+      if(!avaliableClasses.contains(classes)){
+        avaliableClassesDTO addClass = new avaliableClassesDTO(
+                this.uuiDformatter.formatUuid(classes.getClasses().getClassID()),
+                this.uuiDformatter.formatUuid(classes.getSubjects().getSubjectID()),
+                classes.getClasses().getClassName(),
+                classes.getSubjects().getSubjectname(),
+                classes.getNumberOfClasses(),
+                true
+        );
+        avaliableClasses.add(addClass);
+      }
     });
     return ResponseEntity.ok(avaliableClasses);
   }

@@ -45,6 +45,8 @@ export class TeacherEditComponent implements OnInit {
   isMenuOpen = false;
   visible: boolean = false;
   confirmEditVisible: boolean = false;
+  amountOfClasses: number = 0
+  maxClassesPerWeek: number = 0
 
   teacherClasses: TeacherClass[] = [];
 
@@ -64,12 +66,26 @@ export class TeacherEditComponent implements OnInit {
     const teacher = this.dataSaverService.getData();
 
     try {
+      const getScheduleSettings = await fetch("http://localhost:8080/admin/schedule/getScheduleSettings",{
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      })
+
+
       const subjectsResponse = await fetch("http://localhost:8080/admin/subjectDataManager/getSubjects", {
         method: "GET",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
       });
+
+      if(getScheduleSettings.status == 200){
+        getScheduleSettings.json().then(data =>{
+          this.maxClassesPerWeek = data[0]
+        })
+      }
 
       if (subjectsResponse.status === 403) {
         console.log("REDIRECT");
@@ -93,7 +109,9 @@ export class TeacherEditComponent implements OnInit {
           }
         }
       }
-      const classesResponse = await fetch("http://localhost:8080/admin/classesDataManager/getSearchAllClassesRelatedToSubject/" + this.subjectsIDS, {
+      
+      const classesResponse = await fetch("http://localhost:8080/admin/classesDataManager/getSearchAllClassesRelatedToSubject/" + this.subjectsIDS
+        + "/" + teacher.teacherID, {
         method: "GET",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
@@ -106,17 +124,32 @@ export class TeacherEditComponent implements OnInit {
       }
 
       if (classesResponse.status === 200) {
+        this;this.amountOfClasses = 0
         const data = await classesResponse.json();
         let keys = Object.keys(data);
         for (let i = 0; i <= keys.length - 1; i++) {
-          const addTeacherClass: TeacherClass = {
-            classID: data[i].classID,
-            subjectID: data[i].subjectID,
-            className: data[i].className,
-            subjectName: data[i].subjectName,
-            quantity: data[i].quantity
-          };
-          this.teacherClasses.push(addTeacherClass);
+          if(data[i].isATeacherClass){
+            const addTeacherClass: TeacherClass = {
+              classID: data[i].classID,
+              subjectID: data[i].subjectID,
+              className: data[i].className,
+              subjectName: data[i].subjectName,
+              quantity: data[i].quantity
+            };
+            this.amountOfClasses += addTeacherClass.quantity
+            this.teacherClasses.push(addTeacherClass);
+            this.selectedClasses.push(addTeacherClass)
+          }else{
+            const addTeacherClass: TeacherClass = {
+              classID: data[i].classID,
+              subjectID: data[i].subjectID,
+              className: data[i].className,
+              subjectName: data[i].subjectName,
+              quantity: data[i].quantity
+            };
+            this.teacherClasses.push(addTeacherClass);
+          } 
+          
         }
       }
 
@@ -137,9 +170,24 @@ export class TeacherEditComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  onClassChange(event:any){
+    let count = 0
+    this.selectedClasses.forEach(c =>{
+      count += c.quantity
+    })
+    this.amountOfClasses = count
+    if(count > this.maxClassesPerWeek){
+      this.messageService.add({ severity: 'info', summary: 'Limite excedido', detail:
+         `O limite de aulas por semana para este professor foi excedido(${this.maxClassesPerWeek})`});
+    }
+  }
+
   addClass(teacherClass: TeacherClass) {
+    console.log("t")
     if (!this.selectedClasses.includes(teacherClass)) {
       this.selectedClasses.push(teacherClass);
+      
+      this.amountOfClasses += teacherClass.quantity
     }
   }
 
@@ -147,11 +195,11 @@ export class TeacherEditComponent implements OnInit {
     const index = this.selectedClasses.indexOf(teacherClass);
     if (index > -1) {
       this.selectedClasses.splice(index, 1);
+      this.amountOfClasses -= teacherClass.quantity
     }
   }
 
   confirmClasses() {
-    console.log('Classes confirmadas:', this.selectedClasses);
     this.visible = false;
   }
 
@@ -168,48 +216,60 @@ export class TeacherEditComponent implements OnInit {
   }
 
   async editarProfessor() {
-    let subjects: string[] = []
-    this.selectedSubjects.forEach(t => {
-      subjects.push(t.subjectID)
-    })
-    
-    let teacherClasses: string[] = []
-    this.selectedClasses.forEach(teacherClass => {
-      let stringFormat = teacherClass.subjectID + "," + teacherClass.classID
-      teacherClasses.push(stringFormat)
-    })
-    
-    let teacherData = {
-      teacherID: this.teacherID,
-      nome: this.teacherName,
-      email: this.teacherEmail,
-      cpf: this.teacherCPF,
-      subjects: subjects,
-      teacherClasses: teacherClasses
-    }
-
-    try {
-      const response = await fetch("http://localhost:8080/admin/teacherDataManager/updateTeacherPrimaryData", {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token")
-        },
-        body: JSON.stringify(teacherData)
-      });
-
-      if (response.ok) {
-        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Professor editado com sucesso!' });
-      } else {
-        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível editar o professor.' });
+    if(this.amountOfClasses < this.maxClassesPerWeek){
+      let subjects: string[] = []
+      this.selectedSubjects.forEach(t => {
+        subjects.push(t.subjectID)
+      })
+      
+      let teacherClasses: string[] = []
+      let removeTeacherClasses: string[] = []
+      this.selectedClasses.forEach(teacherClass => {
+        let stringFormat = teacherClass.subjectID + "," + teacherClass.classID
+        teacherClasses.push(stringFormat)
+      })
+  
+      this.teacherClasses.forEach(teacherClass =>{
+        if(!this.selectedClasses.includes(teacherClass)){
+          let stringFormat = teacherClass.subjectID + "," + teacherClass.classID
+          removeTeacherClasses.push(stringFormat)
+        }
+      })
+      
+      let teacherData = {
+        teacherID: this.teacherID,
+        nome: this.teacherName,
+        email: this.teacherEmail,
+        cpf: this.teacherCPF,
+        subjects: subjects,
+        teacherClasses: teacherClasses,
+        removeTeacherClasses: removeTeacherClasses
       }
-
-      this.closeConfirmEditDialog();
-
-    } catch (error) {
-      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro na requisição.' });
-      console.error("Erro na requisição:", error);
+  
+      try {
+        const response = await fetch("http://localhost:8080/admin/teacherDataManager/updateTeacherPrimaryData", {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token")
+          },
+          body: JSON.stringify(teacherData)
+        });
+  
+        if (response.ok) {
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Professor editado com sucesso!' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível editar o professor.' });
+        }
+  
+        this.closeConfirmEditDialog();
+  
+      } catch (error) {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro na requisição.' });
+        console.error("Erro na requisição:", error);
+      }
     }
+    this.messageService.add({ severity: 'info', summary: 'Quantidade de aulas excedida', detail: 'Por favor ajuste a quantidade de aulas para prosseguir.' });
   }
 
   back() {

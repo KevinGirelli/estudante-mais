@@ -19,6 +19,7 @@ target/
 *.iml
 *.ipr
 backend\src\main\resources\application.properties
+Schedule.xlsx
 
 ### NetBeans ###
 /nbproject/private/

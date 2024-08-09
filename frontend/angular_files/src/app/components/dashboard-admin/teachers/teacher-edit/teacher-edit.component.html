@@ -70,7 +70,7 @@
 
 <div class="card">
   <p-dialog header="Adicionar Aulas" [modal]="true" [(visible)]="visible" [style]="{ 'width': '35vw'}" [closable]="true" [draggable]="false">
-    <p-listbox [options]="teacherClasses" [(ngModel)]="selectedClasses" optionLabel="className" [style]="{'width':'15rem'}" [listStyle]="{'max-height': '220px'}" [multiple]="true">
+    <p-listbox [options]="teacherClasses" [(ngModel)]="selectedClasses"  (onChange)="onClassChange($event)" optionLabel="className" [style]="{'width':'15rem'}" [listStyle]="{'max-height': '220px'}" [multiple]="true">
       <ng-template let-teacherClass pTemplate="item">
         <div class="class-item">
           <span>{{ teacherClass.className }}</span>
@@ -83,6 +83,7 @@
         </div>
       </ng-template>
     </p-listbox>
+    <span>Quantidade de aulas na semana: {{amountOfClasses}}</span>
     <div class="modal-btn">
       <button pButton class="modal-btn-listbox" (click)="confirmClasses()">Confirmar</button>
     </div>    

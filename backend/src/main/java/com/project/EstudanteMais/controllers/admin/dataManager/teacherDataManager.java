@@ -125,8 +125,22 @@ public class teacherDataManager {
         var split = teacherClass.split(",");
         var getClass = this.classesRepository.findByclassID(UUID.fromString(split[1]));
         var getSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(split[0]));
-        TeacherClasses newRegistry = new TeacherClasses(getTeacher,getClass,getSubject);
-        this.teacherClassesRepository.save(newRegistry);
+
+        if(this.teacherClassesRepository.findByClassesAndSubjects(getClass,getSubject) == null){
+          TeacherClasses newRegistry = new TeacherClasses(getTeacher,getClass,getSubject);
+          this.teacherClassesRepository.save(newRegistry);
+        }
+      });
+
+      teacherData.removeTeacherClasses().forEach(removeTeacher ->{
+        var split = removeTeacher.split(",");
+        var getClass = this.classesRepository.findByclassID(UUID.fromString(split[1]));
+        var getSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(split[0]));
+
+        var verify = this.teacherClassesRepository.findByClassesAndSubjectsAndTeacher(getClass,getSubject,getTeacher);
+          if(verify != null){
+            this.teacherClassesRepository.deleteTeacherFromClass(verify.getClasses().getClassID(),verify.getTeacher().getTeacherID(),verify.getSubjects().getSubjectID());
+          }
       });
 
       this.teacherRepository.updateTeacherPrimaryData(teacherData.nome(),teacherData.email(),teacherData.cpf(),UUID.fromString(teacherData.teacherID()));
