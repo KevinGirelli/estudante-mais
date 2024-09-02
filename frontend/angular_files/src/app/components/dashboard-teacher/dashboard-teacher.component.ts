@@ -52,7 +52,6 @@ export class DashboardTeacherComponent implements OnInit {
       });
 
       if (verifyResponse.status === 403) {
-        console.log("REDIRECT");
         this.router.navigate(["403"]);
         return;
       }
@@ -88,6 +87,7 @@ export class DashboardTeacherComponent implements OnInit {
   }
   
   logout() {
-    
+    localStorage.clear();
+    this.router.navigate(["login"]);
   }
 }

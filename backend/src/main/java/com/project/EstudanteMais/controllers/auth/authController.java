@@ -99,7 +99,7 @@ public class authController {
         var usernamepassword = new UsernamePasswordAuthenticationToken(adminUser.getUsername(),null,adminUser.getAuthorities());
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
-        var token = this.tokenService.GenerateToken(adminUser);
+        var token = this.tokenService.GenerateToken(adminUser,loginData.keepLogged());
         tokenDTO returnToken = new tokenDTO(token,100,"",adminUser.getUsername(),"","");
 
         return ResponseEntity.ok(returnToken);
@@ -138,7 +138,7 @@ public class authController {
 
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
-        var token = this.tokenService.GenerateToken(studentUser);
+        var token = this.tokenService.GenerateToken(studentUser,loginData.keepLogged());
         tokenDTO returnToken = new tokenDTO(token,010,studentUser.getStudentID().toString(),studentUser.getStudentFullname(),studentUser.getClasses().getClassID().toString(),studentUser.getStudentEmail());
 
         return ResponseEntity.ok(returnToken);
@@ -174,7 +174,7 @@ public class authController {
 
         Authentication auth = usernamepassword;
         SecurityContextHolder.getContext().setAuthentication(auth);
-        var token = this.tokenService.GenerateToken(teacherUser);
+        var token = this.tokenService.GenerateToken(teacherUser,loginData.keepLogged());
         tokenDTO returnToken = new tokenDTO(token,001,teacherUser.getTeacherID().toString(),teacherUser.getTeacherName(),"",teacherUser.getTeacherEmail());
 
         return ResponseEntity.ok(returnToken);
@@ -199,7 +199,7 @@ public class authController {
           var usernamepassword = new UsernamePasswordAuthenticationToken(adminUser.getUsername(),null,adminUser.getAuthorities());
           Authentication auth = usernamepassword;
           SecurityContextHolder.getContext().setAuthentication(auth);
-          var token = this.tokenService.GenerateToken(adminUser);
+          var token = this.tokenService.GenerateToken(adminUser,code.keepLogged());
           tokenDTO returnToken = new tokenDTO(token,100,"",adminUser.getUsername(),"","");
 
           return ResponseEntity.accepted().body(returnToken);
@@ -214,7 +214,7 @@ public class authController {
           var usernamepassword = new UsernamePasswordAuthenticationToken(studentUser.getUsername(),null,studentUser.getAuthorities());
           Authentication auth = usernamepassword;
           SecurityContextHolder.getContext().setAuthentication(auth);
-          var token = this.tokenService.GenerateToken(studentUser);
+          var token = this.tokenService.GenerateToken(studentUser,code.keepLogged());
           tokenDTO returnToken = new tokenDTO(token,010,studentUser.getStudentID().toString(),studentUser.getStudentFullname(),studentUser.getClasses().getClassID().toString(),studentUser.getStudentEmail());
 
           return ResponseEntity.accepted().body(returnToken);
@@ -230,7 +230,7 @@ public class authController {
           var usernamepassword = new UsernamePasswordAuthenticationToken(teacherUser.getUsername(),null,teacherUser.getAuthorities());
           Authentication auth = usernamepassword;
           SecurityContextHolder.getContext().setAuthentication(auth);
-          var token = this.tokenService.GenerateToken(teacherUser);
+          var token = this.tokenService.GenerateToken(teacherUser,code.keepLogged());
           tokenDTO returnToken = new tokenDTO(token,001,teacherUser.getTeacherID().toString(),teacherUser.getTeacherName(),"",teacherUser.getTeacherEmail());
 
           return ResponseEntity.accepted().body(returnToken);

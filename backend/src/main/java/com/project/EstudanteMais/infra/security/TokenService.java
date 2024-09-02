@@ -17,13 +17,17 @@ public class TokenService {
 
   @Value("${tokenGenerate.secret}")
   private String secret;
-  public String GenerateToken(UserDetails user){
+  private int time = 0;
+  public String GenerateToken(UserDetails user, Boolean keepMeLogged){
+      if(keepMeLogged) this.time = 730;
+      else this.time = 24;
+
       try{
         Algorithm algorithm = Algorithm.HMAC256(secret);
         String token = JWT.create()
                 .withIssuer("estudantemais")
                 .withSubject(user.getUsername())
-                .withExpiresAt(genExpirationDate())
+                .withExpiresAt(genExpirationDate(this.time))
                 .sign(algorithm);
         return token;
       }catch(JWTCreationException exception){
@@ -45,7 +49,7 @@ public class TokenService {
 
   }
 
-  private Instant genExpirationDate(){
-    return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+  private Instant genExpirationDate(int time){
+    return LocalDateTime.now().plusHours(time).toInstant(ZoneOffset.of("-03:00"));
   }
 }

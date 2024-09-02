@@ -22,11 +22,13 @@ export class AuthTwoFactorComponent implements OnInit {
   verificationCode: string[] = ['', '', '', '', '', ''];
   codeSent = false;
   verified = false;
+  keepLogin: any;
   activateType: any;
 
   ngOnInit() {
     this.router.paramMap.subscribe(params => {
       this.email  = params.get('email')?.toString();
+      this.keepLogin = params.get("keepLogin");
       this.activateType = params.get("type")
       this.codeSent = true
     });
@@ -94,8 +96,12 @@ export class AuthTwoFactorComponent implements OnInit {
         }
       }else{
         let dataToSend = {
-          code: code
+          code: code,
+          keepLogged: false
         }
+
+        if(this.keepLogin == "true") dataToSend.keepLogged = true
+
         const response = await fetch("http://localhost:8080/auth/twoStepVerify",{
           method: "POST",
           headers: {

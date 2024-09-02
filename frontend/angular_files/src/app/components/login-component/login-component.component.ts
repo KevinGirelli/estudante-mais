@@ -71,7 +71,7 @@ export class LoginComponentComponent {
           console.log("Credenciais inválidas");
           this.messageService.add({ severity: 'error', summary: 'Erro ao efetuar login', detail: 'Credenciais inválidas!' });
         } else if (res.status === 202) {
-          this.router.navigate(['auth2fa/' + dados.emailOrCode + "/0"])
+          this.router.navigate(['auth2fa/' + dados.emailOrCode + "/0" + "/" + this.checked])
         }
       },
       (err: any) => {
