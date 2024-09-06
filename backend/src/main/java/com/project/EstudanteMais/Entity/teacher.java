@@ -32,6 +32,9 @@ public class teacher implements UserDetails {
     @Column(name = "teacherRegistration", nullable = false,unique = true)
     private String teacherRegistration;
 
+    @Column(name = "phoneNumber",unique = true,nullable = false)
+    private String phoneNumber;
+
     @Column(name = "role")
     private UserRoles role;
 
@@ -51,6 +54,14 @@ public class teacher implements UserDetails {
 
     public String getTeacherRegistration() {
         return teacherRegistration;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void setTeacherRegistration(String teacherRegistration) {
@@ -116,11 +127,12 @@ public class teacher implements UserDetails {
     public teacher(){
         super();
     }
-    public teacher(String teacherEmail, String teacherPassword, String teacherName,String teacherCPF, String teacherRegistration, boolean twostepverification, UserRoles role){
+    public teacher(String teacherEmail, String teacherPassword, String teacherName,String teacherCPF, String phoneNumber, String teacherRegistration, boolean twostepverification, UserRoles role){
         this.teacherEmail = teacherEmail;
         this.teacherPassword = teacherPassword;
         this.teacherName = teacherName;
         this.teacherCPF = teacherCPF;
+        this.phoneNumber = phoneNumber;
         this.teacherRegistration = teacherRegistration;
         this.twostepverification = twostepverification;
         this.role = role;

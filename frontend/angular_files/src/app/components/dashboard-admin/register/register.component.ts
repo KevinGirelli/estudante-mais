@@ -87,7 +87,7 @@ export class RegisterComponent implements OnInit {
     fetch("http://localhost:8080/admin/classesDataManager/getClassesAsync",{
       method: "GET",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
+        Authorization: "Bearer " + "token"
       }
     }).then(res => {
       if(res.status == 403){

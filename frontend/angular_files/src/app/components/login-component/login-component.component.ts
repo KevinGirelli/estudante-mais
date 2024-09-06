@@ -43,9 +43,9 @@ export class LoginComponentComponent {
     const dados = {
       emailOrCode: this.matricula,
       password: this.password,
-      keepMeLogged: this.checked
+      keepLogged: this.checked
     };
-
+    
     this.loginService.login(dados).subscribe(
       (res: HttpResponse<any>) => {
         if (res.status === 200) {

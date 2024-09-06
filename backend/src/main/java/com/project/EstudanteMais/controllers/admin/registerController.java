@@ -67,7 +67,8 @@ public class registerController {
       if(studentClass != null){
         student newStudent = new student(
                 registerStudent.email(),this.passwordEncoder.encode(registerStudent.password()),
-                registerStudent.Fullname(), registerStudent.cpf(), registerStudent.age(),false, UserRoles.STUDENT, studentClass
+                registerStudent.Fullname(), registerStudent.cpf(), registerStudent.age(),false, UserRoles.STUDENT, studentClass,
+                registerStudent.phoneNumber()
         );
         newStudent.setRegistration(this.genRegistrationCodeService.genCode(newStudent.getStudentFullname()));
         this.studentRepository.save(newStudent);
@@ -87,7 +88,7 @@ public class registerController {
       String teacherRegistration = this.genRegistrationCodeService.genCode(registerTeacher.teacherName());
       teacher newTeacher = new teacher(
               registerTeacher.teacherEmail(),this.passwordEncoder.encode(registerTeacher.teacherPassword()), registerTeacher.teacherName()
-              , registerTeacher.teacherCPF(), teacherRegistration, false, UserRoles.TEACHER
+              , registerTeacher.teacherCPF(),registerTeacher.phoneNumber(), teacherRegistration, false, UserRoles.TEACHER
       );
 
       this.teacherRepository.save(newTeacher);

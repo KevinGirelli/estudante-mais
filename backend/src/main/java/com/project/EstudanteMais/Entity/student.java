@@ -50,6 +50,14 @@ public class student implements UserDetails {
     this.studentEmail = studentEmail;
   }
 
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
   public String getStudentPassword() {
     return studentPassword;
   }
@@ -143,6 +151,9 @@ public class student implements UserDetails {
   @Column(name = "studentAge",nullable = false)
   private String studentAge;
 
+  @Column(name = "phoneNumber",unique = true,nullable = false)
+  private String phoneNumber;
+
   @ManyToOne
   classes classes;
 
@@ -166,7 +177,7 @@ public class student implements UserDetails {
   }
   public student(String studentEmail
   , String studentPassword,String studentFullname
-  ,String studentCPF, String studentAge, boolean twostepverification, UserRoles role, classes classes){
+  ,String studentCPF, String studentAge, boolean twostepverification, UserRoles role, classes classes, String phoneNumber){
     this.studentEmail = studentEmail;
     this.studentPassword = studentPassword;
     this.studentFullname = studentFullname;
@@ -174,6 +185,7 @@ public class student implements UserDetails {
     this.studentAge = studentAge;
     this.twostepverification = twostepverification;
     this.classes = classes;
+    this.phoneNumber = phoneNumber;
     this.role = role;
   }
   @Override
@@ -185,6 +197,8 @@ public class student implements UserDetails {
   public String getPassword() {
     return studentPassword;
   }
+
+
 
   @Override
   public String getUsername() {

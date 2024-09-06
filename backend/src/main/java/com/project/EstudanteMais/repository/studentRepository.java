@@ -21,6 +21,8 @@ public interface studentRepository extends JpaRepository<student, UUID> {
 
     UserDetails findBytwoStepCode(String code);
 
+    student findByphoneNumber(String phone);
+
     @Modifying
     @Transactional
     @Query(value = "UPDATE student set two_step_code = ?1 WHERE studentID = ?2",nativeQuery = true)

@@ -3,6 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+.vscode
 
 ### STS ###
 .apt_generated
@@ -34,8 +35,6 @@ build/
 ### VS Code ###
 .vscode/
 
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 # Compiled output
 /dist
 /tmp
@@ -43,7 +42,9 @@ build/
 /bazel-out
 
 # Node
-/node_modules
+frontend/angular_files/node_modules
+frontend/angular_files/.vscode
+frontend/angular_files/.angular
 npm-debug.log
 yarn-error.log
 
@@ -78,3 +79,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+ELP.md
+
+
+
+
