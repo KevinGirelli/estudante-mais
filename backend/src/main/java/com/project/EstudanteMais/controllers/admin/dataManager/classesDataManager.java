@@ -83,6 +83,7 @@ public class classesDataManager {
     for(int c = 0; c <= split.length-1; c++){
       ids.add(split[c]);
     }
+
     List<classes_subjects> allClasses = new ArrayList<>();
     List<avaliableClassesDTO> avaliableClasses = new ArrayList<>();
     List<classes_subjects> ownTeacherClasses = new ArrayList<>();

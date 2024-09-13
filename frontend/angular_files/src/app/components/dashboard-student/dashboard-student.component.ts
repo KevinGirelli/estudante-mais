@@ -87,7 +87,7 @@ export class DashboardStudentComponent implements OnInit {
     }
 
     if(response.status == 200){
-      this.router.navigate(["auth2fa/" + localStorage.getItem("userEmail") + "/1"]);
+      this.router.navigate(["auth2fa/" + localStorage.getItem("userEmail") + "/1" + "/false"]);
     }
   }
 

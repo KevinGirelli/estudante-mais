@@ -151,7 +151,7 @@ public class student implements UserDetails {
   @Column(name = "studentAge",nullable = false)
   private String studentAge;
 
-  @Column(name = "phoneNumber",unique = true,nullable = false)
+  @Column(name = "phoneNumber",unique = false,nullable = false)
   private String phoneNumber;
 
   @ManyToOne

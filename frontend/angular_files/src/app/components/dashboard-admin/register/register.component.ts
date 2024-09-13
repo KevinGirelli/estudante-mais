@@ -87,7 +87,7 @@ export class RegisterComponent implements OnInit {
     fetch("http://localhost:8080/admin/classesDataManager/getClassesAsync",{
       method: "GET",
       headers: {
-        Authorization: "Bearer " + "token"
+        Authorization: "Bearer " + localStorage.getItem("token")
       }
     }).then(res => {
       if(res.status == 403){
@@ -164,7 +164,8 @@ export class RegisterComponent implements OnInit {
       password: this.password,
       cpf: this.cpf,
       age: this.age,
-      classID: this.classesSelected
+      classID: this.classesSelected,
+      phoneNumber: ""
     };
 
     this.registerService.registerStudent(studentData).subscribe(response => {
@@ -188,7 +189,8 @@ export class RegisterComponent implements OnInit {
       teacherPassword: this.teacherPassword,
       teacherName: this.teacherName,
       teacherCPF: this.teacherCPF,
-      subjects: this.teacherAllSubject
+      subjects: this.teacherAllSubject,
+      phoneNumber: ""
     };
 
 

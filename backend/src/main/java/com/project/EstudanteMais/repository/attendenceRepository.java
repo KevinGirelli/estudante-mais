@@ -11,4 +11,6 @@ import java.util.UUID;
 
 public interface attendenceRepository extends JpaRepository<attendence, UUID> {
   List<attendence> findBysubjectsAndQuarterAndStudent(subjects subject, int quarter, student student);
+
+  List<attendence> findBystudent(student student);
 }

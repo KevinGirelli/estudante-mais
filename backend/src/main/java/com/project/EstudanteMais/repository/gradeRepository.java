@@ -17,6 +17,8 @@ public interface gradeRepository extends JpaRepository<grade, UUID> {
 
   grade findByAssessmentAndStudent(assessment asses, student student);
 
+  List<grade> findBystudent(student student);
+
   @Modifying
   @Transactional
   @Query(value = "UPDATE grade SET grade_value = ?1 WHERE student_studentid = ?2",nativeQuery = true)
