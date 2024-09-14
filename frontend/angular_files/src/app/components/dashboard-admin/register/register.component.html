@@ -56,6 +56,10 @@
                   <p-inputMask class="input-field" mask="99/99/9999" placeholder="__/__/____" type="text" [(ngModel)]="age" id="age"/>
                 </div>
                 <div class="form-item">
+                  <label class="label" for="phoneNumberStudent">Número de Telefone</label>
+                  <p-inputMask class="input-field" mask="(99) 99999-9999" placeholder="(__) _____-____" type="text" [(ngModel)]="age" id="age"/>
+                </div>
+                <div class="form-item">
                   <label class="label" for="classes">Turma</label>
                   <select class="input-field" [(ngModel)]="classesSelected" id="classes">
                     <option *ngFor="let class of allClasses" [value]="class.id">{{class.name}}</option>
@@ -101,6 +105,10 @@
                 <div class="form-item">
                   <label class="label" for="teacherCPF">CPF</label>
                   <p-inputMask class="input-field" mask="999.999.999-99" placeholder="___.___.___-__" type="text" [(ngModel)]="teacherCPF" id="teacherCPF"/>
+                </div>
+                <div class="form-item">
+                  <label class="label" for="phoneNumberTeacher">Número de Telefone</label>
+                  <p-inputMask class="input-field" mask="(99) 99999-9999" placeholder="(__) _____-____" type="text" [(ngModel)]="age" id="age"/>
                 </div>
                 <div class="form-item">
                   <label class="label" for="teacherSubjects">Disciplinas</label>
@@ -178,6 +186,9 @@
 
 <div class="card">
   <p-dialog header="Estudante+" [modal]="true" [(visible)]="visible" [style]="{ 'width': '35vw'}" [closable]="true" [draggable]="false">
+    <div class="modal-btn">
+      <button class="modal-btn-cadastro" (click)="cadastrarMateria()">Cadastrar Matéria</button>
+    </div>
     <p-listbox [options]="subjects" [(ngModel)]="subjectsClasses" optionLabel="name" [style]="{'width':'15rem'}" [listStyle]="{'max-height': '220px'}">
       <ng-template let-subject pTemplate="item">
         <div class="subject-item">
@@ -196,3 +207,14 @@
   </p-dialog>
 </div>
 
+<div class="card">
+  <p-dialog header="Estudante+" [modal]="true" [(visible)]="cadastroMateriasVisible" [style]="{ 'width': '35vw'}" [closable]="true" [draggable]="false">
+    <div class="modal-form-item">
+      <label class="label" for="subjectName">Nome da Matéria</label>
+      <input class="input-field" type="text" [(ngModel)]="subjectName" id="subjectName">
+    </div>
+    <div class="modal-btn">
+      <button class="modal-btn-subject"(click)="cadastrarMateria()" type="submit">Cadastrar a Matéria</button>
+    </div>
+  </p-dialog>
+</div>

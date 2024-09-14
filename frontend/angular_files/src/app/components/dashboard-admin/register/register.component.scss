@@ -9,7 +9,7 @@ p-stepper {
     align-items: center;
     padding: 20px;
     background-color: #EEE;
-    height: 85vh;
+    min-height: 85vh;
     justify-content: center;
     position: relative; 
   }
@@ -247,12 +247,56 @@ p-stepper {
   padding: 2rem;
   border-radius: 0 0 15px 15px;
 
+  .modal-form-item {
+    display: flex;
+    flex-direction: column;
+
+    .label {
+      font-size: 16px;
+      color: #555555;
+      margin-bottom: 5px;
+    }
+    
+    .input-field {
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #CCC;
+      border-radius: 4px;
+      background-color: #EEE;
+      font-size: 16px;
+      color: #555555;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+  }
+
   .modal-btn {
     display: flex;
     justify-content: center;
     margin-top: 1rem;
 
-    .modal-btn-listbox {
+    .modal-btn-cadastro {
+      background-color: #EEE;
+      color: #292F47;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        background-color: #e4d3fa;
+      }
+    }
+
+    .modal-btn-listbox, .modal-btn-subject {
       background-color: #9747FF;
       color: #ffffff;
       border: none;

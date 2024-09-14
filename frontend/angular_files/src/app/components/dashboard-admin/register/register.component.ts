@@ -48,12 +48,14 @@ export class RegisterComponent implements OnInit {
   isMenuOpen = false;
   classesSelected: string = "";
   visible: boolean = false;
+  cadastroMateriasVisible: boolean = false;
 
   allClasses: Class[] = [];
   subjects: Subject[] = [];
   subjectsClasses: Subject[] = [];
   teacherAllSubject: string[] = [];
-  classeAllSubjects: string[] = []
+  classeAllSubjects: string[] = [];
+  subjectName: string = '';
 
 
   ngOnInit(): void {
@@ -118,6 +120,7 @@ export class RegisterComponent implements OnInit {
   cpf: string = '';
   age: Date = new Date('0000-00-00');
   classID: string = '';
+  phoneNumberStudent: string = '';
 
   // Cadastro de Professores
   teacherName: string = '';
@@ -125,6 +128,7 @@ export class RegisterComponent implements OnInit {
   teacherPassword: string = '';
   teacherCPF: string = '';
   selectedSubjects: Subject[] = [];
+  phoneNumberTeacher: string = '';
 
   // Cadastro de Turmas
   className: string = '';
@@ -265,6 +269,10 @@ export class RegisterComponent implements OnInit {
     if (subject.quantity > 0) {
       subject.quantity--;
     }
+  }
+
+  cadastrarMateria() {
+    this.cadastroMateriasVisible = true
   }
 
   confirmarMaterias() {
