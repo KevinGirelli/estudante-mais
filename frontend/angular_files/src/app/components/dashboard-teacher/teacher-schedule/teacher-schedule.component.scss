@@ -39,9 +39,39 @@
           transition: 0.5s;
           margin: 2vh 1vw;
           border-radius: 4px;
-      
+
           &:hover {
             background-color: #6F2EEB;
+          }
+        }
+      }
+
+      .input-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .label {
+          font-size: 1rem;
+          margin-right: 10px; /* Espaçamento entre label e select */
+          color: #292F47;
+        }
+
+        .input-field {
+          padding: 10px;
+          border: 1px solid #CCC;
+          border-radius: 4px;
+          background-color: #FFF;
+          color: #292F47;
+          font-size: 1rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          transition: border-color 0.3s ease;
+          min-width: 200px;
+
+          &:hover,
+          &:focus {
+            border-color: #9747FF;
+            outline: none;
           }
         }
       }
@@ -94,9 +124,10 @@
     }
   }
 
-  @media(max-width: 1000px) {
+  @media (max-width: 1000px) {
     .schedule-container {
       background-color: #FFF;
+
       .schedule {
         max-width: 100vw;
         width: 100%;

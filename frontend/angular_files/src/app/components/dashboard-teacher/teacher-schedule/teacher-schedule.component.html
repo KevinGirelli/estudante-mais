@@ -4,10 +4,12 @@
       <a href="teacher" class="back pi pi-arrow-left"></a>
       <h1>Meu Horário</h1>
     </div>
-    <label class="label" for="classes">Suas turmas </label>
-    <select class="input-field" [(ngModel)]="classesSelected" (change)="onClassesChange()" id="classes">
-      <option *ngFor="let class of allClasses" [value]="class.id">{{class.name}}</option>
-    </select>
+    <div class="input-group">
+      <label class="label" for="classes">Suas turmas</label>
+      <select class="input-field" [(ngModel)]="classesSelected" (change)="onClassesChange()" id="classes">
+        <option *ngFor="let class of allClasses" [value]="class.id">{{ class.name }}</option>
+      </select>
+    </div>
     <div class="schedule-table-container">
       <ng-container *ngIf="teacherSchedule.length > 0; else noSchedule">
         <p-table [value]="teacherSchedule" class="p-table">

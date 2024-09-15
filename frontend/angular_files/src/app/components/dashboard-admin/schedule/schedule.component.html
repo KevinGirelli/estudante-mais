@@ -29,12 +29,12 @@
   <div class="schedule">
     <div class="header">
       <h1>Horário das Aulas</h1>
-      <label class="label" for="classes">Dia da Semana</label>
-      <select class="input-field"  (change)="fetchScheduleChange()" [(ngModel)]="daySelected" id="days">
-        <option *ngFor="let day of days" [value]="day.id">{{day.label}}</option>
-      </select>
       <button class="pi pi-trash" (click)="deleteSchedule()"></button>
     </div>
+    <label class="label" for="classes">Dia da Semana</label>
+    <select class="input-field"  (change)="fetchScheduleChange()" [(ngModel)]="daySelected" id="days">
+      <option *ngFor="let day of days" [value]="day.id">{{day.label}}</option>
+    </select>
     <div class="schedule-table-container">
       <ng-container *ngIf="timeSlots.length > 0; else noSchedule">
         <p-table [value]="timeSlots" class="p-table">
