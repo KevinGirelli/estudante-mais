@@ -69,6 +69,32 @@ export class ChatComponent implements OnInit {
         this.chatService.loadConversation(this.currentConversation);
       });
     }
+  
+    if(this.currentUser === 'teacher'){
+      const response = await fetch(`http://localhost:8080/getMessageHistory/${this.idSelected},${localStorage.getItem("userID")}`, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      });
+
+      response.json().then(data => {
+        this.chatService.deleteAllMessages(this.currentConversation);
+        for (const messageData of data) {
+          const frontendMessage: Message = {
+            sender: messageData.senderName,
+            content: messageData.messageText,
+            timestamp: new Date(),
+          };
+          this.chatService.addMessage(this.currentConversation, frontendMessage);
+        }
+
+        this.chatService.getMessages(this.currentConversation).subscribe((messages) => {
+          this.messages = messages;
+        });
+        this.chatService.loadConversation(this.currentConversation);
+      });
+    }
   }
 
   onPublicMessageReceived(payload: any) {
@@ -190,6 +216,7 @@ export class ChatComponent implements OnInit {
           this.currentConversation = conversationId;
           this.idSelected = this.classesIDS[index];
           this.chatService.loadConversation(conversationId);
+          this.getMessageHistory()
           this.chatService.getMessages(conversationId).subscribe((messages) => {
             this.messages = messages;
           });
@@ -221,7 +248,7 @@ export class ChatComponent implements OnInit {
 
       if (this.currentUser === 'teacher') {
         let backendMessage = {
-          senderName: "Professor(a) " + message.sender,
+          senderName: this.getUsername(),
           message: this.newMessage,
         };
 

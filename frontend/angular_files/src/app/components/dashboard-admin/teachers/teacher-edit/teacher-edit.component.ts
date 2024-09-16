@@ -216,6 +216,8 @@ export class TeacherEditComponent implements OnInit {
   }
 
   async editarProfessor() {
+    console.log(this.amountOfClasses)
+    console.log(this.maxClassesPerWeek)
     if(this.amountOfClasses < this.maxClassesPerWeek){
       let subjects: string[] = []
       this.selectedSubjects.forEach(t => {
@@ -245,6 +247,7 @@ export class TeacherEditComponent implements OnInit {
         teacherClasses: teacherClasses,
         removeTeacherClasses: removeTeacherClasses
       }
+      
   
       try {
         const response = await fetch("http://localhost:8080/admin/teacherDataManager/updateTeacherPrimaryData", {
@@ -268,8 +271,9 @@ export class TeacherEditComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro na requisição.' });
         console.error("Erro na requisição:", error);
       }
+    }else{
+      this.messageService.add({ severity: 'info', summary: 'Quantidade de aulas excedida', detail: 'Por favor ajuste a quantidade de aulas para prosseguir.' });
     }
-    this.messageService.add({ severity: 'info', summary: 'Quantidade de aulas excedida', detail: 'Por favor ajuste a quantidade de aulas para prosseguir.' });
   }
 
   back() {

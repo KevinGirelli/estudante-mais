@@ -59,6 +59,9 @@ export class RegisterComponent implements OnInit {
 
 
   ngOnInit(): void {
+    var test: Subject = {subjectID: "sd", name: "2", quantity: 2}
+    this.subjects.push(test)
+
     fetch("http://localhost:8080/admin/subjectDataManager/getSubjects",{
       method: "GET",
       headers: {
