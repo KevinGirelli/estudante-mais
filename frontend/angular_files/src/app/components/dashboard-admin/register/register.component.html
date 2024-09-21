@@ -164,6 +164,12 @@
                   </select>
                 </div>
                 <div class="form-item">
+                  <label class="label" for="classPeriod">Período de Aula</label>
+                  <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod">
+                    <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+                  </select>
+                </div>    
+                <div class="form-item">
                   <label class="label" for="subjects">Matérias</label>
                   <button class="modal-button"(click)="selecionarMateria()" type="submit">Selecionar as Matérias</button>
                 </div>

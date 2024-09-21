@@ -138,7 +138,9 @@ export class RegisterComponent implements OnInit {
   gradeType: string = '';
   gradeNumber: number[] = [];
   classMonitor: string = '';
+  classPeriod: string = '';
 
+  periods: string[] = [];
   gradeNumbers: number[] = [];
 
   constructor(private router: Router ,private registerService: RegisterService, private messageService: MessageService) {}
