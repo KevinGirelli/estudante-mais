@@ -69,12 +69,16 @@ export class CreateAssessmentComponent implements OnInit {
 
     if(response2.status == 200){
       response2.json().then(data => {
+        let alreadyInSubjectList: String[] = []
         for(let i = 0; i <= data.subjectsIDS.length-1; i++){
           const addSubject: subject = {
             id: data.subjectsIDS[i].split(",")[0],
             subjectName: data.subjectsIDS[i].split(",")[1]
           }
-          this.allSubjects.push(addSubject)
+          if(!alreadyInSubjectList.includes(addSubject.id)){
+            this.allSubjects.push(addSubject)
+          }
+          alreadyInSubjectList.push(addSubject.id)
         }
       })
     }

@@ -49,6 +49,7 @@ export class TeacherEditComponent implements OnInit {
   maxClassesPerWeek: number = 0
 
   teacherClasses: TeacherClass[] = [];
+  subjectsToRemove: Subject[] = [];
 
   selectedClasses: TeacherClass[] = [];
   teacherID: string = '';
@@ -57,6 +58,7 @@ export class TeacherEditComponent implements OnInit {
   teacherPassword: string = '';
   teacherCPF: string = '';
   selectedSubjects: Subject[] = [];
+  subjectsTrueSelected: Subject[] = [];
   subjects: Subject[] = [];
   subjectsIDS: string = ''
 
@@ -88,7 +90,6 @@ export class TeacherEditComponent implements OnInit {
       }
 
       if (subjectsResponse.status === 403) {
-        console.log("REDIRECT");
         this.router.navigate(["403"]);
         return;
       }
@@ -108,6 +109,7 @@ export class TeacherEditComponent implements OnInit {
             this.selectedSubjects.push(addSubject);
           }
         }
+        this.subjectsTrueSelected = this.selectedSubjects;
       }
       
       const classesResponse = await fetch("http://localhost:8080/admin/classesDataManager/getSearchAllClassesRelatedToSubject/" + this.subjectsIDS
@@ -119,13 +121,14 @@ export class TeacherEditComponent implements OnInit {
       });
 
       if (classesResponse.status === 403) {
-        console.log("redirect");
+        this.router.navigate(["403"]);
         return;
       }
 
       if (classesResponse.status === 200) {
         this;this.amountOfClasses = 0
         const data = await classesResponse.json();
+        let classesIDS: String[] = []
         let keys = Object.keys(data);
         for (let i = 0; i <= keys.length - 1; i++) {
           if(data[i].isATeacherClass){
@@ -136,9 +139,13 @@ export class TeacherEditComponent implements OnInit {
               subjectName: data[i].subjectName,
               quantity: data[i].quantity
             };
-            this.amountOfClasses += addTeacherClass.quantity
-            this.teacherClasses.push(addTeacherClass);
-            this.selectedClasses.push(addTeacherClass)
+            if(!classesIDS.includes(addTeacherClass.classID)){
+              this.amountOfClasses += addTeacherClass.quantity
+              this.teacherClasses.push(addTeacherClass);
+              this.selectedClasses.push(addTeacherClass)
+              classesIDS.push(addTeacherClass.classID + "," + addTeacherClass.subjectID);
+            }
+           
           }else{
             const addTeacherClass: TeacherClass = {
               classID: data[i].classID,
@@ -147,7 +154,10 @@ export class TeacherEditComponent implements OnInit {
               subjectName: data[i].subjectName,
               quantity: data[i].quantity
             };
-            this.teacherClasses.push(addTeacherClass);
+            if(!classesIDS.includes(addTeacherClass.classID)){
+              this.teacherClasses.push(addTeacherClass);
+              classesIDS.push(addTeacherClass.classID + "," + addTeacherClass.subjectID);
+            }
           } 
           
         }
@@ -171,14 +181,19 @@ export class TeacherEditComponent implements OnInit {
   }
 
   onClassChange(event:any){
-    let count = 0
-    this.selectedClasses.forEach(c =>{
-      count += c.quantity
-    })
-    this.amountOfClasses = count
-    if(count > this.maxClassesPerWeek){
-      this.messageService.add({ severity: 'info', summary: 'Limite excedido', detail:
-         `O limite de aulas por semana para este professor foi excedido(${this.maxClassesPerWeek})`});
+    if(this.maxClassesPerWeek == 0){
+      this.messageService.add({ severity: 'info', summary: 'Definir tipo de geração', detail:
+        `Defina o o tipo de geração na aba (Ano Letivo) antes de atribuir professores a turmas.`});
+    }else{
+      let count = 0
+      this.selectedClasses.forEach(c =>{
+        count += c.quantity
+      })
+      this.amountOfClasses = count
+      if(count > this.maxClassesPerWeek){
+        this.messageService.add({ severity: 'info', summary: 'Limite excedido', detail:
+           `O limite de aulas por semana para este professor foi excedido(${this.maxClassesPerWeek})`});
+      }
     }
   }
 
@@ -216,8 +231,20 @@ export class TeacherEditComponent implements OnInit {
   }
 
   async editarProfessor() {
-    console.log(this.amountOfClasses)
-    console.log(this.maxClassesPerWeek)
+    if(this.maxClassesPerWeek == 0){
+      this.messageService.add({ severity: 'warn', summary: 'Edição cancelada.', detail:
+        `Edição cancelada, defina o tipo de geração em (Ano Letivo) para continuar.`});
+      return
+    }
+
+    if(this.selectedSubjects != this.subjectsTrueSelected && this.selectedSubjects.length < this.subjectsTrueSelected.length){
+      this.subjectsTrueSelected.forEach((s,i) =>{
+        if(this.selectedSubjects[i].subjectID != s.subjectID){
+            this.subjectsToRemove.push(this.selectedSubjects[i])
+        }
+      })
+    }
+
     if(this.amountOfClasses < this.maxClassesPerWeek){
       let subjects: string[] = []
       this.selectedSubjects.forEach(t => {
