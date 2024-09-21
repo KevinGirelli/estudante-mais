@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-item">
                   <label class="label" for="phoneNumberStudent">Número de Telefone</label>
-                  <p-inputMask class="input-field" mask="(99) 99999-9999" placeholder="(__) _____-____" type="text" [(ngModel)]="phoneNumberStudent" id="age"/>
+                  <p-inputMask class="input-field" mask="(99) 99999-9999" placeholder="(__) _____-____" type="text" [(ngModel)]="age" id="age"/>
                 </div>
                 <div class="form-item">
                   <label class="label" for="classes">Turma</label>
@@ -108,7 +108,7 @@
                 </div>
                 <div class="form-item">
                   <label class="label" for="phoneNumberTeacher">Número de Telefone</label>
-                  <p-inputMask class="input-field" mask="(99) 99999-9999" placeholder="(__) _____-____" type="text" [(ngModel)]="phoneNumberTeacher" id="age"/>
+                  <p-inputMask class="input-field" mask="(99) 99999-9999" placeholder="(__) _____-____" type="text" [(ngModel)]="age" id="age"/>
                 </div>
                 <div class="form-item">
                   <label class="label" for="teacherSubjects">Disciplinas</label>
@@ -186,6 +186,9 @@
 
 <div class="card">
   <p-dialog header="Estudante+" [modal]="true" [(visible)]="visible" [style]="{ 'width': '35vw'}" [closable]="true" [draggable]="false">
+    <div class="modal-btn">
+      <button class="modal-btn-cadastro" (click)="cadastrarMateria()">Cadastrar Matéria</button>
+    </div>
     <p-listbox [options]="subjects" [(ngModel)]="subjectsClasses" optionLabel="name" [style]="{'width':'15rem'}" [listStyle]="{'max-height': '220px'}">
       <ng-template let-subject pTemplate="item">
         <div class="subject-item">
@@ -198,9 +201,6 @@
         </div>
       </ng-template>
     </p-listbox>
-    <div class="modal-btn">
-      <button class="modal-btn-cadastro" (click)="abrirCadastroMateria()">Cadastrar Matéria</button>
-    </div>
     <div class="modal-btn">
       <button pButton class="modal-btn-listbox" (click)="confirmarMaterias()">Confirmar</button>
     </div>    

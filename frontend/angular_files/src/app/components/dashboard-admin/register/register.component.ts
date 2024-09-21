@@ -59,6 +59,9 @@ export class RegisterComponent implements OnInit {
 
 
   ngOnInit(): void {
+    var test: Subject = {subjectID: "sd", name: "2", quantity: 2}
+    this.subjects.push(test)
+
     fetch("http://localhost:8080/admin/subjectDataManager/getSubjects",{
       method: "GET",
       headers: {
@@ -109,6 +112,7 @@ export class RegisterComponent implements OnInit {
         })
       }
     })
+
     this.subjects = [];
   }
 
@@ -168,9 +172,8 @@ export class RegisterComponent implements OnInit {
       cpf: this.cpf,
       age: this.age,
       classID: this.classesSelected,
-      phoneNumber: this.phoneNumberStudent
+      phoneNumber: ""
     };
-    console.log(studentData)
 
     this.registerService.registerStudent(studentData).subscribe(response => {
       console.log('Aluno registrado:', response);
@@ -194,7 +197,7 @@ export class RegisterComponent implements OnInit {
       teacherName: this.teacherName,
       teacherCPF: this.teacherCPF,
       subjects: this.teacherAllSubject,
-      phoneNumber: this.phoneNumberTeacher
+      phoneNumber: ""
     };
 
 
@@ -271,29 +274,8 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  abrirCadastroMateria(){
-    this.cadastroMateriasVisible = true
-  }
-
   cadastrarMateria() {
-    if(this.subjectName != ""){
-      let response = fetch("http://localhost:8080/admin/registerSubject/" + this.subjectName,{
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      })
-
-      response.then(res =>{
-        if(res.status == 200){
-          res.text().then(text =>{
-            console.log(text)
-            this.subjects.push({subjectID: text, name: this.subjectName, quantity: 0})
-          })
-        }
-      })
-      this.cadastroMateriasVisible = false;
-    }
+    this.cadastroMateriasVisible = true
   }
 
   confirmarMaterias() {

@@ -135,14 +135,13 @@ public class crisController {
     var attendences = this.attendenceRepository.findBystudent(getStudent);
     List<attendanceDTO> attendance = new ArrayList<>();
     attendences.forEach(a -> {
-      if (a.getStatus() == attendenceStatus.AUSENTE || a.getStatus() == attendenceStatus.JUSTIFICADO) {
+      if (a.getStatus() == attendenceStatus.AUSENTE) {
         attendanceDTO add = new attendanceDTO();
         add.setMiss_date(a.getMissDate());
         add.setQuarter(a.getQuarter());
         add.setSubjectMissed(a.getSubjects().getSubjectname());
         add.setTeacher(a.getTeacher().getTeacherName());
         add.setNumber_of_missed_classes(a.getNumberOfClasses());
-        add.setStatus(a.getStatus().getStatus());
         attendance.add(add);
       }
     });
