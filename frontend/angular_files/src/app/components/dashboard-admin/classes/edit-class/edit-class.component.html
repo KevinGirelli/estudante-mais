@@ -1,0 +1,111 @@
+<div class="nav">
+  <div class="logo">
+    <a href="admin">
+      <img src="../../../assets/images/logo_estudante_mais.png" alt="Logo">
+      <h2>Estudante+</h2>
+    </a>
+  </div>
+  <a (click)="toggleMenu()" class="hamburger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </a>
+  <div class="overlay" [ngClass]="{'active': isMenuOpen}" (click)="toggleMenu()"></div>
+  <div class="menu" [ngClass]="{'active': isMenuOpen}">
+    <a (click)="toggleMenu()" class="close-menu">✖</a>
+    <ul>
+      <li><a href="admin/register">Cadastro</a></li>
+      <li><a href="admin/classes">Turmas</a></li>
+      <li><a href="admin/teachers">Professores</a></li>
+      <li><a href="admin/schedule">Horário</a></li>
+      <li><a href="admin/school/year/config">Ano Letivo</a></li>
+    </ul>
+    <a (click)="logout()" class="logout"><span class=" pi pi-sign-out"></span> Sair</a>
+  </div>
+</div>
+
+<p-toast></p-toast>
+
+<div class="form-container">
+  <div class="text">
+    <div class="header">
+      <button class="header-btn pi pi-arrow-left" (click)="back()"></button>
+      <h2>Editar Turma</h2>
+      <button class="header-btn pi pi-trash" (click)="deleteClass()"></button>
+    </div>
+    <form>
+      <div class="form-group">
+        <div class="form-item">
+          <label class="label" for="className">Nome da Turma</label>
+          <input class="input-field" type="text" [(ngModel)]="className" name="className" id="className" required>
+        </div>
+        <div class="form-item">
+          <label class="label" for="gradeType">Tipo de Ensino</label>
+          <select class="input-field" [(ngModel)]="gradeType" (change)="updateGradeNumbers()" name="gradeType" id="gradeType" required>
+            <option value="Fundamental 1">Fundamental I</option>
+            <option value="Fundamental 2">Fundamental II</option>
+            <option value="Ensino Médio">Ensino Médio</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label class="label" for="gradeNumber">Número da Série</label>
+          <select class="input-field" [(ngModel)]="gradeNumber" name="gradeNumber" id="gradeNumber" [disabled]="!gradeType">
+            <option *ngFor="let number of gradeNumbers" [value]="number">{{number}}</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label class="label" for="classPeriod">Período de Aula</label>
+          <select class="input-field" [(ngModel)]="classPeriod" name="classPeriod" id="classPeriod">
+            <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label class="label" for="subjects">Matérias</label>
+          <button class="modal-button" (click)="selecionarMateria()" type="button">Selecionar as Matérias</button>
+        </div>
+      </div>
+      <button class="submit-button" type="submit">Editar</button>
+    </form>
+  </div>
+</div>
+
+<p-dialog header="Confirmar Edição" [(visible)]="confirmEditVisible" draggable="false" [modal]="true" [style]="{ 'width': '30vw' }">
+  <p>Tem certeza de que deseja editar a turma?</p>
+  <div class="modal-btn">
+    <button pButton class="modal-btn-confirm" (click)="editarClasse()">Confirmar</button>
+    <button pButton class="modal-btn-cancel" (click)="closeConfirmEditDialog()">Cancelar</button>
+  </div>
+</p-dialog>
+
+<p-dialog header="Estudante+" [(visible)]="visibleSubjects" draggable="false" [modal]="true" [style]="{ 'width': '35vw' }">
+  <p-listbox [options]="subjects" [(ngModel)]="subjectsClasses" optionLabel="name">
+    <ng-template let-subject pTemplate="item">
+      <div class="subject-item">
+        <span>{{ subject.name }}</span>
+        <div class="quantity-controls">
+          <button type="button" class="btn-quantity pi pi-minus" (click)="decreaseQuantity(subject)" [disabled]="subject.quantity === 0"></button>
+          <input type="number" [(ngModel)]="subject.quantity" min="0" step="1" disabled>
+          <button type="button" class="btn-quantity pi pi-plus" (click)="increaseQuantity(subject)"></button>
+        </div>
+      </div>
+    </ng-template>
+  </p-listbox>
+  <div class="modal-btn">
+    <button class="modal-btn-cadastro" (click)="abrirCadastroMateria()">Cadastrar Matéria</button>
+  </div>
+  <div class="modal-btn">
+    <button pButton class="modal-btn-listbox" (click)="confirmarMaterias()">Confirmar</button>
+  </div>
+</p-dialog>
+
+<div class="card">
+  <p-dialog header="Estudante+" [modal]="true" draggable="false" [(visible)]="cadastroMateriasVisible" [style]="{ 'width': '35vw'}" [closable]="true" [draggable]="false">
+    <div class="modal-form-item">
+      <label class="label" for="subjectName">Nome da Matéria</label>
+      <input class="input-field" type="text" [(ngModel)]="subjectName" id="subjectName">
+    </div>
+    <div class="modal-btn">
+      <button class="modal-btn-subject"(click)="cadastrarMateria()" type="submit">Cadastrar a Matéria</button>
+    </div>
+  </p-dialog>
+</div>

@@ -78,7 +78,7 @@
 
   .modal-btn {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 1rem;
 
     .modal-btn-switch {
@@ -91,11 +91,29 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
-      margin: auto;
+      width: 47%;
 
       &:hover {
         background-color: #6a3ce9;
       }
+    }
+  }
+
+  .modal-btn-edit {
+    background-color: #EEEEEE;
+    color: #292F47;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 2vh;
+    width: 100%;
+
+    &:hover {
+      background-color: #e4d3fa;
     }
   }
 }

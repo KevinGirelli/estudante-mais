@@ -92,6 +92,12 @@ export class ClassesComponent implements OnInit {
     }
   }
 
+  navigateToEditClass() {
+    if (this.selectedClass) {
+      this.router.navigate(['admin/class', this.selectedClass.classID]);
+    }
+  }
+
   logout() {
     
   }

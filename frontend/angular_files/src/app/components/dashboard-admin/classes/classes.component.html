@@ -59,11 +59,12 @@
             [closable]="true"
             [draggable]="false">
     <span class="text-secondary">
-      Você deseja ir para a lista de alunos ou professores?
+      Você deseja editar a turma, listar os alunos, ou listar os professores?
     </span>
     <div class="modal-btn">
       <button pButton class="modal-btn-switch" (click)="navigateToStudents()">Alunos</button>
       <button pButton class="modal-btn-switch" (click)="navigateToTeachers()">Professores</button>
     </div>    
+    <button pButton class="modal-btn-edit" (click)="navigateToEditClass()">Editar Turma</button>
   </p-dialog>
 </div>
