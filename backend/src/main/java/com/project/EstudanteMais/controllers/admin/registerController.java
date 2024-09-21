@@ -142,8 +142,8 @@ public class registerController {
     }
 
     subjects newSubject = new subjects(subject);
-    this.subjectsRepository.save(newSubject);
-    return ResponseEntity.ok("Subject created sucessfuly");
+    var returnSubject = this.subjectsRepository.save(newSubject);
+    return ResponseEntity.ok(returnSubject.getSubjectID().toString());
   }
 
   @PostMapping("/registerQuarterType/{type}")
