@@ -33,7 +33,7 @@ public interface studentRepository extends JpaRepository<student, UUID> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE student SET student_fullname = ?1, student_email = ?2, studentcpf = ?3, student_age = ?4 WHERE studentid = ?5",nativeQuery = true)
-    void updateStudentPrimaryData(String name, String email, String cpf, Date age, UUID studentid);
+    void updateStudentPrimaryData(String name, String email, String cpf, String age, UUID studentid);
 
     @Modifying
     @Transactional

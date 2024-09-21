@@ -7,6 +7,16 @@ public class attendanceDTO {
   String subjectMissed;
   String teacher;
 
+  String status;
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
   public String getMiss_date() {
     return miss_date;
   }
