@@ -49,6 +49,7 @@ export class RegisterComponent implements OnInit {
   classesSelected: string = "";
   visible: boolean = false;
   cadastroMateriasVisible: boolean = false;
+  selecionarPeriodosVisible: boolean = false;
 
   allClasses: Class[] = [];
   subjects: Subject[] = [];
@@ -183,6 +184,14 @@ export class RegisterComponent implements OnInit {
       console.error('Erro ao registrar aluno:', error);
       this.messageService.add({ severity: 'error', summary: 'Erro durante o cadastro', detail: 'Erro ao registrar aluno!' });
     });
+  }
+
+  selecionarPeriodos() {
+    this.selecionarPeriodosVisible = true;
+  }
+  
+  confirmarPeriodos() {
+
   }
 
   cadastrarProfessor() {

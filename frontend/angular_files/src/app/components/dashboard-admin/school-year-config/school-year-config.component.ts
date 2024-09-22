@@ -56,6 +56,16 @@ export class SchoolYearConfigComponent {
     { label: 'Bimestral', value: 2 },
     { label: 'Trimestral', value: 3},
   ];
+  selectedPeriodType: string | null = null;
+  periodTypes = [
+    { label: 'Matutino', value: 'Matutino' },
+    { label: 'Vespertino', value: 'Vespertino' },
+    { label: 'Integral', value: 'Integral' },
+    { label: 'Noturno', value: 'Noturno' },
+    { label: 'Matutino + Noturno', value: 'Matutino + Noturno' },
+    { label: 'Vespertino + Noturno', value: 'Vespertino + Noturno' },
+    { label: 'Integral + Noturno', value: 'Integral + Noturno' },
+  ]
 
   toggleMenu() {
     this.isMenuOpen = true;

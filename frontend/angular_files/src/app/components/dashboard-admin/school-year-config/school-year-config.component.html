@@ -29,12 +29,12 @@
   <h1>Configuração do Ano Letivo</h1>
   
   <div class="form-item">
-    <label for="start-date">Data de Início:</label>
+    <label for="start-date">Data de Início das Aulas:</label>
     <p-calendar id="start-date" [(ngModel)]="startDate" name="startDate" class="custom-calendar"></p-calendar>
   </div>
   
   <div class="form-item">
-    <label for="end-date">Data de Término:</label>
+    <label for="end-date">Data de Término das Aulas:</label>
     <p-calendar id="end-date" [(ngModel)]="endDate" name="endDate" class="custom-calendar"></p-calendar>
   </div>
   
@@ -42,12 +42,10 @@
     <label for="year-type">Tipo de Ano Letivo:</label>
     <p-dropdown [options]="yearTypes" [(ngModel)]="selectedYearType" placeholder="Selecione" class="custom-dropdown"></p-dropdown>
   </div>
-  
-  <h1>Geração de Horarios</h1>
 
   <div class="form-item">
-    <label for="gen-type">Tipo de geração:</label>
-    <p-dropdown [options]="types" [(ngModel)]="generationType" placeholder="Selecione" class="custom-dropdown"></p-dropdown>
+    <label for="period">Períodos de Aula:</label>
+    <p-dropdown [options]="periodTypes" [(ngModel)]="selectedPeriodType" placeholder="Selecione" class="custom-dropdown"></p-dropdown>
   </div>
 
   <div class="form-item">
