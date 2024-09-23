@@ -33,7 +33,7 @@ export class SchoolYearConfigComponent {
 
   isMenuOpen = false;
 
-  generationType: number = 0;
+  generationType: number = 25;
   types = [
     { label: 'Meio-Período', value: 25 },
     { label: 'Período Integral', value: 50},
@@ -56,15 +56,15 @@ export class SchoolYearConfigComponent {
     { label: 'Bimestral', value: 2 },
     { label: 'Trimestral', value: 3},
   ];
-  selectedPeriodType: string | null = null;
+  selectedPeriodType: String | null = null;
   periodTypes = [
-    { label: 'Matutino', value: 'Matutino' },
-    { label: 'Vespertino', value: 'Vespertino' },
-    { label: 'Integral', value: 'Integral' },
-    { label: 'Noturno', value: 'Noturno' },
-    { label: 'Matutino + Noturno', value: 'Matutino + Noturno' },
-    { label: 'Vespertino + Noturno', value: 'Vespertino + Noturno' },
-    { label: 'Integral + Noturno', value: 'Integral + Noturno' },
+    { label: 'Matutino', value: 0 },
+    { label: 'Vespertino', value: 1},
+    { label: 'Integral', value: 2 },
+    { label: 'Noturno', value: 3 },
+    { label: 'Matutino + Noturno', value: 4 },
+    { label: 'Vespertino + Noturno', value: 5 },
+    { label: 'Integral + Noturno', value: 6 },
   ]
 
   toggleMenu() {
@@ -72,12 +72,24 @@ export class SchoolYearConfigComponent {
   }
 
   async saveConfig() {
+    console.log(this.selectedPeriodType)
    const response = await fetch("http://localhost:8080/admin/registerQuarterType/" + this.selectedYearType,{
     method: "POST",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
    })
+
+   const periodType = await fetch("http://localhost:8080/admin/classesDataManager/setPeriodType/" + this.selectedPeriodType,{
+    method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+   })
+
+   if(periodType.status == 200){
+    this.messageService.add({ severity: 'success', summary: 'Periodo de aulas salvo com sucesso.', detail: 'Configurações Salvas' })
+   }
 
    if(response.status == 200){
     this.messageService.add({ severity: 'success', summary: 'Configurações do ano letivo alteradas', detail: 'Configurações Salvas' })

@@ -56,7 +56,12 @@ export class RegisterComponent implements OnInit {
   subjectsClasses: Subject[] = [];
   teacherAllSubject: string[] = [];
   classeAllSubjects: string[] = [];
-  subjectName: string = '';
+  subjectName: string = ''
+
+  classPeriod: string = '';
+  periods: String[] = [];
+
+  allPeriods: String[] = ["Matutino","Vespertino","Integral","Noturno", "Matutino + Noturno", "Vespertino + Noturno", "Integral + Noturno"];
 
 
   ngOnInit(): void {
@@ -111,6 +116,58 @@ export class RegisterComponent implements OnInit {
       }
     })
     this.subjects = [];
+
+    fetch("http://localhost:8080/admin/classesDataManager/getPeriodType",{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    }).then(res => {
+      if(res.status == 403){
+        this.router.navigate(["403"])
+      }
+
+      if(res.status == 200){
+        console.log("te")
+        res.text().then(data =>{
+          let toInt = parseInt(data)
+            if(toInt > 3){
+                if(toInt == 4){
+                  this.periods.push(this.allPeriods[0])
+                  this.periods.push(this.allPeriods[3])
+                }
+
+                if(toInt == 5){
+                  this.periods.push(this.allPeriods[1])
+                  this.periods.push(this.allPeriods[3])
+                }
+
+                if(toInt == 6){
+                  this.periods.push(this.allPeriods[0])
+                  this.periods.push(this.allPeriods[1])
+                  this.periods.push(this.allPeriods[3])
+                }
+            }else{
+              if(toInt == 0){
+                this.periods.push(this.allPeriods[0])
+              }
+
+              if(toInt == 1){
+                this.periods.push(this.allPeriods[1])
+              }
+
+              if(toInt == 2){
+                this.periods.push(this.allPeriods[0])
+                this.periods.push(this.allPeriods[1])
+              }
+
+              if(toInt == 3){
+                this.periods.push(this.allPeriods[3])
+              }
+            }
+        })
+      }
+    })
   }
 
   // Cadastro Alunos
@@ -135,9 +192,6 @@ export class RegisterComponent implements OnInit {
   gradeType: string = '';
   gradeNumber: number[] = [];
   classMonitor: string = '';
-  classPeriod: string = '';
-
-  periods: string[] = [];
   gradeNumbers: number[] = [];
 
   constructor(private router: Router ,private registerService: RegisterService, private messageService: MessageService) {}
@@ -229,7 +283,8 @@ export class RegisterComponent implements OnInit {
       className: this.className,
       gradeType: this.gradeType,
       gradeNumber: this.gradeNumber,
-      subjects: this.classeAllSubjects
+      subjects: this.classeAllSubjects,
+      type: this.periods.indexOf(this.classPeriod)
     };
 
 

@@ -5,6 +5,7 @@ import com.project.EstudanteMais.Entity.classes_subjects;
 import com.project.EstudanteMais.Entity.dto.avaliableClassesDTO;
 import com.project.EstudanteMais.Entity.dto.classesDTO;
 import com.project.EstudanteMais.Entity.dto.subjectsDTO;
+import com.project.EstudanteMais.Entity.periodType;
 import com.project.EstudanteMais.repository.*;
 import com.project.EstudanteMais.services.UUIDformatter;
 import com.project.EstudanteMais.services.configPreferencesService;
@@ -129,4 +130,18 @@ public class classesDataManager {
     });
     return ResponseEntity.ok(avaliableClasses);
   }
+
+  @GetMapping("/getPeriodType")
+    public ResponseEntity getPeriodType(){
+      return ResponseEntity.ok(periodType.valueOf(this.configService.getType().toString()).ordinal());
+  }
+
+  @PostMapping("/setPeriodType/{type}")
+    public ResponseEntity getPeriodType(@PathVariable(value = "type")String type){
+      this.configService.setType(periodType.values()[Integer.parseInt(type)]);
+      return ResponseEntity.ok().build();
+    }
+
 }
+
+

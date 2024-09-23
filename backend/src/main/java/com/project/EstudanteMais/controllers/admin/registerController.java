@@ -112,7 +112,7 @@ public class registerController {
    if(this.classesRepository.findByclassName(classesToRegister.className()) != null){
      return ResponseEntity.badRequest().body("class already exist");
    }else{
-     classes newClass = new classes(classesToRegister.className(), classesToRegister.gradeType(), classesToRegister.gradeNumber(),null);
+     classes newClass = new classes(classesToRegister.className(), classesToRegister.gradeType(), classesToRegister.gradeNumber(),classesToRegister.type(),null);
      this.classesRepository.save(newClass);
 
      classes getClass = this.classesRepository.findByclassName(classesToRegister.className());

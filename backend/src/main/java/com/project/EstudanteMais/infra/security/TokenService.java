@@ -14,14 +14,12 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
-
-  @Value("${tokenGenerate.secret}")
+    @Value("${tokenGenerate.secret}")
   private String secret;
   private int time = 0;
   public String GenerateToken(UserDetails user, Boolean keepMeLogged){
       if(keepMeLogged) this.time = 730;
       else this.time = 24;
-      System.out.println(time);
 
       try{
         Algorithm algorithm = Algorithm.HMAC256(secret);

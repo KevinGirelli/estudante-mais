@@ -18,6 +18,10 @@ public class classes {
 
   @Column(name = "gradeNumber",nullable = false)
   private int gradeNumber;
+
+  @Column(name = "periodType",nullable = false)
+  private periodType type;
+
   @ManyToOne
   private teacher classMonitor;
 
@@ -61,12 +65,21 @@ public class classes {
     this.gradeNumber = gradeNumber;
   }
 
+  public periodType getType() {
+    return type;
+  }
+
+  public void setType(periodType type) {
+    this.type = type;
+  }
+
   public classes(){}
 
-  public classes(String className, String gradeType, int gradeNumber, teacher classMonitor){
+  public classes(String className, String gradeType, int gradeNumber, periodType type, teacher classMonitor) {
     this.className = className;
     this.gradeType = gradeType;
     this.gradeNumber = gradeNumber;
+    this.type = type;
     this.classMonitor = classMonitor;
   }
 }
