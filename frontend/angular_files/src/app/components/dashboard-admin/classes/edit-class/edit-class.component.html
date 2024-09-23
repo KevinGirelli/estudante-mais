@@ -33,39 +33,37 @@
       <h2>Editar Turma</h2>
       <button class="header-btn pi pi-trash" (click)="deleteClass()"></button>
     </div>
-    <form>
-      <div class="form-group">
-        <div class="form-item">
-          <label class="label" for="className">Nome da Turma</label>
-          <input class="input-field" type="text" [(ngModel)]="className" name="className" id="className" required>
-        </div>
-        <div class="form-item">
-          <label class="label" for="gradeType">Tipo de Ensino</label>
-          <select class="input-field" [(ngModel)]="gradeType" (change)="updateGradeNumbers()" name="gradeType" id="gradeType" required>
-            <option value="Fundamental 1">Fundamental I</option>
-            <option value="Fundamental 2">Fundamental II</option>
-            <option value="Ensino Médio">Ensino Médio</option>
-          </select>
-        </div>
-        <div class="form-item">
-          <label class="label" for="gradeNumber">Número da Série</label>
-          <select class="input-field" [(ngModel)]="gradeNumber" name="gradeNumber" id="gradeNumber" [disabled]="!gradeType">
-            <option *ngFor="let number of gradeNumbers" [value]="number">{{number}}</option>
-          </select>
-        </div>
-        <div class="form-item">
-          <label class="label" for="classPeriod">Período de Aula</label>
-          <select class="input-field" [(ngModel)]="classPeriod" name="classPeriod" id="classPeriod">
-            <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
-          </select>
-        </div>
-        <div class="form-item">
-          <label class="label" for="subjects">Matérias</label>
-          <button class="modal-button" (click)="selecionarMateria()" type="button">Selecionar as Matérias</button>
-        </div>
+    <div class="form-group">
+      <div class="form-item">
+        <label class="label" for="className">Nome da Turma</label>
+        <input class="input-field" type="text" [(ngModel)]="className" name="className" id="className" required>
       </div>
-      <button class="submit-button" type="submit">Editar</button>
-    </form>
+      <div class="form-item">
+        <label class="label" for="gradeType">Tipo de Ensino</label>
+        <select class="input-field" [(ngModel)]="gradeType" (change)="updateGradeNumbers()" name="gradeType" id="gradeType" required>
+          <option value="Fundamental 1">Fundamental I</option>
+          <option value="Fundamental 2">Fundamental II</option>
+          <option value="Ensino Médio">Ensino Médio</option>
+        </select>
+      </div>
+      <div class="form-item">
+        <label class="label" for="gradeNumber">Número da Série</label>
+        <select class="input-field" [(ngModel)]="gradeNumber" name="gradeNumber" id="gradeNumber" [disabled]="!gradeType">
+          <option *ngFor="let number of gradeNumbers" [value]="number">{{number}}</option>
+        </select>
+      </div>
+      <div class="form-item">
+        <label class="label" for="classPeriod">Período de Aula</label>
+        <select class="input-field" [(ngModel)]="classPeriod" name="classPeriod" id="classPeriod">
+          <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+        </select>
+      </div>
+      <div class="form-item">
+        <label class="label" for="subjects">Matérias</label>
+        <button class="modal-button" (click)="selecionarMateria()" type="button">Selecionar as Matérias</button>
+      </div>
+    </div>
+    <button class="submit-button" type="submit">Editar</button>
   </div>
 </div>
 
