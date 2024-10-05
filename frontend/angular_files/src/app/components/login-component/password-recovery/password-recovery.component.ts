@@ -45,11 +45,12 @@ export class PasswordRecoveryComponent {
     })
 
     if(response.status == 400){
-      this.messageService.add({ severity: 'erro', summary: 'Email inválido', detail: 'O email digitado não é válido'})
+      this.messageService.add({ severity: 'info', summary: 'Email enviado.', detail: 'Um código de recuperação foi enviado caso esse seja seu email.'})
+      this.codeSent = true;
     }
     
     if(response.status == 200){
-      this.messageService.add({ severity: 'info', summary: 'Email enviado.', detail: 'Um código de recuperação foi enviado ao seu email.'})
+      this.messageService.add({ severity: 'info', summary: 'Email enviado.', detail: 'Um código de recuperação foi enviado caso esse seja seu email.'})
       this.codeSent = true;
     }
   }

@@ -20,6 +20,7 @@
       color: #fff;
       padding: 1rem;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      z-index: 1;
 
       .menu-button {
         position: fixed;
@@ -29,15 +30,20 @@
         color: #fff;
         border-radius: 50%;
         padding: 0.5rem;
-    
+        transition: background-color 0.3s ease, transform 0.1s ease;
+
         &:hover {
           background-color: #6a2eeb;
         }
-    
+
+        &:active {
+          transform: scale(0.95);
+        }
+
         .pi {
           font-size: 1.5rem;
         }
-      }    
+      }
 
       .conversation-title {
         flex: 1;
@@ -66,6 +72,8 @@
       font-size: 0.95rem;
       display: flex;
       flex-direction: column;
+      opacity: 0;
+      animation: fadeIn 0.4s forwards, slideIn 0.4s ease-out forwards;
 
       &.sent {
         background-color: #e0ffe0;
@@ -132,16 +140,21 @@
         padding: 0.75rem;
         background-color: #9747FF;
         color: #fff;
+        transition: background-color 0.3s ease, transform 0.1s ease;
 
         &:hover {
           background-color: #6a2eeb;
+        }
+
+        &:active {
+          transform: scale(0.95);
         }
       }
     }
   }
 
   p-sidebar {
-    background-color: #ffffff;
+    background-color: #f9f9f9;
     box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     border: none;
@@ -159,9 +172,14 @@
         border-radius: 8px;
         width: 3vw;
         height: 5vh;
+        transition: background-color 0.3s ease, transform 0.1s ease;
 
         &:hover {
           background-color: #6a2eeb;
+        }
+
+        &:active {
+          transform: scale(0.95);
         }
 
         .pi {
@@ -178,10 +196,14 @@
         padding: 10px;
         cursor: pointer;
         border-radius: 10px;
-        transition: background-color 0.3s;
+        transition: background-color 0.3s, transform 0.1s;
 
         &:hover {
           background-color: #f0f0f0;
+        }
+
+        &:active {
+          transform: scale(0.95);
         }
       }
     }
@@ -194,5 +216,66 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: 600px) {
+    .header {
+      padding: 0.5rem;
+      min-height: 4rem;
+      .conversation-title {
+        font-size: 1rem;
+      }
+    }
+
+    .messages {
+      padding: 0.5rem;
+      padding-bottom: 70px;
+    }
+
+    .message {
+      max-width: 75%;
+      font-size: 0.85rem;
+      padding: 0.5rem 0.75rem;
+    }
+
+    .input-area {
+      padding: 0.5rem;
+      input {
+        padding: 0.4rem;
+      }
+
+      .send-button {
+        padding: 0.6rem;
+      }
+    }
+
+    p-sidebar {
+      padding: 0.5rem;
+      .sidebar-header {
+        margin-bottom: 0.5rem;
+        .back-button {
+          width: 8vw;
+          height: 4vh;
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }

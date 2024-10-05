@@ -1,14 +1,15 @@
 <p-sidebar [(visible)]="sidebarExpanded" (onHide)="toggleSidebar()" [baseZIndex]="1000" [style]="{'width': '300px'}" [showCloseIcon]="false">
   <div class="sidebar-header">
     <button pButton type="button" icon="pi pi-arrow-left" (click)="back()" class="p-button-text back-button"></button>
+    <h3>Conversas</h3>
   </div>
   <ul>
-    <li *ngFor="let conversation of conversations" (click)="loadConversation(conversation)">
+    <li *ngFor="let conversation of conversations" (click)="loadConversation(conversation)" class="conversation-item">
       {{ conversation }}
     </li>
   </ul>
 </p-sidebar>
-<div *ngIf="sidebarExpanded" class="overlay" (click)="toggleSidebar()"></div>
+
 <div class="chat-container">
   <div class="header">
     <button class="menu-button p-button p-component p-button-text" *ngIf="!sidebarExpanded" (click)="toggleSidebar()">
@@ -16,10 +17,9 @@
     </button>
     <h2 class="conversation-title">{{ currentConversation }}</h2>
   </div>
+
   <div class="messages">
-    <div *ngFor="let message of messages"
-         class="message"
-         [ngClass]="{'sent': message.sender === getUsername(), 'received': message.sender !== getUsername()}">
+    <div *ngFor="let message of messages" class="message" [ngClass]="{'sent': message.sender === getUsername(), 'received': message.sender !== getUsername()}">
       <div class="message-content">
         <span class="sender">{{ message.sender }}</span>
         <span class="content">{{ message.content }}</span>
@@ -27,8 +27,9 @@
       </div>
     </div>
   </div>
+
   <div class="input-area">
-    <input pInputText type="text" [(ngModel)]="newMessage" placeholder="Digite sua mensagem..." />
+    <input pInputText type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Digite sua mensagem..." />
     <button pButton type="button" icon="pi pi-send" (click)="sendMessage()" class="send-button"></button>
   </div>
 </div>
