@@ -2,82 +2,133 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { ListboxModule } from 'primeng/listbox';
+import { FormsModule } from '@angular/forms';
 import { DataSaverService } from '../../../../services/tempDataSaver/data-saver.service';
 
 interface Subject {
-  id: string
+  id: string;
   name: string;
+  teacher?: Teacher;
 }
 
 interface Teacher {
-  teacherID: string
+  teacherID: string;
   teacherName: string;
   teacherEmail: string;
   teacherCPF: string;
-  subjects: Subject[];
 }
 
 @Component({
-  selector: 'app-teachers-from-class',
+  selector: 'app-subjects',
   standalone: true,
   imports: [
     CommonModule,
-    TableModule
+    TableModule,
+    DialogModule,
+    ListboxModule,
+    FormsModule
   ],
   templateUrl: './teachers-from-class.component.html',
   styleUrls: ['./teachers-from-class.component.scss']
 })
-export class TeachersFromClassComponent implements OnInit{
-  
+export class TeachersFromClassComponent implements OnInit {
   isMenuOpen = false;
-  teachers: Teacher[] = [];
+  subjects: Subject[] = [];
+  availableTeachers: Teacher[] = [];
+  selectedTeacher?: Teacher;
+  isAddTeacherModalOpen = false;
+  subjectToEdit?: Subject;
   
   constructor(private router: Router, private dataSaverService: DataSaverService) {}
 
-  async ngOnInit(): Promise<void>{
-   try{
-    const response = await fetch("http://localhost:8080/admin/teacherDataManager/getAllTeacherFromClass/" + this.dataSaverService.getData(),{
-      method: "GET",
-      headers:{
-        "Content-type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    })
-
-    if(response.status == 403){
-      this.router.navigate(["403"])
-    }
-
-    if(response.status == 200){
-      response.json().then(data =>{
-        const keys = Object.keys(data)
-       
-        for(let i = 0; i <= keys.length-1; i++){
-          const addTeacher: Teacher = {
-            teacherID: data[i].teacherID,
-            teacherName: data[i].teacherName,
-            teacherEmail: data[i].teacherEmail,
-            teacherCPF: data[i].cpf,
-            subjects: data[i].subjects
-          }
-
-          const alreadyExists = this.teachers.some(teacher => teacher.teacherID === addTeacher.teacherID);
-          if(!alreadyExists){
-            this.teachers.push(addTeacher)
-          }   
+  async ngOnInit(): Promise<void> {
+    try {
+      const response = await fetch("", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
         }
-      })
+      });
+
+      if (response.status == 403) {
+        this.router.navigate(["403"]);
+      }
+
+      if (response.status == 200) {
+        response.json().then(data => {
+          this.subjects = data;
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
-   }catch(erro){
-    console.log(erro)
-   }
+    
+    this.loadAvailableTeachers();
   }
+
+  async loadAvailableTeachers() {
+    try {
+      const response = await fetch("", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      });
+
+      if (response.status == 200) {
+        response.json().then(data => {
+          this.availableTeachers = data;
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
-  
-  getSubjectsString(subjects: Subject[]): string {
-    return subjects.map(subject => subject.name).join(', ');
+
+  openAddTeacherModal(subject: Subject) {
+    this.subjectToEdit = subject;
+    this.isAddTeacherModalOpen = true;
+  }
+
+  closeAddTeacherModal() {
+    this.isAddTeacherModalOpen = false;
+    this.selectedTeacher = undefined;
+  }
+
+  async assignTeacher() {
+    if (this.subjectToEdit && this.selectedTeacher) {
+      await fetch(``, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        body: JSON.stringify({ teacherID: this.selectedTeacher.teacherID })
+      });
+
+      this.subjectToEdit.teacher = this.selectedTeacher;
+      this.closeAddTeacherModal();
+    }
+  }
+
+  async removeTeacher(subject: Subject) {
+    await fetch(``, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    });
+
+    subject.teacher = undefined;
   }
 
   logout() {

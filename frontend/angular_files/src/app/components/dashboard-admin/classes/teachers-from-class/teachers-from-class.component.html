@@ -27,27 +27,45 @@
 <div class="content">
   <div class="card">
     <p-table
-      [value]="teachers"
+      [value]="subjects"
       [paginator]="true"
       [rows]="7"
-      [tableStyle]="{ 'min-width': '50rem' }"
-    >
+      [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:25%">Nome Completo</th>
-          <th style="width:25%">Email</th>
-          <th style="width:25%">CPF</th>
-          <th style="width:25%">Matérias</th>
+          <th style="width:25%">Matéria</th>
+          <th style="width:25%">Professor</th>
+          <th style="width:25%">Ação</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-teacher>
+      <ng-template pTemplate="body" let-subject>
         <tr>
-          <td>{{ teacher.teacherName }}</td>
-          <td>{{ teacher.teacherEmail }}</td>
-          <td>{{ teacher.teacherCPF }}</td>
-          <td>{{ teacher.subjects }}</td>
+          <td>{{ subject.name }}</td>
+          <td *ngIf="subject.teacher">{{ subject.teacher.teacherName }}</td>
+          <td *ngIf="!subject.teacher">Sem professor</td>
+          <td>
+            <button *ngIf="!subject.teacher" (click)="openAddTeacherModal(subject)" class="btn-add pi pi-plus"></button>
+            <button *ngIf="subject.teacher" (click)="removeTeacher(subject)" class="btn-remove pi pi-minus"></button>
+          </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
 </div>
+
+<p-dialog header="Estudante+" 
+          [(visible)]="isAddTeacherModalOpen" 
+          [modal]="true" 
+          [closable]="true" 
+          [style]="{ 'width': '35vw'}"
+          [draggable]="false"
+          styleClass="modal-add-teacher">
+  <div class="modal-content">
+    <h3>Adicionar professor(a) de {{ subjectToEdit?.name }}</h3>
+    <p-listbox [options]="availableTeachers" [(ngModel)]="selectedTeacher" optionLabel="teacherName"></p-listbox>
+    <p-footer class="modal-footer">
+      <button pButton label="Atribuir" (click)="assignTeacher()" class="btn-add pi pi-plus"></button>
+      <button pButton label="Cancelar" (click)="closeAddTeacherModal()" class="btn-remove pi pi-times"></button>
+    </p-footer>
+  </div>
+</p-dialog>
