@@ -13,15 +13,41 @@ public class subjects {
   @Column(name = "subjectName",nullable = false,unique = true)
   String subjectname;
 
-  public subjects(){super();}
+  @Column(name = "subjectPeriod",nullable = false)
+  int subjectPeriod;
 
-  public subjects(UUID subjectID, String subjectname) {
+  @Column(name = "maxGrades",nullable = false)
+  int maxGrades;
+
+  public subjects(){}
+
+  public subjects(UUID subjectID, String subjectname, int subjectPeriod, int maxGrades) {
     this.subjectID = subjectID;
     this.subjectname = subjectname;
+    this.subjectPeriod = subjectPeriod;
+    this.maxGrades = maxGrades;
   }
 
-  public subjects(String subjectname) {
+  public subjects(String subjectname,int subjectPeriod,int maxGrades) {
     this.subjectname = subjectname;
+    this.subjectPeriod = subjectPeriod;
+    this.maxGrades = maxGrades;
+  }
+
+  public int getSubjectPeriod() {
+    return subjectPeriod;
+  }
+
+  public void setSubjectPeriod(int subjectPeriod) {
+    this.subjectPeriod = subjectPeriod;
+  }
+
+  public int getMaxGrades() {
+    return maxGrades;
+  }
+
+  public void setMaxGrades(int maxGrades) {
+    this.maxGrades = maxGrades;
   }
 
   public UUID getSubjectID() {

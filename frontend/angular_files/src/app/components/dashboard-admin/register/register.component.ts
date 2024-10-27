@@ -51,12 +51,14 @@ export class RegisterComponent implements OnInit {
   cadastroMateriasVisible: boolean = false;
   selecionarPeriodosVisible: boolean = false;
 
+  subjectPeriod: String = ""
   allClasses: Class[] = [];
   subjects: Subject[] = [];
   subjectsClasses: Subject[] = [];
   teacherAllSubject: string[] = [];
   classeAllSubjects: string[] = [];
   subjectName: string = ''
+  maxGrades: String = ""
 
   classPeriod: string = '';
   periods: String[] = [];
@@ -193,6 +195,7 @@ export class RegisterComponent implements OnInit {
   gradeNumber: number[] = [];
   classMonitor: string = '';
   gradeNumbers: number[] = [];
+
 
   constructor(private router: Router ,private registerService: RegisterService, private messageService: MessageService) {}
 
@@ -343,7 +346,7 @@ export class RegisterComponent implements OnInit {
 
   cadastrarMateria() {
     if(this.subjectName != ""){
-      let response = fetch("http://localhost:8080/admin/registerSubject/" + this.subjectName,{
+      let response = fetch("http://localhost:8080/admin/registerSubject/" + this.subjectName + "/" + this.subjectPeriod + "/" + this.maxGrades,{
         method: "POST",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")

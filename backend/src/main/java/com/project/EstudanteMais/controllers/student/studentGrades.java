@@ -68,8 +68,4 @@ public class studentGrades {
     return ResponseEntity.internalServerError().build();
   }
 
-  @GetMapping("/getCurrentType")
-  public ResponseEntity getCurrentType(){
-    return ResponseEntity.ok(this.configPreferencesService.getCurrentQuarterType());
-  }
 }

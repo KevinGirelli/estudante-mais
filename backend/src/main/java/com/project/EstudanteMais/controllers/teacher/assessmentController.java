@@ -131,7 +131,7 @@ public class assessmentController {
               getAsses,
               getStudent,
               getAsses.getAssessmentDate(),
-              this.configPreferencesService.getCurrentQuarterType()
+              1
       );
       this.gradeRepository.save(grade);
 

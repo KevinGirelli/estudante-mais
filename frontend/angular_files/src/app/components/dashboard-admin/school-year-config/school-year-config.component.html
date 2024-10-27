@@ -29,65 +29,37 @@
   <h1>Configuração do Ano Letivo</h1>
   
   <div class="form-item">
-    <label for="start-date">Data de Início das Aulas:</label>
-    <p-calendar id="start-date" [(ngModel)]="startDate" name="startDate" class="custom-calendar"></p-calendar>
-  </div>
-  
-  <div class="form-item">
-    <label for="end-date">Data de Término das Aulas:</label>
-    <p-calendar id="end-date" [(ngModel)]="endDate" name="endDate" class="custom-calendar"></p-calendar>
-  </div>
-  
-  <div class="form-item">
-    <label for="year-type">Tipo de Ano Letivo:</label>
-    <p-dropdown [options]="yearTypes" [(ngModel)]="selectedYearType" placeholder="Selecione" class="custom-dropdown"></p-dropdown>
+    <label for="start-date">Data de Início da Geração do Boletim Escolar(Bimestral):</label>
+    <p-calendar id="boletimDate" [(ngModel)]="boletimDateBi" view="date" name="boletimDate" dateFormat="dd/mm/yy" class="custom-calendar"></p-calendar>
   </div>
 
+  <div class="form-item">
+    <label for="start-date">Data de Início da Geração do Boletim Escolar(Trimestral):</label>
+    <p-calendar id="boletimDate" [(ngModel)]="boletimDateTri" view="date" name="boletimDate" dateFormat="dd/mm/yy" class="custom-calendar"></p-calendar>
+  </div>
+
+  <div class="form-item">
+    <label for="start-date">Data de Início da Geração do Boletim Escolar(Semestral):</label>
+    <p-calendar id="boletimDate" [(ngModel)]="boletimDateSem" view="date" name="boletimDate" dateFormat="dd/mm/yy" class="custom-calendar"></p-calendar>
+  </div>
+
+  <div class="form-item">
+    <label for="start-date">Data de Início da Avaliação de Professores:</label>
+    <p-calendar id="avaliaProfessorDate" [(ngModel)]="avaliaProfessorDate" view="date" name="avaliaProfessorDate" class="custom-calendar" dateFormat="dd/mm/yy"></p-calendar>
+  </div>
+  
   <div class="form-item">
     <label for="period">Períodos de Aula:</label>
     <p-dropdown [options]="periodTypes" [(ngModel)]="selectedPeriodType" placeholder="Selecione" class="custom-dropdown"></p-dropdown>
   </div>
+
+  <h1>Configuração do Horário</h1>
 
   <div class="form-item">
     <label for="consecType">Limite máximo de aulas consecutivas:</label>
     <p-dropdown [options]="consecTypes" [(ngModel)]="consecType" placeholder="Selecione" class="custom-dropdown"></p-dropdown>
   </div>
 
-
-  <div *ngIf="selectedYearType === 'Bimestral'" class="form-item">
-    <label for="end-bimester1">Data de Término do 1º Bimestre:</label>
-    <p-calendar id="end-bimester1" [(ngModel)]="endBimester1" name="endBimester1" class="custom-calendar"></p-calendar>
-  </div>
-  
-  <div *ngIf="selectedYearType === 'Bimestral'" class="form-item">
-    <label for="end-bimester2">Data de Término do 2º Bimestre:</label>
-    <p-calendar id="end-bimester2" [(ngModel)]="endBimester2" name="endBimester2" class="custom-calendar"></p-calendar>
-  </div>
-  
-  <div *ngIf="selectedYearType === 'Bimestral'" class="form-item">
-    <label for="end-bimester3">Data de Término do 3º Bimestre:</label>
-    <p-calendar id="end-bimester3" [(ngModel)]="endBimester3" name="endBimester3" class="custom-calendar"></p-calendar>
-  </div>
-  
-  <div *ngIf="selectedYearType === 'Bimestral'" class="form-item">
-    <label for="end-bimester4">Data de Término do 4º Bimestre:</label>
-    <p-calendar id="end-bimester4" [(ngModel)]="endBimester4" name="endBimester4" class="custom-calendar"></p-calendar>
-  </div>
-  
-  <div *ngIf="selectedYearType === 'Trimestral'" class="form-item">
-    <label for="end-trimester1">Data de Término do 1º Trimestre:</label>
-    <p-calendar id="end-trimester1" [(ngModel)]="endTrimester1" name="endTrimester1" class="custom-calendar"></p-calendar>
-  </div>
-  
-  <div *ngIf="selectedYearType === 'Trimestral'" class="form-item">
-    <label for="end-trimester2">Data de Término do 2º Trimestre:</label>
-    <p-calendar id="end-trimester2" [(ngModel)]="endTrimester2" name="endTrimester2" class="custom-calendar"></p-calendar>
-  </div>
-  
-  <div *ngIf="selectedYearType === 'Trimestral'" class="form-item">
-    <label for="end-trimester3">Data de Término do 3º Trimestre:</label>
-    <p-calendar id="end-trimester3" [(ngModel)]="endTrimester3" name="endTrimester3" class="custom-calendar"></p-calendar>
-  </div>
   
   <button pButton type="submit" label="Salvar" class="submit-button" (click)="saveConfig()"></button>
 </div>

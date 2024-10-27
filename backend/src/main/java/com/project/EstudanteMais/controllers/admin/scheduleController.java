@@ -2,10 +2,7 @@ package com.project.EstudanteMais.controllers.admin;
 
 import com.project.EstudanteMais.Entity.classes;
 import com.project.EstudanteMais.Entity.dto.MessageDTO;
-import com.project.EstudanteMais.repository.classesRepository;
-import com.project.EstudanteMais.repository.classes_subjectsRepository;
-import com.project.EstudanteMais.repository.teacherClassesRepository;
-import com.project.EstudanteMais.repository.teacherRepository;
+import com.project.EstudanteMais.repository.*;
 import com.project.EstudanteMais.services.configPreferencesService;
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.datamodelDTO;
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.models.classDTO;
@@ -14,6 +11,7 @@ import com.project.EstudanteMais.services.genScheduleService.JsonModel.models.su
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.models.subjectGroupDTO;
 import com.project.EstudanteMais.services.genScheduleService.callScheduleRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +39,10 @@ public class scheduleController {
   teacherClassesRepository teacherClassesRepository;
   @Autowired
   configPreferencesService configPreferencesService;
+
+  @Autowired
+  schoolSettingsRepository schoolSettingsRepository;
+
   @PostMapping("/genSchedule")
   public ResponseEntity genSchedule(){
     if(!this.configPreferencesService.isScheduleGenerated()){
@@ -126,9 +128,20 @@ public class scheduleController {
     return ResponseEntity.status(HttpStatus.FOUND).body(this.configPreferencesService.getScheduleModel());
   }
 
-  @PostMapping("/setScheduleSettings/{settings}")
-  public ResponseEntity setScheduleType(@PathVariable(value = "settings")String settings){
+  @PostMapping("/setScheduleSettings/{settings}/{evaluateTeacher}/{biDate}/{triDate}/{semDate}")
+  public ResponseEntity setScheduleType(
+          @PathVariable(value = "settings")String settings,
+          @PathVariable(value = "evaluateTeacher")String evaluate,
+          @PathVariable(value = "biDate")String biDate,
+          @PathVariable(value = "triDate")String triDate,
+          @PathVariable(value = "semDate")String semDate){
+
     var setting = settings.split(",");
+    this.schoolSettingsRepository.updateDateSettings(biDate.replace("-","/"),
+            triDate.replace("-","/"),
+            semDate.replace("-", "/"),
+            evaluate.replace("-","/"));
+
     this.configPreferencesService.setMaxClassPeerWeek(Integer.parseInt(setting[0]));
     this.configPreferencesService.setMaxClassPerDay(Integer.parseInt(setting[1]));
     this.configPreferencesService.setMaxConsecutiveClass(Integer.parseInt(setting[2]));
