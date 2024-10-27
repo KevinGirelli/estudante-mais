@@ -28,11 +28,6 @@ public class configPreferencesService {
   //Admin preferences config
   private boolean IsScheduleGenerated = false;
 
-  private int quarterType = 3;
-  private int currentQuarterType = 1 ;
-
-  private boolean enableQuarterRegistration = false;
-
   public int getMaxConsecutiveClass() {
     return maxConsecutiveClass;
   }
@@ -89,27 +84,4 @@ public class configPreferencesService {
     this.activeCodes = activeCodes;
   }
 
-  public int getQuarterType() {
-    return quarterType;
-  }
-
-  public void setQuarterType(int quarterType) {
-    this.quarterType = quarterType;
-  }
-
-  public boolean isEnableQuarterRegistration() {
-    return enableQuarterRegistration;
-  }
-
-  public int getCurrentQuarterType() {
-    return currentQuarterType;
-  }
-
-  public void setCurrentQuarterType(int currentQuarterType) {
-    this.currentQuarterType = currentQuarterType;
-  }
-
-  public void setEnableQuarterRegistration(boolean enableQuarterRegistration) {
-    this.enableQuarterRegistration = enableQuarterRegistration;
-  }
 }

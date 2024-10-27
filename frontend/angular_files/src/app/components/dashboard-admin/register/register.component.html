@@ -222,6 +222,16 @@
     <div class="modal-form-item">
       <label class="label" for="subjectName">Nome da Matéria</label>
       <input class="input-field" type="text" [(ngModel)]="subjectName" id="subjectName">
+
+      <label class="label" for="gradeType">Tipo de Período</label>
+      <select class="input-field" [(ngModel)]="subjectPeriod" id="subjectPeriod">
+        <option value="2">Bimestral</option>
+        <option value="3">Trimestral</option>
+        <option value="6">Semestral</option>
+      </select>
+      
+      <label class="label" for="maxGrade">Quantidade de notas máxima</label>
+      <input class="input-field" type="number" [(ngModel)]="maxGrades" id="maxGrades">
     </div>
     <div class="modal-btn">
       <button class="modal-btn-subject"(click)="cadastrarMateria()" type="submit">Cadastrar a Matéria</button>

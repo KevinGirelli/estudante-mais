@@ -41,15 +41,10 @@ export class SchoolYearConfigComponent {
   consecType: number = 1
   consecTypes = [1,2,3,4,5,6,7,8,9,10]
 
-  startDate: Date | null = null;
-  endDate: Date | null = null;
-  endBimester1: Date | null = null;
-  endBimester2: Date | null = null;
-  endBimester3: Date | null = null;
-  endBimester4: Date | null = null;
-  endTrimester1: Date | null = null;
-  endTrimester2: Date | null = null;
-  endTrimester3: Date | null = null;
+  boletimDateBi: Date | null = null;
+  boletimDateTri: Date | null = null;
+  boletimDateSem: Date | null = null;
+  avaliaProfessorDate: Date | null = null;
   holidays: string = '';
   selectedYearType: string | null = null;
   yearTypes = [
@@ -72,14 +67,16 @@ export class SchoolYearConfigComponent {
   }
 
   async saveConfig() {
-    console.log(this.selectedPeriodType)
-   const response = await fetch("http://localhost:8080/admin/registerQuarterType/" + this.selectedYearType,{
-    method: "POST",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-   })
+    let formatedBoletimDateBi = this.boletimDateBi?.toLocaleDateString("pt-BR")
+    let formatedBoletimDateTri = this.boletimDateTri?.toLocaleDateString("pt-BR")
+    let formatedBoletimDateSem = this.boletimDateSem?.toLocaleDateString("pt-BR")
+    let formatedAvaliaDate= this.avaliaProfessorDate?.toLocaleDateString("pt-BR")
 
+    formatedAvaliaDate = formatedAvaliaDate?.replace(/\//g, '-')
+    formatedBoletimDateBi = formatedBoletimDateBi?.replace(/\//g,"-")
+    formatedBoletimDateTri = formatedBoletimDateTri?.replace(/\//g,"-")
+    formatedBoletimDateSem = formatedBoletimDateSem?.replace(/\//g,"-")
+   
    const periodType = await fetch("http://localhost:8080/admin/classesDataManager/setPeriodType/" + this.selectedPeriodType,{
     method: "POST",
       headers: {
@@ -91,14 +88,12 @@ export class SchoolYearConfigComponent {
     this.messageService.add({ severity: 'success', summary: 'Periodo de aulas salvo com sucesso.', detail: 'Configurações Salvas' })
    }
 
-   if(response.status == 200){
-    this.messageService.add({ severity: 'success', summary: 'Configurações do ano letivo alteradas', detail: 'Configurações Salvas' })
-   }
-
+  
    if(this.generationType == 25){
     const response2 = await fetch("http://localhost:8080/admin/schedule/setScheduleSettings/"
-      + this.generationType + "," + "5" + "," + this.consecType
-    ,{
+      + this.generationType + "," + "5" + "," + this.consecType + "/" + formatedAvaliaDate + "/" + formatedBoletimDateBi + "/" + formatedBoletimDateTri
+      + "/" + formatedBoletimDateSem
+    ,{ 
       method: "POST",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")

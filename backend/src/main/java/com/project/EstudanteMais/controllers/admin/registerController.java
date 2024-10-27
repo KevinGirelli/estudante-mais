@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -134,21 +135,18 @@ public class registerController {
    }
   }
 
-  @PostMapping("/registerSubject/{subjectName}")
-  public ResponseEntity registerSubjects(@PathVariable(value = "subjectName") String subject){
+  @PostMapping("/registerSubject/{subjectName}/{subjectPeriod}/{maxGrades}")
+  public ResponseEntity registerSubjects(@PathVariable(value = "subjectName") String subject,
+                                         @PathVariable(value = "subjectPeriod")String period,
+                                         @PathVariable(value = "maxGrades")String maxGrades){
     var subjectExist = this.subjectsRepository.findBysubjectname(subject);
     if(subjectExist != null){
       return ResponseEntity.badRequest().build();
     }
 
-    subjects newSubject = new subjects(subject);
+    subjects newSubject = new subjects(subject,Integer.parseInt(period),Integer.parseInt(maxGrades));
     var returnSubject = this.subjectsRepository.save(newSubject);
     return ResponseEntity.ok(returnSubject.getSubjectID().toString());
   }
 
-  @PostMapping("/registerQuarterType/{type}")
-  public ResponseEntity registerQuarterType(@PathVariable(value = "type")int type){
-    this.configService.setQuarterType(type);
-    return ResponseEntity.ok().build();
-  }
 }

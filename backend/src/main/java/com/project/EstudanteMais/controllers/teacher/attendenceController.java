@@ -68,7 +68,7 @@ public class attendenceController {
       var split = students.split(",");
       student getStudent = this.studentRepository.findBystudentID(UUID.fromString(split[0]));
       attendence newAtt = new attendence(getStudent,getClass,getTeacher,
-              attendenceStatus.valueOf(split[1]),this.configPreferencesService.getCurrentQuarterType(),getSubject,data.quantity(),formattedDate);
+              attendenceStatus.valueOf(split[1]),1,getSubject,data.quantity(),formattedDate);
 
       attendence savedAttendece = this.attendenceRepository.save(newAtt);
 
