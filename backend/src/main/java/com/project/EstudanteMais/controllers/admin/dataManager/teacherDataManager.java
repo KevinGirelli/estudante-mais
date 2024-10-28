@@ -1,14 +1,12 @@
 package com.project.EstudanteMais.controllers.admin.dataManager;
 
 import com.project.EstudanteMais.Entity.*;
-import com.project.EstudanteMais.Entity.dto.classesDTO;
 import com.project.EstudanteMais.Entity.dto.teachersDTO;
 import com.project.EstudanteMais.Entity.dto.updateTeacherDataDTO;
 import com.project.EstudanteMais.repository.*;
 import com.project.EstudanteMais.services.UUIDformatter;
-import org.apache.catalina.connector.Response;
+import com.project.EstudanteMais.services.configPreferencesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/admin/teacherDataManager")
@@ -39,6 +38,9 @@ public class teacherDataManager {
 
   @Autowired
   classes_subjectsRepository classesSubjectsRepository;
+
+  @Autowired
+  configPreferencesService configPreferencesService;
 
   @Autowired
   UUIDformatter uuiDformatter;
@@ -99,7 +101,6 @@ public class teacherDataManager {
   }
 
 
-
   @PatchMapping("/updateTeacherPrimaryData")
   public ResponseEntity updateTeacherPrimaryData(@RequestBody updateTeacherDataDTO teacherData){
     var getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(teacherData.teacherID()));
@@ -146,5 +147,41 @@ public class teacherDataManager {
       this.teacherRepository.updateTeacherPrimaryData(teacherData.nome(),teacherData.email(),teacherData.cpf(),UUID.fromString(teacherData.teacherID()));
     }
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/getTeachersFromSubject/{subjectID}/{classID}")
+  public ResponseEntity getTeachersFromSubject(@PathVariable(value = "subjectID")String subjectID, @PathVariable(value = "classID")String classID){
+    var getSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(subjectID));
+    var getClass = this.classesRepository.findByclassID(UUID.fromString(classID));
+
+    List<teachersDTO> returnTeachers = new ArrayList<>();
+
+    if(getSubject != null && getClass != null){
+      var TeachersFromSubject = this.teacherSubjectRepository.findBySubject(getSubject);
+      var classSubject = this.classesSubjectsRepository.findBySubjectsAndClasses(getSubject,getClass).get(0);
+
+      TeachersFromSubject.forEach(ts ->{
+        if(ts.getSubject().getSubjectID().toString().equals(getSubject.getSubjectID().toString())){
+          var teacherClasses = this.teacherClassesRepository.findByteacher(ts.getTeacher());
+          AtomicInteger teacherAmountOfClasses = new AtomicInteger(classSubject.getNumberOfClasses());
+
+          teacherClasses.forEach(tc -> {
+            var getClassSubject = this.classesSubjectsRepository.findBySubjectsAndClasses(tc.getSubjects(),tc.getClasses()).get(0);
+            teacherAmountOfClasses.addAndGet(getClassSubject.getNumberOfClasses());
+          });
+
+          if(teacherAmountOfClasses.get() < this.configPreferencesService.getMaxClassPeerWeek()){
+            teachersDTO add = new teachersDTO(teacherClasses.get(0).getTeacher().getTeacherID().toString(),
+                    teacherClasses.get(0).getTeacher().getTeacherName(),"","",null);
+
+            returnTeachers.add(add);
+          }
+        }
+      });
+
+      return ResponseEntity.ok(returnTeachers);
+    }
+
+    return ResponseEntity.internalServerError().build();
   }
 }

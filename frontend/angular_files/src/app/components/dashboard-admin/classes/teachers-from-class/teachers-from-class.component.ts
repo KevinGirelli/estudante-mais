@@ -40,12 +40,14 @@ export class TeachersFromClassComponent implements OnInit {
   selectedTeacher?: Teacher;
   isAddTeacherModalOpen = false;
   subjectToEdit?: Subject;
+  classID: any;
   
   constructor(private router: Router, private dataSaverService: DataSaverService) {}
 
   async ngOnInit(): Promise<void> {
     try {
-      const response = await fetch("", {
+      this.classID = this.dataSaverService.getData()
+      const response = await fetch("http://localhost:8080/admin/classesDataManager/getClassSubjectTeacher/" + this.classID, {
         method: "GET",
         headers: {
           "Content-type": "application/json",
@@ -59,59 +61,102 @@ export class TeachersFromClassComponent implements OnInit {
 
       if (response.status == 200) {
         response.json().then(data => {
-          this.subjects = data;
+          for(let i = 0; i <= data.length; i++){
+            if(data[i].teacherID == "0"){
+              let addSubject: Subject = {
+                id: data[i].subjectID,
+                name: data[i].subjectName
+             }
+
+             this.subjects.push(addSubject)
+            }else{
+              let addTeacher: Teacher = {
+                teacherID: data[i].teacherID,
+                teacherName: data[i].teacherName,
+                teacherEmail: "0",
+                teacherCPF: "0"
+              }
+
+              let addSubject: Subject = {
+                 id: data[i].subjectID,
+                 name: data[i].subjectName,
+                 teacher: addTeacher
+              }
+
+              this.subjects.push(addSubject)
+            }
+          }
+
         });
       }
     } catch (error) {
       console.log(error);
     }
-    
-    this.loadAvailableTeachers();
-  }
-
-  async loadAvailableTeachers() {
-    try {
-      const response = await fetch("", {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      });
-
-      if (response.status == 200) {
-        response.json().then(data => {
-          this.availableTeachers = data;
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
+     
   }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  openAddTeacherModal(subject: Subject) {
+  async openAddTeacherModal(subject: Subject) {
     this.subjectToEdit = subject;
     this.isAddTeacherModalOpen = true;
+    
+    try {
+      const response = await fetch("http://localhost:8080/admin/teacherDataManager/getTeachersFromSubject/" + this.subjectToEdit.id + "/" + this.classID, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      });
+      console.log(response.status)
+      if (response.status == 200) {
+        response.json().then(data => {
+          for(let i = 0 ; i <= data.length; i++){
+            let addTeacher: Teacher = {
+              teacherID: data[i].teacherID,
+              teacherName: data[i].teacherName,
+              teacherCPF: "",
+              teacherEmail: ""
+            }
+
+            this.availableTeachers.push(addTeacher)
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   closeAddTeacherModal() {
     this.isAddTeacherModalOpen = false;
     this.selectedTeacher = undefined;
+    this.availableTeachers = []
   }
 
   async assignTeacher() {
     if (this.subjectToEdit && this.selectedTeacher) {
-      await fetch(``, {
+      await fetch(`http://localhost:8080/admin/classesDataManager/assignTeacherToClass` + "/" + this.selectedTeacher.teacherID + 
+        "/" + this.classID + "/" + this.subjectToEdit.id, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("token")
-        },
-        body: JSON.stringify({ teacherID: this.selectedTeacher.teacherID })
+        }
+      }).then(response =>{
+        if(response.status == 200){
+          this.subjects.forEach(s =>{
+            if(s.id == this.subjectToEdit?.id){
+              s.teacher = this.selectedTeacher
+            }
+          })
+        }else{
+          console.log("Error on assign teacher")
+        }
       });
 
       this.subjectToEdit.teacher = this.selectedTeacher;
@@ -120,11 +165,20 @@ export class TeachersFromClassComponent implements OnInit {
   }
 
   async removeTeacher(subject: Subject) {
-    await fetch(``, {
+    await fetch(`http://localhost:8080/admin/classesDataManager/unAssignTeacher`+ "/" + subject.teacher?.teacherID + 
+      "/" + this.classID + "/" + subject.id, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    }).then(response =>{
+      if(response.status == 200){
+        this.subjects.forEach(s =>{
+          if(s.id == subject.id){
+            s.teacher = undefined
+          }
+        })
       }
     });
 

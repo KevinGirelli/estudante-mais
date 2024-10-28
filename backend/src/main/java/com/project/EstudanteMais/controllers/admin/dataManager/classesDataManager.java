@@ -1,7 +1,9 @@
 package com.project.EstudanteMais.controllers.admin.dataManager;
 
 
+import com.project.EstudanteMais.Entity.TeacherClasses;
 import com.project.EstudanteMais.Entity.classes_subjects;
+import com.project.EstudanteMais.Entity.dto.TeacherClassesDTO;
 import com.project.EstudanteMais.Entity.dto.avaliableClassesDTO;
 import com.project.EstudanteMais.Entity.dto.classesDTO;
 import com.project.EstudanteMais.Entity.dto.subjectsDTO;
@@ -75,6 +77,52 @@ public class classesDataManager {
      }
   }
 
+  @GetMapping("/getClassSubjectTeacher/{classID}")
+  public ResponseEntity getAllClassesRelatedToSubject(@PathVariable(value = "classID")String classID){
+    var getClass = this.classesRepository.findByclassID(UUID.fromString(classID));
+
+    if(getClass != null){
+      List<TeacherClassesDTO> allTCs = new ArrayList<>();
+
+      var ClassSubjects = this.classesSubjectsRepository.findByclasses(getClass);
+      var TeacherClasses = this.teacherClassesRepository.findByclasses(getClass);
+
+      ClassSubjects.forEach(cs ->{
+        var tcLenght = allTCs.size();
+
+        TeacherClasses.forEach(tc ->{
+          if(tc.getSubjects().getSubjectID().toString().equals(cs.getSubjects().getSubjectID().toString())){
+            TeacherClassesDTO add = new TeacherClassesDTO(
+                    tc.getClasses().getClassID().toString(),
+                    tc.getClasses().getClassName(),
+                    tc.getTeacher().getTeacherID().toString(),
+                    tc.getTeacher().getTeacherName(),
+                    tc.getSubjects().getSubjectID().toString(),
+                    tc.getSubjects().getSubjectname()
+            );
+            allTCs.add(add);
+          }
+        });
+
+        if(tcLenght >= allTCs.size()){
+          TeacherClassesDTO add = new TeacherClassesDTO(
+                  cs.getClasses().getClassID().toString(),
+                  cs.getClasses().getClassName(),
+                  "0",
+                  "0",
+                  cs.getSubjects().getSubjectID().toString(),
+                  cs.getSubjects().getSubjectname()
+          );
+          allTCs.add(add);
+        }
+      });
+
+      return ResponseEntity.ok(allTCs);
+    }
+
+    return ResponseEntity.internalServerError().build();
+  }
+
   @GetMapping("/getSearchAllClassesRelatedToSubject/{subjectsIDS}/{teacherID}")
   public ResponseEntity getAllClassesRelatedToSubject(@PathVariable(value = "subjectsIDS") String subjects, @PathVariable(value = "teacherID")String teacherID){
     var getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(teacherID));
@@ -136,12 +184,49 @@ public class classesDataManager {
       return ResponseEntity.ok(periodType.valueOf(this.configService.getType().toString()).ordinal());
   }
 
+
+  @PostMapping("/assignTeacherToClass/{teacherID}/{classID}/{subjectID}")
+  public ResponseEntity assignTeacher(@PathVariable(value = "teacherID")String teacherID, @PathVariable(value = "classID")String classID,
+                                      @PathVariable(value = "subjectID")String subjectID){
+    var getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(teacherID));
+    var getClass = this.classesRepository.findByclassID(UUID.fromString(classID));
+    var getSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(subjectID));
+
+    if(getTeacher != null && getClass != null && getSubject != null){
+      TeacherClasses newTeacher = new TeacherClasses(getTeacher,getClass,getSubject);
+      this.teacherClassesRepository.save(newTeacher);
+      return ResponseEntity.ok().build();
+    }
+
+    return ResponseEntity.internalServerError().build();
+  }
+
+  @PostMapping("/unAssignTeacher/{teacherID}/{classID}/{subjectID}")
+  public ResponseEntity unAssignTeacher(@PathVariable(value = "teacherID")String teacherID, @PathVariable(value = "classID")String classID,
+                                      @PathVariable(value = "subjectID")String subjectID){
+    var getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(teacherID));
+    var getClass = this.classesRepository.findByclassID(UUID.fromString(classID));
+    var getSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(subjectID));
+
+    if(getTeacher != null && getClass != null && getSubject != null){
+      var removeTeacher = this.teacherClassesRepository.findByClassesAndSubjectsAndTeacher(getClass,getSubject,getTeacher);
+
+      if(removeTeacher != null){
+        this.teacherClassesRepository.delete(removeTeacher);
+        return ResponseEntity.ok().build();
+      }
+
+      return ResponseEntity.badRequest().build();
+    }
+
+    return ResponseEntity.internalServerError().build();
+  }
+
   @PostMapping("/setPeriodType/{type}")
     public ResponseEntity getPeriodType(@PathVariable(value = "type")String type){
       this.configService.setType(periodType.values()[Integer.parseInt(type)]);
       return ResponseEntity.ok().build();
     }
-
 }
 
 

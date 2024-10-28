@@ -20,7 +20,6 @@ public class periodManagerService {
 
     @Scheduled(cron = "0 1 0 * * ?")
     public void checkDates(){
-        System.out.println("Começando checagem de datas");
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formattedDate = today.format(formatter);
