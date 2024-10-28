@@ -1,55 +1,45 @@
 # **Estudante+**
 
-O **Estudante+** é uma plataforma de gerenciamento escolar, criada para promover uma integração eficaz entre escola, professores e alunos. 
+O **Estudante+** é uma plataforma de gestão escolar inovadora, desenvolvida para facilitar a comunicação e o gerenciamento entre escolas, professores e alunos. Projetado como uma solução prática e intuitiva, o Estudante+ simplifica a administração escolar, o planejamento de aulas e o acompanhamento do desempenho dos alunos, garantindo uma experiência mais organizada e colaborativa para todos os envolvidos.
 
-Nosso objetivo é facilitar a comunicação e a coordenação entre todos os envolvidos no processo educacional, oferecendo uma solução prática e intuitiva. 
-
-Com o **Estudante+**, a administração escolar, o planejamento de aulas e o acompanhamento do desempenho dos alunos tornam-se mais simples e eficientes. 
-
-A plataforma é projetada para atender às necessidades de todos os participantes do ambiente escolar, garantindo uma experiência mais organizada e produtiva para todos. 
-
-Seja na gestão de notas, no agendamento de atividades ou na comunicação entre alunos e professores, o **Estudante+** se destaca por sua agilidade e eficácia, transformando o gerenciamento escolar em uma tarefa mais fluida e colaborativa.
+A plataforma oferece um ambiente integrado que permite a gestão eficiente de notas, agendamento de atividades, e comunicação direta entre alunos e professores, transformando o gerenciamento escolar em um processo ágil e funcional.
 
 ## Funcionalidades
 
-### Escola 
+### Escola
+- Cadastro, edição e exclusão de alunos, professores e turmas.
+- Geração automática de horários para as turmas.
+- Configuração de parâmetros para o ano letivo.
+- Visualização centralizada de turmas, alunos e professores.
 
-- Cadastro, edição e exclusão de alunos, professores, e turmas;
-- Geração de horários;
-- Definição de parâmetros para o ano letivo;
-- Listagem de turmas, alunos e professores;
+### Professores
+- Cadastro, edição e exclusão de avaliações.
+- Lançamento de notas.
+- Registro de presença.
+- Bate-papo com as turmas.
+- Acesso ao horário de aulas.
 
-### Professores 
-
-- Cadastro, edição e exclusão de avaliações;
-- Postagem de notas;
-- Realização de chamadas;
-- Bate-papo com as turmas;
-- Acesso ao horário de suas aulas;
-
-### Alunos 
-
-- Exibição das avaliações;
-- Exibição das notas;
-- Bate-papo com os professores;
-- Acesso ao horário de suas aulas;
-
+### Alunos
+- Visualização de avaliações e notas.
+- Comunicação direta com professores via chat.
+- Acesso rápido ao horário de suas aulas.
 
 ## Ferramentas de Desenvolvimento
 
-### FrontEnd
+### Front-End
+- **Angular** - Framework para desenvolvimento de aplicações web.
+- **PrimeNG** - Biblioteca de componentes UI para Angular.
 
-- Angular (Framework);
-- PrimeNG (Biblioteca UI);
-
-### BackEnd
-
-- Spring-Boot (Framework);
-- Python (Criação API - Schedule Gen);
-
+### Back-End
+- **Spring Boot** - Framework para construção de aplicações Java robustas.
+- **Python** - Utilizado para desenvolvimento de uma API de geração de horários (Schedule Gen).
 
 ## Desenvolvedores
 
-### Kévin Girelli | https://github.com/KevinGirelli | https://br.linkedin.com/in/kevingirelli
+- **Kévin Girelli**  
+  GitHub: [github.com/KevinGirelli](https://github.com/KevinGirelli)  
+  LinkedIn: [linkedin.com/in/kevingirelli](https://br.linkedin.com/in/kevingirelli)
 
-### Zaymã Kinsiona | https://github.com/Zayma1 | https://www.linkedin.com/in/zaymakinsiona
+- **Zaymã Kinsiona**  
+  GitHub: [github.com/Zayma1](https://github.com/Zayma1)  
+  LinkedIn: [linkedin.com/in/zaymakinsiona](https://www.linkedin.com/in/zaymakinsiona)
