@@ -1,7 +1,7 @@
 <div class="nav">
   <div class="logo">
     <a href="admin">
-      <img src="../../../assets/images/logo_estudante_mais.png">
+      <img src="../../../assets/images/logo_estudante_mais.png" alt="Logo Estudante+">
       <h2>Estudante+</h2>
     </a>
   </div>
@@ -20,6 +20,53 @@
       <li><a href="admin/schedule">Horário</a></li>
       <li><a href="admin/school/year/config">Ano Letivo</a></li>
     </ul>
-    <a (click)="logout()" class="logout"><span class=" pi pi-sign-out"></span> Sair</a>
+    <a (click)="logout()" class="logout"><span class="pi pi-sign-out"></span> Sair</a>
+  </div>
+</div>
+
+<div class="content">
+  <div class="welcome-content">
+    <div class="welcome-message">
+      <h2>Bem-vindo, <strong>Administrador!</strong></h2>
+      <span>
+        <p>Gerencie informações essenciais da escola e facilite o aprendizado dos estudantes.</p>
+        <ul>
+          <li>Cadastre novos usuários e turmas.</li>
+          <li>Gerencie os professores da instituição.</li>
+          <li>Organize horários e configure o ano letivo.</li>
+        </ul>
+      </span>
+    </div>
+    <div class="welcome-image">
+      <img src="../../../assets/images/dashboard-main/welcome.png" alt="Admin Welcome">
+    </div>
+  </div>
+
+  <div class="admin-sections">
+    <div class="section">
+      <h3>Cadastro</h3>
+      <span>Adicione novos alunos, professores e turmas ao sistema.</span>
+      <a href="admin/register">Gerenciar Cadastro</a>
+    </div>
+    <div class="section">
+      <h3>Turmas</h3>
+      <span>Visualize e gerencie as turmas registradas.</span>
+      <a href="admin/classes">Ver Turmas</a>
+    </div>
+    <div class="section">
+      <h3>Professores</h3>
+      <span>Administre o cadastro e alocação de professores.</span>
+      <a href="admin/teachers">Gerenciar Professores</a>
+    </div>
+    <div class="section">
+      <h3>Horário</h3>
+      <span>Configure e organize os horários escolares.</span>
+      <a href="admin/schedule">Ver Horários</a>
+    </div>
+    <div class="section">
+      <h3>Ano Letivo</h3>
+      <span>Configure os períodos escolares e datas importantes.</span>
+      <a href="admin/school/year/config">Configurar Ano Letivo</a>
+    </div>
   </div>
 </div>

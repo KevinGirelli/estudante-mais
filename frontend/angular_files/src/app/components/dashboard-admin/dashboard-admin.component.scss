@@ -1,0 +1,132 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  .welcome-content {
+    margin: 5vh;
+    background-color: #FFFFFF;
+    border-radius: 8px 0 8px 0;
+    width: 70vw;
+    height: 50vh;
+    display: flex;    
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    padding: 2vw;
+
+    .welcome-message {
+      width: 50vw;
+      padding: 2vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      h2 {
+        font-size: 24px;
+        font-weight: 500;
+        color: #292F47;
+        margin-bottom: 1vh;
+      }
+
+      span {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 1vh;
+        gap: 2vh;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    .welcome-image {
+      width: 45%;
+      img {
+        width: 100%;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .admin-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2vw;
+    width: 70vw;
+    margin: 5vh 0;
+
+    .section {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+      padding: 2vh;
+      text-align: center;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      h3 {
+        font-size: 20px;
+        color: #292f47;
+        margin-bottom: 1vh;
+      }
+
+      span {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 2vh;
+        display: block;
+      }
+
+      a {
+        display: inline-block;
+        text-decoration: none;
+        background-color: #9747ff;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #6a3ce9;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .welcome-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .welcome-message {
+        width: 100%;
+        padding: 2vw;
+
+        h2 {
+          font-size: 22px;
+        }
+
+        span {
+          font-size: 14px;
+        }
+      }
+
+      .welcome-image {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .admin-sections {
+      grid-template-columns: 1fr;
+    }
+
+    .welcome-content {
+      padding: 4vw;
+    }
+  }
+}
