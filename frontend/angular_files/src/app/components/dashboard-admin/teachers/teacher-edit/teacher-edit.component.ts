@@ -49,7 +49,7 @@ export class TeacherEditComponent implements OnInit {
   maxClassesPerWeek: number = 0
 
   teacherClasses: TeacherClass[] = [];
-  subjectsToRemove: Subject[] = [];
+  subjectsToRemove: String[] = [];
 
   selectedClasses: TeacherClass[] = [];
   teacherID: string = '';
@@ -198,7 +198,6 @@ export class TeacherEditComponent implements OnInit {
   }
 
   addClass(teacherClass: TeacherClass) {
-    console.log("t")
     if (!this.selectedClasses.includes(teacherClass)) {
       this.selectedClasses.push(teacherClass);
       
@@ -238,9 +237,16 @@ export class TeacherEditComponent implements OnInit {
     }
 
     if(this.selectedSubjects != this.subjectsTrueSelected && this.selectedSubjects.length < this.subjectsTrueSelected.length){
-      this.subjectsTrueSelected.forEach((s,i) =>{
-        if(this.selectedSubjects[i].subjectID != s.subjectID){
-            this.subjectsToRemove.push(this.selectedSubjects[i])
+      this.subjectsTrueSelected.forEach(st =>{
+        let found = false
+        this.selectedSubjects.forEach(s =>{
+          if(s.subjectID == st.subjectID){
+            found = true
+          }
+        })
+
+        if(!found){
+            this.subjectsToRemove.push(st.subjectID)
         }
       })
     }
@@ -264,7 +270,8 @@ export class TeacherEditComponent implements OnInit {
           removeTeacherClasses.push(stringFormat)
         }
       })
-      
+
+
       let teacherData = {
         teacherID: this.teacherID,
         nome: this.teacherName,
@@ -272,7 +279,8 @@ export class TeacherEditComponent implements OnInit {
         cpf: this.teacherCPF,
         subjects: subjects,
         teacherClasses: teacherClasses,
-        removeTeacherClasses: removeTeacherClasses
+        removeTeacherClasses: removeTeacherClasses,
+        subjectsToRemove: this.subjectsToRemove
       }
       
   

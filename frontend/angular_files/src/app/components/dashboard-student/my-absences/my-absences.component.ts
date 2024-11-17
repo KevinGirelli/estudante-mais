@@ -24,7 +24,7 @@ interface Absence {
   styleUrls: ['./my-absences.component.scss']
 })
 export class MyAbsencesComponent implements OnInit{
-  subjects: { label: string, value: string }[] = [];
+  subjects: { label: string, value: string, type: number }[] = [];
   selectedSubject!: string;
 
   periods: { label: string, value: number }[] = [];
@@ -48,44 +48,15 @@ export class MyAbsencesComponent implements OnInit{
       }
     })
 
-    if(quarterType.status == 200){
-      quarterType.json().then(data =>{
-        for(let i = 0; i <= data; i++){
-          if(data > 1){
-            if(i == 2){
-              const period = {
-                label: "2º",
-                value: 2
-              }
-              this.periods.push(period)
-            }else if(i == 3){
-              const period = {
-                label: "3º",
-                value: 3
-              }
-              this.periods.push(period)
-            }
-          }else{
-            if(i == 0){
-              const period = {
-                label: "1º",
-                value: 1
-              }
-              this.periods.push(period)
-            } 
-          }          
-        }
-      })
-    }
-
+  
     if(response1.status == 200){
       response1.json().then(data =>{
         for(let i = 0; i <= data.length-1; i++){
           let subject = {
             label: data[i].split(",")[1],
-            value:data[i].split(",")[0]
+            value:data[i].split(",")[0],
+            type: data[i].split(",")[2]
           }
-
           this.subjects.push(subject)
         }
       })
@@ -120,4 +91,31 @@ export class MyAbsencesComponent implements OnInit{
       })
     }
   }
+
+  async onSubjectSelected(){
+    this.periods = []
+    this.subjects.forEach(s =>{
+     if(s.value == this.selectedSubject){
+       if(s.type == 2){
+         this.periods.push({label: "1°", value: 1})
+         this.periods.push({label: "2°", value: 2})
+         this.periods.push({label: "3°", value: 3})
+         this.periods.push({label: "4°", value: 4})
+         this.periods.push({label: "5°", value: 5})
+       }
+ 
+       if(s.type == 3){
+         this.periods.push({label: "1°", value: 1})
+         this.periods.push({label: "2°", value: 2})
+         this.periods.push({label: "3°", value: 3})
+         this.periods.push({label: "4°", value: 4})
+       }
+ 
+       if(s.type == 6){
+         this.periods.push({label: "1°", value: 1})
+         this.periods.push({label: "2°", value: 2})
+       }
+     }
+    })
+   }
 }

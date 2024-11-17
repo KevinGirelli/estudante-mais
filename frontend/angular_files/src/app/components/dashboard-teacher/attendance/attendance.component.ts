@@ -86,7 +86,7 @@ export class AttendanceComponent implements OnInit {
     }
   }
 
-  async showModal() {
+  async switchClass(e: any){
     const response = await fetch("http://localhost:8080/attendence/getAllStudentsFromClass/" + this.className.split(",")[1], {
       method: "GET",
       headers: {
@@ -118,7 +118,9 @@ export class AttendanceComponent implements OnInit {
         }
       });
     }
+  }
 
+  async showModal() {
     this.visible = true;
   }
 

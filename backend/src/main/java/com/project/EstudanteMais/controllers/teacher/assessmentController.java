@@ -8,6 +8,7 @@ import com.project.EstudanteMais.Entity.grade;
 import com.project.EstudanteMais.repository.*;
 import com.project.EstudanteMais.services.UUIDformatter;
 import com.project.EstudanteMais.services.configPreferencesService;
+import com.project.EstudanteMais.services.formatDateService;
 import com.project.EstudanteMais.services.notificationService.notificationDTO;
 import com.project.EstudanteMais.services.notificationService.notificationManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +42,16 @@ public class assessmentController {
   notificationManager notificationManager;
 
   @Autowired
-  configPreferencesService configPreferencesService;
-
-  @Autowired
   studentRepository studentRepository;
 
   @Autowired
   gradeRepository gradeRepository;
+
+  @Autowired
+  formatDateService formatDateService;
+
+  @Autowired
+  schoolSettingsRepository schoolSettingsRepository;
 
   @PostMapping("/createNewAssessment")
   public ResponseEntity createNewAssessment(@RequestBody createAssessmentDTO asses){
@@ -102,7 +106,7 @@ public class assessmentController {
   public ResponseEntity updateAssessment(@RequestBody returnAssessmentDTO asses){
       this.assessmentRepository.updateAssessment(
               asses.name(),
-              asses.date(),
+              this.formatDateService.formatDate(asses.date()),
               UUID.fromString(asses.classID()),
               UUID.fromString(asses.subjectID()),
               UUID.fromString(asses.id())
@@ -114,6 +118,13 @@ public class assessmentController {
   public ResponseEntity postStudentGrade(@RequestBody postStudentGradeDTO newGrade){
     var getStudent = this.studentRepository.findBystudentID(UUID.fromString(newGrade.studentID()));
     var getAsses = this.assessmentRepository.findByassessmentID(UUID.fromString(newGrade.assessID()));
+    var config = this.schoolSettingsRepository.getConfig();
+
+    var periodType = getAsses.getSubjects().getSubjectPeriod();
+    var periodNumber = 0;
+    if(periodType == 2) periodNumber = config.getBimestralNumber();
+    if(periodType == 3) periodNumber = config.getTrimestralNumber();
+    if(periodType == 6) periodNumber = config.getSemestralNumber();
 
     if(getStudent != null && getAsses != null){
       var checkGrade = this.gradeRepository.findByAssessmentAndStudent(getAsses,getStudent);
@@ -131,7 +142,8 @@ public class assessmentController {
               getAsses,
               getStudent,
               getAsses.getAssessmentDate(),
-              1
+              periodNumber
+
       );
       this.gradeRepository.save(grade);
 

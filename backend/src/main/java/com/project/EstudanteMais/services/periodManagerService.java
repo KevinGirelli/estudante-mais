@@ -18,7 +18,7 @@ public class periodManagerService {
     @Autowired
     schoolPeriodRepository schoolPeriodRepository;
 
-    @Scheduled(cron = "0 1 0 * * ?")
+    @Scheduled(cron = "0 31 19 * * ?")
     public void checkDates(){
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -30,7 +30,6 @@ public class periodManagerService {
         String biDate = config.getReportCardActivateBimestralDate();
         String triDate = config.getReportCardActivateTrimstralDate();
         String semDate = config.getReportCardActivateSemestralDate();
-        String evaluateTeacher = config.getEvaluateTeacherDate();
 
         if(biDate.equals(formattedDate)){
             //Register on database the new current bimestral
@@ -38,7 +37,12 @@ public class periodManagerService {
             var month = Integer.parseInt(split[1]);
             month += 2;
 
-            if(month > 12) month = 1;
+            if(month > 12){
+                month = 1;
+                var year = Integer.parseInt(split[2]);
+                year++;
+                split[2] = Integer.toString(year);
+            }
 
             split[1] = Integer.toString(month);
             System.out.println(String.join("/",split));
@@ -48,8 +52,7 @@ public class periodManagerService {
             this.schoolSettingsRepository.updateDateSettings(
                     String.join("/",split),
                     config.getReportCardActivateTrimstralDate(),
-                    config.getReportCardActivateSemestralDate(),
-                    config.getEvaluateTeacherDate()
+                    config.getReportCardActivateSemestralDate()
             );
 
             //Update current periodNumber
@@ -75,8 +78,7 @@ public class periodManagerService {
             this.schoolSettingsRepository.updateDateSettings(
                     config.getReportCardActivateBimestralDate(),
                     String.join("/",split),
-                    config.getReportCardActivateSemestralDate(),
-                    config.getEvaluateTeacherDate()
+                    config.getReportCardActivateSemestralDate()
             );
 
             //Update current periodNumber
@@ -102,8 +104,7 @@ public class periodManagerService {
             this.schoolSettingsRepository.updateDateSettings(
                     config.getReportCardActivateBimestralDate(),
                     config.getReportCardActivateTrimstralDate(),
-                    String.join("/",split),
-                    config.getEvaluateTeacherDate()
+                    String.join("/",split)
             );
 
             //Update current periodNumber

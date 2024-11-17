@@ -22,7 +22,7 @@ interface Grade {
   styleUrls: ['./my-grades.component.scss']
 })
 export class MyGradesComponent implements OnInit {
-  subjects: { label: string, value: string }[] = [];
+  subjects: { label: string, value: string, type: number }[] = [];
   selectedSubject!: string;
 
   periods: { label: string, value: number }[] = [];
@@ -33,43 +33,6 @@ export class MyGradesComponent implements OnInit {
   allGrades: { [key: string]: { [key: string]: Grade[] } } = {};
 
   async ngOnInit(): Promise<void> {
-
-    const quarterType = await fetch("http://localhost:8080/grades/getCurrentType",{
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    })
-
-    if(quarterType.status == 200){
-      quarterType.json().then(data =>{
-        for(let i = 0; i <= data; i++){
-          if(data > 1){
-            if(i == 2){
-              const period = {
-                label: "2º",
-                value: 2
-              }
-              this.periods.push(period)
-            }else if(i == 3){
-              const period = {
-                label: "3º",
-                value: 3
-              }
-              this.periods.push(period)
-            }
-          }else{
-            if(i == 0){
-              const period = {
-                label: "1º",
-                value: 1
-              }
-              this.periods.push(period)
-            } 
-          }          
-        }
-      })
-    }
 
     const response1 = await fetch("http://localhost:8080/student/getSubjectsFromClasses/" + localStorage.getItem("userID"),{
       method: "GET",
@@ -83,7 +46,8 @@ export class MyGradesComponent implements OnInit {
         for(let i = 0; i <= data.length-1; i++){
           let subject = {
             label: data[i].split(",")[1],
-            value:data[i].split(",")[0]
+            value: data[i].split(",")[0],
+            type: data[i].split(",")[2]
           }
 
           this.subjects.push(subject)
@@ -93,6 +57,7 @@ export class MyGradesComponent implements OnInit {
   }
 
   async onSelectChange() {
+    this.grades = []
     const response = await fetch("http://localhost:8080/grades/viewGrades/" + localStorage.getItem("userID") + "," + this.selectedSubject + "," + this.selectedPeriod,{
       method: "GET",
       headers: {
@@ -102,7 +67,6 @@ export class MyGradesComponent implements OnInit {
 
     if(response.status == 200){
       response.json().then(data => {
-        console.log(data)
           for(let i = 0; i <= data.length-1; i++){
             const add: Grade = {
               label: `${data[i].date}: ${data[i].gradeValue}`,
@@ -112,5 +76,32 @@ export class MyGradesComponent implements OnInit {
 
       })
     }
+  }
+
+  async onSubjectSelected(){
+   this.periods = []
+   this.subjects.forEach(s =>{
+    if(s.value == this.selectedSubject){
+      if(s.type == 2){
+        this.periods.push({label: "1°", value: 1})
+        this.periods.push({label: "2°", value: 2})
+        this.periods.push({label: "3°", value: 3})
+        this.periods.push({label: "4°", value: 4})
+        this.periods.push({label: "5°", value: 5})
+      }
+
+      if(s.type == 3){
+        this.periods.push({label: "1°", value: 1})
+        this.periods.push({label: "2°", value: 2})
+        this.periods.push({label: "3°", value: 3})
+        this.periods.push({label: "4°", value: 4})
+      }
+
+      if(s.type == 6){
+        this.periods.push({label: "1°", value: 1})
+        this.periods.push({label: "2°", value: 2})
+      }
+    }
+   })
   }
 }

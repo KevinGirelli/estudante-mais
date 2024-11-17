@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -27,10 +27,10 @@ import { ToastModule } from 'primeng/toast';
 })
 
 
-export class SchoolYearConfigComponent {
+export class SchoolYearConfigComponent implements OnInit {
 
   constructor (private messageService: MessageService) {}
-
+ 
   isMenuOpen = false;
 
   generationType: number = 25;
@@ -44,7 +44,6 @@ export class SchoolYearConfigComponent {
   boletimDateBi: Date | null = null;
   boletimDateTri: Date | null = null;
   boletimDateSem: Date | null = null;
-  avaliaProfessorDate: Date | null = null;
   holidays: string = '';
   selectedYearType: string | null = null;
   yearTypes = [
@@ -62,6 +61,45 @@ export class SchoolYearConfigComponent {
     { label: 'Integral + Noturno', value: 6 },
   ]
 
+  formatarDataParaInput(dateString: string): string {
+    const [dia, mes, ano] = dateString.split("/");
+    return `${ano}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
+  }
+
+  criarDataLocal(dateString: string): Date {
+    const [ano, mes, dia] = dateString.split("-").map(Number);
+    return new Date(ano, mes - 1, dia);
+  }
+
+
+
+  async ngOnInit(): Promise<void>  {
+    const getSettings = await fetch("http://localhost:8080/admin/schedule/getSchoolConfig",{
+      method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+     })
+
+     if(getSettings.status == 200){
+      getSettings.json().then(data =>{
+        const bi = this.formatarDataParaInput(data.biDate)
+        const tri  = this.formatarDataParaInput(data.triDate)
+        const sem = this.formatarDataParaInput(data.semDate)
+
+        this.boletimDateBi = this.criarDataLocal(bi);
+        this.boletimDateTri = this.criarDataLocal(tri);
+        this.boletimDateSem = this.criarDataLocal(sem);
+
+      
+        this.selectedPeriodType = data.schoolPeriod
+        this.consecType = data.maxConsecutiveClasses
+      })
+     }
+  
+  }
+
+
   toggleMenu() {
     this.isMenuOpen = true;
   }
@@ -70,9 +108,7 @@ export class SchoolYearConfigComponent {
     let formatedBoletimDateBi = this.boletimDateBi?.toLocaleDateString("pt-BR")
     let formatedBoletimDateTri = this.boletimDateTri?.toLocaleDateString("pt-BR")
     let formatedBoletimDateSem = this.boletimDateSem?.toLocaleDateString("pt-BR")
-    let formatedAvaliaDate= this.avaliaProfessorDate?.toLocaleDateString("pt-BR")
 
-    formatedAvaliaDate = formatedAvaliaDate?.replace(/\//g, '-')
     formatedBoletimDateBi = formatedBoletimDateBi?.replace(/\//g,"-")
     formatedBoletimDateTri = formatedBoletimDateTri?.replace(/\//g,"-")
     formatedBoletimDateSem = formatedBoletimDateSem?.replace(/\//g,"-")
@@ -91,7 +127,7 @@ export class SchoolYearConfigComponent {
   
    if(this.generationType == 25){
     const response2 = await fetch("http://localhost:8080/admin/schedule/setScheduleSettings/"
-      + this.generationType + "," + "5" + "," + this.consecType + "/" + formatedAvaliaDate + "/" + formatedBoletimDateBi + "/" + formatedBoletimDateTri
+      + this.generationType + "," + "5" + "," + this.consecType + "/" + formatedBoletimDateBi + "/" + formatedBoletimDateTri
       + "/" + formatedBoletimDateSem
     ,{ 
       method: "POST",

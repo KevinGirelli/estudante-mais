@@ -70,7 +70,7 @@ public class studentController {
       var getClass = this.classesRepository.findByclassID(getStudent.getClasses().getClassID());
       var Classessubjects = this.classesSubjectsRepository.findByclasses(getClass);
       Classessubjects.forEach(s ->{
-        String add = s.getSubjects().getSubjectID().toString() + "," + s.getSubjects().getSubjectname();
+        String add = s.getSubjects().getSubjectID().toString() + "," + s.getSubjects().getSubjectname() + "," + s.getSubjects().getSubjectPeriod();
         subjects.add(add);
       });
 

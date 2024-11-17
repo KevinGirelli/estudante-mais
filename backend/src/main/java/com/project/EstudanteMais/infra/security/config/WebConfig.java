@@ -11,7 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://native-randomly-swift.ngrok-free.app") // Substitua pelo seu URL do NGROK
+                .allowedOrigins("https://native-randomly-swift.ngrok-free.app")
+                .allowCredentials(true)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
     }
 }

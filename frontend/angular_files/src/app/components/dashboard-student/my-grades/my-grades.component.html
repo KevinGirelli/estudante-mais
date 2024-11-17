@@ -7,7 +7,7 @@
         [options]="subjects" 
         [(ngModel)]="selectedSubject" 
         [placeholder]="selectedSubject ? '' : 'Selecione a matéria'"
-        (onChange)="onSelectChange()">
+        (onChange)="onSubjectSelected()">
       </p-dropdown>
       <p-dropdown 
         [options]="periods" 

@@ -19,9 +19,6 @@ public class schoolSettings {
     @Column(name = "reportCardActiveSemestralDate")
     String reportCardActivateSemestralDate;
 
-    @Column(name = "evaluateTeacherDate")
-    String evaluateTeacherDate;
-
     @Column(name = "bimestralNumber")
     int bimestralNumber;
 
@@ -39,6 +36,17 @@ public class schoolSettings {
 
     @ManyToOne
     schoolPeriods currentSem;
+
+    @Column(name = "periodType",nullable = false)
+    periodType period;
+
+    public periodType getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(periodType period) {
+        this.period = period;
+    }
 
     public int getBimestralNumber() {
         return bimestralNumber;
@@ -118,13 +126,5 @@ public class schoolSettings {
 
     public void setReportCardActivateSemestralDate(String reportCardActivateSemestralDate) {
         this.reportCardActivateSemestralDate = reportCardActivateSemestralDate;
-    }
-
-    public String getEvaluateTeacherDate() {
-        return evaluateTeacherDate;
-    }
-
-    public void setEvaluateTeacherDate(String evaluateTeacherDate) {
-        this.evaluateTeacherDate = evaluateTeacherDate;
     }
 }

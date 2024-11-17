@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/attendence")
@@ -40,12 +41,22 @@ public class attendenceController {
   @Autowired
   formatDateService formatDateService;
 
+  @Autowired
+  schoolSettingsRepository schoolSettingsRepository;
+
   @PostMapping("/registryAttendence")
   public ResponseEntity registryNewAttendence(@RequestBody registryAttendenceDTO data){
     classes getClass = this.classesRepository.findByclassID(UUID.fromString(data.classID()));
     teacher getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(data.teacherID()));
     subjects getSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(data.subjectID()));
     String formattedDate  = this.formatDateService.formatDate(data.date());
+    var config = this.schoolSettingsRepository.getConfig();
+
+    var periodType = getSubject.getSubjectPeriod();
+    AtomicInteger periodNumber = new AtomicInteger(0);
+    if(periodType == 2) periodNumber.set(config.getBimestralNumber());
+    if(periodType == 3) periodNumber.set(config.getTrimestralNumber());
+    if(periodType == 6) periodNumber.set(config.getSemestralNumber());
 
     AtomicBoolean alreadyPosted = new AtomicBoolean();
 
@@ -68,7 +79,7 @@ public class attendenceController {
       var split = students.split(",");
       student getStudent = this.studentRepository.findBystudentID(UUID.fromString(split[0]));
       attendence newAtt = new attendence(getStudent,getClass,getTeacher,
-              attendenceStatus.valueOf(split[1]),1,getSubject,data.quantity(),formattedDate);
+              attendenceStatus.valueOf(split[1]),periodNumber.get(),getSubject,data.quantity(),formattedDate);
 
       attendence savedAttendece = this.attendenceRepository.save(newAtt);
 

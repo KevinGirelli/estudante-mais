@@ -22,7 +22,7 @@
             </div>
             <div class="form-item">
               <label class="label" for="classes">Turma</label>
-              <select class="input-field" [(ngModel)]="classesSelected" id="classes" (change)="onClassChange($event)">
+              <select class="input-field" [(ngModel)]="classesSelected" id="classes">
                 <option *ngFor="let class of allClasses" [value]="class.id">{{ class.name }}</option>
               </select>
             </div>

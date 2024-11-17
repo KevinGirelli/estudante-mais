@@ -91,7 +91,11 @@ export class ClassDiaryComponent implements OnInit {
             classID: data[i].classID,
             className: data[i].className
           }
-          this.classOptions.push(addClass)
+          
+          const alreadyExist = this.classOptions.some(classes => classes.classID == addClass.classID)
+          if(!alreadyExist){
+            this.classOptions.push(addClass)
+          }
         }
       })
     }

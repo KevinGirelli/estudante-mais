@@ -42,12 +42,7 @@
     <label for="start-date">Data de Início da Geração do Boletim Escolar(Semestral):</label>
     <p-calendar id="boletimDate" [(ngModel)]="boletimDateSem" view="date" name="boletimDate" dateFormat="dd/mm/yy" class="custom-calendar"></p-calendar>
   </div>
-
-  <div class="form-item">
-    <label for="start-date">Data de Início da Avaliação de Professores:</label>
-    <p-calendar id="avaliaProfessorDate" [(ngModel)]="avaliaProfessorDate" view="date" name="avaliaProfessorDate" class="custom-calendar" dateFormat="dd/mm/yy"></p-calendar>
-  </div>
-  
+ 
   <div class="form-item">
     <label for="period">Períodos de Aula:</label>
     <p-dropdown [options]="periodTypes" [(ngModel)]="selectedPeriodType" placeholder="Selecione" class="custom-dropdown"></p-dropdown>

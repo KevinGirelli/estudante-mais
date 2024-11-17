@@ -2,6 +2,7 @@ package com.project.EstudanteMais.controllers.admin;
 
 import com.project.EstudanteMais.Entity.classes;
 import com.project.EstudanteMais.Entity.dto.MessageDTO;
+import com.project.EstudanteMais.Entity.dto.schoolConfigDTO;
 import com.project.EstudanteMais.repository.*;
 import com.project.EstudanteMais.services.configPreferencesService;
 import com.project.EstudanteMais.services.genScheduleService.JsonModel.datamodelDTO;
@@ -42,6 +43,20 @@ public class scheduleController {
 
   @Autowired
   schoolSettingsRepository schoolSettingsRepository;
+
+  @GetMapping("/getSchoolConfig")
+  public ResponseEntity getSchoolConfig(){
+      var config = this.schoolSettingsRepository.getConfig();
+      schoolConfigDTO returnConfig = new schoolConfigDTO(
+              config.getReportCardActivateBimestralDate(),
+              config.getReportCardActivateTrimstralDate(),
+              config.getReportCardActivateSemestralDate(),
+              config.getPeriod().ordinal(),
+              this.configPreferencesService.getMaxConsecutiveClass()
+      );
+
+      return ResponseEntity.ok(returnConfig);
+  }
 
   @PostMapping("/genSchedule")
   public ResponseEntity genSchedule(){
@@ -128,10 +143,9 @@ public class scheduleController {
     return ResponseEntity.status(HttpStatus.FOUND).body(this.configPreferencesService.getScheduleModel());
   }
 
-  @PostMapping("/setScheduleSettings/{settings}/{evaluateTeacher}/{biDate}/{triDate}/{semDate}")
+  @PostMapping("/setScheduleSettings/{settings}/{biDate}/{triDate}/{semDate}")
   public ResponseEntity setScheduleType(
           @PathVariable(value = "settings")String settings,
-          @PathVariable(value = "evaluateTeacher")String evaluate,
           @PathVariable(value = "biDate")String biDate,
           @PathVariable(value = "triDate")String triDate,
           @PathVariable(value = "semDate")String semDate){
@@ -139,8 +153,7 @@ public class scheduleController {
     var setting = settings.split(",");
     this.schoolSettingsRepository.updateDateSettings(biDate.replace("-","/"),
             triDate.replace("-","/"),
-            semDate.replace("-", "/"),
-            evaluate.replace("-","/"));
+            semDate.replace("-", "/"));
 
     this.configPreferencesService.setMaxClassPeerWeek(Integer.parseInt(setting[0]));
     this.configPreferencesService.setMaxClassPerDay(Integer.parseInt(setting[1]));
@@ -156,6 +169,7 @@ public class scheduleController {
     scheduleSettings.add(this.configPreferencesService.getMaxConsecutiveClass());
     return ResponseEntity.ok(scheduleSettings);
   }
+
   @GetMapping("/getSchedule")
   public ResponseEntity getSchedule() throws IOException {
     if(this.configPreferencesService.isScheduleGenerated()){

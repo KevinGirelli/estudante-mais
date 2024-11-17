@@ -14,8 +14,6 @@ public class configPreferencesService {
 
   private datamodelDTO scheduleModel = new datamodelDTO();
 
-  private periodType type = periodType.Integral_Noturno;
-
   //scheduleGen config
 
   private int maxConsecutiveClass = 2;
@@ -70,14 +68,6 @@ public class configPreferencesService {
 
   public List<String> getActiveCodes() {
     return activeCodes;
-  }
-
-  public periodType getType() {
-    return type;
-  }
-
-  public void setType(periodType type) {
-    this.type = type;
   }
 
   public void setActiveCodes(List<String> activeCodes) {

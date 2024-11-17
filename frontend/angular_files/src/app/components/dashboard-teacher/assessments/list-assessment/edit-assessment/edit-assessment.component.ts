@@ -82,12 +82,17 @@ export class EditAssessmentComponent implements OnInit {
 
     if(response2.status == 200){
       response2.json().then(data => {
+        console.log(data)
         for(let i = 0; i <= data.subjectsIDS.length-1; i++){
           const addSubject = {
             id: data.subjectsIDS[i].split(",")[0],
             subjectName: data.subjectsIDS[i].split(",")[1]
           }
-          this.allSubjects.push(addSubject)
+          
+          let alreadyExist = this.allSubjects.some(subject => subject.id == addSubject.id)
+          if(!alreadyExist){
+            this.allSubjects.push(addSubject)
+          }
         }
       })
     }
@@ -140,35 +145,7 @@ export class EditAssessmentComponent implements OnInit {
 
   }
 
-  async onClassChange(event: any): Promise<void> {
-    this.students = [];
-    const response = await fetch("http://localhost:8080/teacher/getAllStudentsFromClass/" + this.classesSelected,{
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    })
-
-    if(response.status == 403){
-      this.router.navigate(["403"])
-    }
-
-    if(response.status == 200){
-      response.json().then(data =>{
-        for(let i = 0; i <=data.length -1; i++){
-          let student = {
-            id: data[i].studentID,
-            name: data[i].date,
-            grade: data[i].gradeValue
-          }
-          this.students.push(student)
-        }
-      })
-    }
-
-
-  }
-
+  
   async postGrades(): Promise<void> {
     this.students.forEach(async s =>{
       const sendData = {
@@ -218,7 +195,9 @@ export class EditAssessmentComponent implements OnInit {
     })
 
     if(response.status == 200){
-      console.log("Dados editados")
+      this.messageService.add({ severity: 'success', summary: 'Avaliação atualizada.', detail: 'Os dados de: ' + this.assessmentName + " foram atualiados com sucesso" })
+    }else{
+      this.messageService.add({ severity: 'error', summary: 'Erro ao atualizar avaliação '})
     }
 
   }

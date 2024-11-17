@@ -44,6 +44,8 @@ public class studentGrades {
     var getStudent = this.studentRepository.findBystudentID(UUID.fromString(split[0]));
     var getSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(split[1]));
     List<postStudentGradeDTO> formatGrades = new ArrayList<>();
+
+
     if(getStudent != null){
       List<assessment> studentAssess = this.assessmentRepository.findByclassesAndSubjects(getStudent.getClasses(),getSubject);
       studentAssess.forEach(s -> {

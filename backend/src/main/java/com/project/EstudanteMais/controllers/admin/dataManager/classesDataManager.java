@@ -45,6 +45,9 @@ public class classesDataManager {
   subjectsRepository subjectsRepository;
 
   @Autowired
+  schoolSettingsRepository schoolSettingsRepository;
+
+  @Autowired
   teacherRepository teacherRepository;
 
   @GetMapping("/getClassesAsync")
@@ -181,7 +184,7 @@ public class classesDataManager {
 
   @GetMapping("/getPeriodType")
     public ResponseEntity getPeriodType(){
-      return ResponseEntity.ok(periodType.valueOf(this.configService.getType().toString()).ordinal());
+      return ResponseEntity.ok(this.schoolSettingsRepository.getConfig().getPeriod().ordinal());
   }
 
 
@@ -224,7 +227,7 @@ public class classesDataManager {
 
   @PostMapping("/setPeriodType/{type}")
     public ResponseEntity getPeriodType(@PathVariable(value = "type")String type){
-      this.configService.setType(periodType.values()[Integer.parseInt(type)]);
+    this.schoolSettingsRepository.updatePeriod(periodType.values()[Integer.parseInt(type)]);
       return ResponseEntity.ok().build();
     }
 }
