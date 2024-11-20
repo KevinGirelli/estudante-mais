@@ -42,7 +42,7 @@
       flex-direction: column;
       width: 100%;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
 
       p-dropdown {
         width: 30vw;
@@ -67,6 +67,28 @@
         }
       }
     }
+
+    button.generate-boletim {
+      margin-bottom: 1vh;
+      padding: 10px 20px;
+      background-color: #9747FF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 30vw;
+    
+      &:hover {
+        background-color: #6F2EEB;
+      }
+    
+      &:disabled {
+        background-color: #CCC;
+        cursor: not-allowed;
+      }
+    }    
 
     .grades-list {
       width: 30vw;
@@ -140,6 +162,10 @@
         p-dropdown {
           width: 80vw;
         }
+      }
+
+      button.generate-boletim {
+        width: 80vw;
       }
 
       .grades-list {
