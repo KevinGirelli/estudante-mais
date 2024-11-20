@@ -5,8 +5,10 @@ import { MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ListboxModule } from 'primeng/listbox';
+import { ActivatedRoute } from '@angular/router';
 
 interface Subject {
+  classSubjectID: string
   subjectID: string;
   name: string;
   quantity: number;
@@ -35,6 +37,7 @@ export class EditClassComponent implements OnInit {
   visibleSubjects = false;
   cadastroMateriasVisible = false;
 
+  classID: any = ""
   className = '';
   gradeType = '';
   gradeNumber: number[] = [];
@@ -44,15 +47,103 @@ export class EditClassComponent implements OnInit {
   subjects: Subject[] = [];
   subjectsClasses: Subject[] = [];
   subjectName = '';
+  allPeriods: string[] = ["Matutino","Vespertino","Integral","Noturno", "Matutino + Noturno", "Vespertino + Noturno", "Integral + Noturno"];
 
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService, private route: ActivatedRoute) {}
 
-  ngOnInit() {
-    this.initializePeriods();
-  }
+  async ngOnInit(): Promise<void> {
+    this.classID = this.route.snapshot.paramMap.get('editClass');
+    
+    let getSchoolPeriodType = await fetch("http://localhost:8080/admin/classesDataManager/getPeriodType",{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
 
-  initializePeriods() {
-    this.periods = ['Matutino', 'Vespertino', 'Noturno'];
+    let getClasses = await fetch("http://localhost:8080/admin/classesDataManager/getClass/" + this.classID,{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    let getClassSubject = await fetch("http://localhost:8080/admin/classesDataManager/getClassSubjects/" + this.classID,{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    if(getClassSubject.status == 200){
+      getClassSubject.json().then(data =>{
+        let ids = data.subjectsIDS
+
+        for(let i = 0; i <= ids.length-1; i++){
+          let split = ids[i].split(",")
+
+          let subject: Subject = {
+            classSubjectID: split[0],
+            subjectID: split[2],
+            name: split[4],
+            quantity: split[5]
+          }
+
+          this.subjects.push(subject)
+        }
+      })
+    }
+
+    if(getSchoolPeriodType.status == 200){
+      getSchoolPeriodType.text().then(data =>{
+        let toInt = parseInt(data)
+        if(toInt > 3){
+            if(toInt == 4){
+              this.periods.push(this.allPeriods[0])
+              this.periods.push(this.allPeriods[3])
+            }
+
+            if(toInt == 5){
+              this.periods.push(this.allPeriods[1])
+              this.periods.push(this.allPeriods[3])
+            }
+
+            if(toInt == 6){
+              this.periods.push(this.allPeriods[0])
+              this.periods.push(this.allPeriods[1])
+              this.periods.push(this.allPeriods[3])
+            }
+        }else{
+          if(toInt == 0){
+            this.periods.push(this.allPeriods[0])
+          }
+
+          if(toInt == 1){
+            this.periods.push(this.allPeriods[1])
+          }
+
+          if(toInt == 2){
+            this.periods.push(this.allPeriods[0])
+            this.periods.push(this.allPeriods[1])
+          }
+
+          if(toInt == 3){
+            this.periods.push(this.allPeriods[3])
+          }
+        }
+      })
+    }
+
+    if(getClasses.status == 200){
+      getClasses.json().then(data =>{
+        this.classPeriod = data.type
+        this.className = data.className
+        this.gradeType = data.gradeType
+        this.gradeNumber = data.gradeNumber
+        this.updateGradeNumbers()
+      })
+    }
+
   }
 
   toggleMenu() {
@@ -83,9 +174,45 @@ export class EditClassComponent implements OnInit {
     this.cadastroMateriasVisible = true;
   }
 
-  editarClasse() {
-    this.confirmEditVisible = false;
-    this.messageService.add({ severity: 'success', summary: 'Turma Editada', detail: 'A turma foi editada com sucesso.' });
+  async editarClasse() {
+    this.confirmEditVisible = true;
+
+    let mainClassData = {
+      classID: this.classID,
+      className: this.className,
+      gradeNumber: this.gradeNumber,
+      gradeType: this.gradeType,
+      teacher: "",
+      type: this.classPeriod
+    }
+
+    let editSubjects: String[] = []
+    this.subjects.forEach(s =>{
+      editSubjects.push(s.classSubjectID + "," + s.quantity)
+    })
+
+    let newData = {
+      classes: mainClassData,
+      subjectDTO: {
+        subjectsIDS: editSubjects
+      }
+    }
+
+    let updateData = await fetch("http://localhost:8080/admin/classesDataManager/updateClassData/" + this.classID,{
+      method: "PATCH",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(newData)
+    })
+
+    if(updateData.status == 200){
+      this.messageService.add({ severity: 'success', summary: 'Turma Editada', detail: 'A turma foi editada com sucesso.' });
+    }else{
+      this.messageService.add({ severity: 'erro', summary: 'Ocorreu um problema ao editar turma', detail: 'Edição de turma cancelada.' });
+    }
+    
   }
 
   updateGradeNumbers() {

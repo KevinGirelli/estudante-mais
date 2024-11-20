@@ -81,7 +81,8 @@ public class teacherController {
                 classes.getClasses().getClassName(),
                 classes.getClasses().getGradeNumber(),
                 classes.getClasses().getGradeType(),
-                classes.getTeacher().getTeacherName()
+                classes.getTeacher().getTeacherName(),
+                classes.getClasses().getType()
         );
         classFromTeacher.add(add);
       });

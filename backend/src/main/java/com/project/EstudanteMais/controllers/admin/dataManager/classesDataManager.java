@@ -3,10 +3,7 @@ package com.project.EstudanteMais.controllers.admin.dataManager;
 
 import com.project.EstudanteMais.Entity.TeacherClasses;
 import com.project.EstudanteMais.Entity.classes_subjects;
-import com.project.EstudanteMais.Entity.dto.TeacherClassesDTO;
-import com.project.EstudanteMais.Entity.dto.avaliableClassesDTO;
-import com.project.EstudanteMais.Entity.dto.classesDTO;
-import com.project.EstudanteMais.Entity.dto.subjectsDTO;
+import com.project.EstudanteMais.Entity.dto.*;
 import com.project.EstudanteMais.Entity.periodType;
 import com.project.EstudanteMais.repository.*;
 import com.project.EstudanteMais.services.UUIDformatter;
@@ -51,24 +48,64 @@ public class classesDataManager {
   teacherRepository teacherRepository;
 
   @GetMapping("/getClassesAsync")
-  public ResponseEntity getClasses(){
+  public ResponseEntity getClassesAsync(){
       var allClasses = this.classesRepository.findAll();
       List<classesDTO> allClassesDTO = new ArrayList<>();
 
       allClasses.forEach(classes -> {
         if(classes.getClassMonitor() != null){
           classesDTO classesDTO = new classesDTO(uuiDformatter.formatUuid(classes.getClassID()),classes.getClassName(),
-                  classes.getGradeNumber(),classes.getGradeType(),classes.getClassMonitor().getTeacherName());
+                  classes.getGradeNumber(),classes.getGradeType(),classes.getClassMonitor().getTeacherName(),classes.getType());
           allClassesDTO.add(classesDTO);
         }else{
           classesDTO classesDTO = new classesDTO(uuiDformatter.formatUuid(classes.getClassID()),classes.getClassName(),
-                  classes.getGradeNumber(),classes.getGradeType(),null);
+                  classes.getGradeNumber(),classes.getGradeType(),null,classes.getType());
           allClassesDTO.add(classesDTO);
         }
 
       });
       return ResponseEntity.ok(allClassesDTO);
     }
+
+  @GetMapping("/getClassSubjects/{classID}")
+  public ResponseEntity getClassSubjects(@PathVariable(value = "classID")String classID){
+    var getClass = this.classesRepository.findByclassID(UUID.fromString(classID));
+
+    if(getClass != null){
+      var getSubjects = this.classesSubjectsRepository.findByclasses(getClass);
+      subjectsDTO subjects = new subjectsDTO();
+      List<String> subjectsIDS = new ArrayList<>();
+
+      getSubjects.forEach(s ->{
+        var addIDS = s.getClassSubjectID().toString() + "," + s.getClasses().getClassID().toString() + "," + s.getSubjects().getSubjectID().toString() +
+                "," + s.getClasses().getClassName() + "," + s.getSubjects().getSubjectname() + "," + s.getNumberOfClasses();
+        subjectsIDS.add(addIDS);
+      });
+
+      subjects.setSubjectsIDS(subjectsIDS);
+      return ResponseEntity.ok(subjects);
+    }
+
+    return ResponseEntity.internalServerError().build();
+  }
+
+  @GetMapping("/getClass/{classID}")
+  public ResponseEntity getClasses(@PathVariable(value = "classID")String classID){
+    var getClass = this.classesRepository.findByclassID(UUID.fromString(classID));
+    if(getClass != null){
+      classesDTO classDTO = new classesDTO(
+              getClass.getClassID().toString(),
+              getClass.getClassName(),
+              getClass.getGradeNumber(),
+              getClass.getGradeType(),
+              "",
+              getClass.getType()
+      );
+
+      return ResponseEntity.ok(classDTO);
+    }
+    return ResponseEntity.internalServerError().build();
+  }
 
   @GetMapping("/getAllStudentsFromClass/{classID}")
   public ResponseEntity getAllStudentsFromClass(@PathVariable(value = "classID") String id){
@@ -187,7 +224,6 @@ public class classesDataManager {
       return ResponseEntity.ok(this.schoolSettingsRepository.getConfig().getPeriod().ordinal());
   }
 
-
   @PostMapping("/assignTeacherToClass/{teacherID}/{classID}/{subjectID}")
   public ResponseEntity assignTeacher(@PathVariable(value = "teacherID")String teacherID, @PathVariable(value = "classID")String classID,
                                       @PathVariable(value = "subjectID")String subjectID){
@@ -230,6 +266,26 @@ public class classesDataManager {
     this.schoolSettingsRepository.updatePeriod(periodType.values()[Integer.parseInt(type)]);
       return ResponseEntity.ok().build();
     }
+
+  @PatchMapping("/updateClassData/{classID}")
+  public ResponseEntity updateClassData(@PathVariable(value = "classID")String classID, @RequestBody updateClassesDTO newClassData){
+    this.classesRepository.updateClassPrimaryData(
+            newClassData.classes().className(),
+            newClassData.classes().gradeNumber(),
+            newClassData.classes().gradeType(),
+            newClassData.classes().type().ordinal(),
+            UUID.fromString(classID)
+    );
+
+    newClassData.subjectDTO().getSubjectsIDS().forEach(s -> {
+      var split = s.split(",");
+      System.out.println(split[0]);
+      System.out.println(split[1]);
+      this.classesSubjectsRepository.updateQuantityOfClasses(Integer.parseInt(split[1]),UUID.fromString(split[0]));
+    });
+
+    return ResponseEntity.ok().build();
+  }
 }
 
 

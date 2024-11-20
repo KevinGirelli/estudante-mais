@@ -129,7 +129,7 @@ public class assessmentController {
     if(getStudent != null && getAsses != null){
       var checkGrade = this.gradeRepository.findByAssessmentAndStudent(getAsses,getStudent);
       if(checkGrade != null){
-          this.gradeRepository.updateStudentGradeValue(newGrade.gradeValue(),getStudent.getStudentID());
+          this.gradeRepository.updateStudentGradeValue(newGrade.gradeValue(),getStudent.getStudentID(),getAsses.getAssessmentID());
           String notificationName = "Sua nota em " + getAsses.getAssessmentName() + ", foi alterada";
           notificationDTO newNotification = new notificationDTO(UUID.randomUUID().toString(),notificationName,
                   this.uuiDformatter.formatUuid(getStudent.getStudentID()));

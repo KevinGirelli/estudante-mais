@@ -74,8 +74,6 @@ export class RegisterComponent implements OnInit {
       }
     }).then(res => {
       if(res.status == 403){
-        //redirecionar para pagina de não autorizado.
-        console.log("REDIRECT")
         this.router.navigate(["403"])
       }
 
@@ -130,7 +128,6 @@ export class RegisterComponent implements OnInit {
       }
 
       if(res.status == 200){
-        console.log("te")
         res.text().then(data =>{
           let toInt = parseInt(data)
             if(toInt > 3){
