@@ -111,9 +111,9 @@ export class TeachersFromClassComponent implements OnInit {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
       });
-      console.log(response.status)
       if (response.status == 200) {
         response.json().then(data => {
+          console.log(data)
           for(let i = 0 ; i <= data.length; i++){
             let addTeacher: Teacher = {
               teacherID: data[i].teacherID,

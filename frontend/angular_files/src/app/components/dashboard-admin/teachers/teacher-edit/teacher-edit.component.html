@@ -76,7 +76,7 @@
   <p-dialog header="Adicionar Aulas" [modal]="true" [(visible)]="visible" [style]="{ 'width': '35vw'}" [closable]="true" [draggable]="false">
     <p-listbox [options]="teacherClasses" [(ngModel)]="selectedClasses"  (onChange)="onClassChange($event)" optionLabel="className" [style]="{'width':'15rem'}" [listStyle]="{'max-height': '220px'}" [multiple]="true">
       <ng-template let-teacherClass pTemplate="item">
-        <div class="class-item">
+        <div class="subject-item">
           <span>{{ teacherClass.className }}</span>
           <span>{{ teacherClass.subjectName }}</span>
           <div class="quantity-controls">

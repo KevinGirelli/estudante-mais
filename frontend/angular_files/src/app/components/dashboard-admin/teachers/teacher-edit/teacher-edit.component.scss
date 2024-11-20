@@ -251,6 +251,17 @@
     width: 100% !important;
     margin: 0 auto;
 
+    .class-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-grow: 1;
+      font-size: 1rem;
+      color: #292F47;
+      min-width: 30%;
+      width: 10vw;
+    }
+
     .p-listbox-list-wrapper {
       width: 100% !important;
       overflow-x: hidden;

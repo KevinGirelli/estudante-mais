@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/admin/teacherDataManager")
@@ -101,6 +102,41 @@ public class teacherDataManager {
         return ResponseEntity.ok(teachersDTOS);
     }
 
+    @GetMapping("/getTeachersFromSubject/{subjectID}/{classID}")
+    public ResponseEntity getTeachersFromSubject(@PathVariable(value = "subjectID")String subjectID, @PathVariable(value = "classID")String classID){
+        var getSubject = this.subjectsRepository.findBysubjectID(UUID.fromString(subjectID));
+        var getClass = this.classesRepository.findByclassID(UUID.fromString(classID));
+
+        List<teachersDTO> returnTeachers = new ArrayList<>();
+
+        if(getSubject != null && getClass != null){
+            var TeachersFromSubject = this.teacherSubjectRepository.findBySubject(getSubject);
+            var classSubject = this.classesSubjectsRepository.findBySubjectsAndClasses(getSubject,getClass).get(0);
+
+            TeachersFromSubject.forEach(ts ->{
+                if(ts.getSubject().getSubjectID().toString().equals(getSubject.getSubjectID().toString())){
+                    var teacherClasses = this.teacherClassesRepository.findByteacher(ts.getTeacher());
+                    AtomicInteger teacherAmountOfClasses = new AtomicInteger(classSubject.getNumberOfClasses());
+
+                    teacherClasses.forEach(tc -> {
+                        var getClassSubject = this.classesSubjectsRepository.findBySubjectsAndClasses(tc.getSubjects(),tc.getClasses()).get(0);
+                        teacherAmountOfClasses.addAndGet(getClassSubject.getNumberOfClasses());
+                    });
+
+                    if(teacherAmountOfClasses.get() < this.configPreferencesService.getMaxClassPeerWeek()){
+                        teachersDTO add = new teachersDTO(ts.getTeacher().getTeacherID().toString(),
+                                ts.getTeacher().getTeacherName(),"","",null);
+
+                        returnTeachers.add(add);
+                    }
+                }
+            });
+
+            return ResponseEntity.ok(returnTeachers);
+        }
+
+        return ResponseEntity.internalServerError().build();
+    }
 
     @PatchMapping("/updateTeacherPrimaryData")
     public ResponseEntity updateTeacherPrimaryData(@RequestBody updateTeacherDataDTO teacherData) {

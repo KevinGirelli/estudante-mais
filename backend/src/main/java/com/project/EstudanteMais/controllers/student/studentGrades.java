@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -48,21 +50,26 @@ public class studentGrades {
 
     if(getStudent != null){
       List<assessment> studentAssess = this.assessmentRepository.findByclassesAndSubjects(getStudent.getClasses(),getSubject);
+
       studentAssess.forEach(s -> {
         List<grade> studentGrades = this.gradeRepository.findByStudentAndQuarterAndAssessment(
                 getStudent,
                 Integer.parseInt(split[2]),
                 s
         );
+        int today = LocalDateTime.now().getYear();
+
         studentGrades.forEach(g ->{
-          postStudentGradeDTO add = new postStudentGradeDTO(
-                  g.getGradeValue(),
-                  g.getStudent().getStudentID().toString(),
-                  g.getAssessment().getAssessmentID().toString(),
-                  g.getAssessment().getAssessmentName(),
-                  g.getQuarter()
-          );
-          formatGrades.add(add);
+          if(g.getDate().contains(Integer.toString(today))){
+            postStudentGradeDTO add = new postStudentGradeDTO(
+                    g.getGradeValue(),
+                    g.getStudent().getStudentID().toString(),
+                    g.getAssessment().getAssessmentID().toString(),
+                    g.getAssessment().getAssessmentName(),
+                    g.getQuarter()
+            );
+            formatGrades.add(add);
+          }
         });
       });
       return ResponseEntity.ok(formatGrades);
