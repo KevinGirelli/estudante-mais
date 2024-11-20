@@ -60,6 +60,10 @@
         </p-multiSelect>
       </div>
       <div class="form-item">
+        <label class="label" for="periodTeacher">Selecione os Períodos de Aula</label>
+        <button class="modal-button"(click)="selecionarPeriodos()" type="submit">Selecionar os Períodos</button>
+      </div>
+      <div class="form-item">
         <label class="label" for="subjects">Aulas</label>
         <button class="modal-button" (click)="selecionarAulas()" type="submit">Selecionar as Aulas</button>
       </div>
@@ -96,6 +100,47 @@
     <div class="modal-btn">
       <button pButton class="modal-btn-confirm" (click)="editarProfessor()">Confirmar</button>
       <button pButton class="modal-btn-cancel" (click)="closeConfirmEditDialog()">Cancelar</button>
+    </div>
+  </p-dialog>
+</div>
+
+<div class="card">
+  <p-dialog header="Estudante+" [modal]="true" [(visible)]="selecionarPeriodosVisible" [style]="{ 'width': '35vw'}" [closable]="true" [draggable]="false">
+    <label for="text">
+      Selecione os períodos dos dias em que o professor vai dar aula:
+    </label>
+    <div class="modal-form-item" [style]="{ 'flex-direction': 'row', 'justify-content': 'space-between', 'margin-top': '4vh' }">
+      <label class="label" for="teacherPeriod">Segunda-feira</label>
+      <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod" [style]="{ 'width': '15vw'}">
+        <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+      </select>
+    </div>
+    <div class="modal-form-item" [style]="{ 'flex-direction': 'row', 'justify-content': 'space-between'}">
+      <label class="label" for="teacherPeriod">Terça-feira</label>
+      <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod" [style]="{ 'width': '15vw'}">
+        <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+      </select>
+    </div>
+    <div class="modal-form-item" [style]="{ 'flex-direction': 'row', 'justify-content': 'space-between'}">
+      <label class="label" for="teacherPeriod">Quarta-feira</label>
+      <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod" [style]="{ 'width': '15vw'}">
+        <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+      </select>
+    </div>
+    <div class="modal-form-item" [style]="{ 'flex-direction': 'row', 'justify-content': 'space-between'}">
+      <label class="label" for="teacherPeriod">Quinta-feira</label>
+      <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod" [style]="{ 'width': '15vw'}">
+        <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+      </select>
+    </div>
+    <div class="modal-form-item" [style]="{ 'flex-direction': 'row', 'justify-content': 'space-between'}">
+      <label class="label" for="teacherPeriod">Sexta-feira</label>
+      <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod" [style]="{ 'width': '15vw'}">
+        <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+      </select>
+    </div>
+    <div class="modal-btn">
+      <button class="modal-btn-subject"(click)="confirmarPeriodos()" type="submit">Confirmar</button>
     </div>
   </p-dialog>
 </div>

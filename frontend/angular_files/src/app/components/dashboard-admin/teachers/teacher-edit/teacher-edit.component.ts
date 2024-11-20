@@ -60,7 +60,11 @@ export class TeacherEditComponent implements OnInit {
   selectedSubjects: Subject[] = [];
   subjectsTrueSelected: Subject[] = [];
   subjects: Subject[] = [];
-  subjectsIDS: string = ''
+  subjectsIDS: string = '';
+
+  selecionarPeriodosVisible = false;
+  classPeriod: string = '';
+  periods: String[] = [];
 
   constructor(private router: Router, private dataSaverService: DataSaverService, private messageService: MessageService) {}
 
@@ -178,6 +182,14 @@ export class TeacherEditComponent implements OnInit {
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  selecionarPeriodos() {
+    this.selecionarPeriodosVisible = true;
+  }
+
+  confirmarPeriodos() {
+    
   }
 
   onClassChange(event:any){
