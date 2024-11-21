@@ -60,6 +60,9 @@ export class RegisterComponent implements OnInit {
   subjectName: string = ''
   maxGrades: String = ""
 
+  teacherPeriod: String = ""
+  teacherPeriods: String[] = ["Matutino", "Vespertino", "Integral", "Noturno"]
+
   classPeriod: string = '';
   periods: String[] = [];
 
@@ -185,6 +188,12 @@ export class RegisterComponent implements OnInit {
   teacherCPF: string = '';
   selectedSubjects: Subject[] = [];
   phoneNumberTeacher: string = '';
+  teacherWorkingDays: string = '';
+  monday: string = '';
+  tuesday: string = '';
+  wednesday: string = '';
+  thursday: string = '';
+  friday: string = '';
 
   // Cadastro de Turmas
   className: string = '';
@@ -245,13 +254,15 @@ export class RegisterComponent implements OnInit {
   }
   
   confirmarPeriodos() {
-
+      this.setWorkingDays()
+      console.log(this.teacherWorkingDays)
+      this.selecionarPeriodosVisible = false
   }
 
   cadastrarProfessor() {
     this.selectedSubjects.forEach(subject =>{
       this.teacherAllSubject.push(subject.subjectID)
-    })
+    }) 
     
     const teacherData = {
       teacherEmail: this.teacherEmail,
@@ -259,7 +270,8 @@ export class RegisterComponent implements OnInit {
       teacherName: this.teacherName,
       teacherCPF: this.teacherCPF,
       subjects: this.teacherAllSubject,
-      phoneNumber: this.phoneNumberTeacher
+      phoneNumber: this.phoneNumberTeacher,
+      teacherWorkingDays: this.teacherWorkingDays
     };
 
 
@@ -375,5 +387,14 @@ export class RegisterComponent implements OnInit {
 
   logout() {
     
+  }
+
+  setWorkingDays(){
+    this.teacherWorkingDays = ''
+    this.teacherWorkingDays += this.teacherPeriods.indexOf(this.monday)
+    this.teacherWorkingDays += this.teacherPeriods.indexOf(this.tuesday)
+    this.teacherWorkingDays += this.teacherPeriods.indexOf(this.wednesday)
+    this.teacherWorkingDays += this.teacherPeriods.indexOf(this.thursday)
+    this.teacherWorkingDays += this.teacherPeriods.indexOf(this.friday)
   }
 }

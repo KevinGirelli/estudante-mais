@@ -92,7 +92,8 @@ public class scheduleController {
           subjectDTO subject = new subjectDTO(
                   numberOfClasses.get(0).getSubjects().getSubjectname(),
                   c2.getTeacher().getTeacherName(),
-                  numberOfClasses.get(0).getNumberOfClasses()
+                  numberOfClasses.get(0).getNumberOfClasses(),
+                  c2.getTeacher().getTeacherWorkingDays()
           );
           subjects.add(subject);
         });

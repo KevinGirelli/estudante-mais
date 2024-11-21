@@ -209,8 +209,18 @@ public class teacherDataManager {
             }
         });
 
-        this.teacherRepository.updateTeacherPrimaryData(teacherData.nome(), teacherData.email(), teacherData.cpf(), UUID.fromString(teacherData.teacherID()));
+        this.teacherRepository.updateTeacherPrimaryData(teacherData.nome(), teacherData.email(), teacherData.cpf(),teacherData.teacherWorkingDays() ,UUID.fromString(teacherData.teacherID()));
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/getTeacherWorkingDays/{teacherID}")
+    public ResponseEntity getTeacherWorkingDays(@PathVariable(value = "teacherID")String teacherID){
+        var getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(teacherID));
+
+        if(getTeacher != null){
+            return ResponseEntity.ok(getTeacher.getTeacherWorkingDays());
+        }
+
+        return ResponseEntity.internalServerError().build();
+    }
 }

@@ -33,9 +33,10 @@
       [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:25%">Matéria</th>
-          <th style="width:25%">Professor</th>
-          <th style="width:25%">Ação</th>
+          <th style="width:20%">Matéria</th>
+          <th style="width:20%">Professor</th>
+          <th style="width:20%">Quantidade</th>
+          <th style="width:20%">Ação</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-subject>
@@ -43,6 +44,7 @@
           <td>{{ subject.name }}</td>
           <td *ngIf="subject.teacher">{{ subject.teacher.teacherName }}</td>
           <td *ngIf="!subject.teacher">Sem professor</td>
+          <td>{{ subject.qtd }}</td>
           <td>
             <button *ngIf="!subject.teacher" (click)="openAddTeacherModal(subject)" class="btn-add pi pi-plus"></button>
             <button *ngIf="subject.teacher" (click)="removeTeacher(subject)" class="btn-remove pi pi-minus"></button>

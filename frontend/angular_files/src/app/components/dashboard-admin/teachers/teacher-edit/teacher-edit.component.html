@@ -77,8 +77,8 @@
     <p-listbox [options]="teacherClasses" [(ngModel)]="selectedClasses"  (onChange)="onClassChange($event)" optionLabel="className" [style]="{'width':'15rem'}" [listStyle]="{'max-height': '220px'}" [multiple]="true">
       <ng-template let-teacherClass pTemplate="item">
         <div class="subject-item">
-          <span>{{ teacherClass.className }}</span>
-          <span>{{ teacherClass.subjectName }}</span>
+          <span class="className">{{ teacherClass.className }}</span>
+          <span class="subjectName">{{ teacherClass.subjectName }}</span>
           <div class="quantity-controls">
             <input type="number" [value]="teacherClass.quantity" min="0" step="1" disabled>
             <button type="button" class="btn-quantity pi pi-check" (click)="removeClass(teacherClass)" *ngIf="selectedClasses.includes(teacherClass)"></button>
@@ -111,32 +111,32 @@
     </label>
     <div class="modal-form-item" [style]="{ 'flex-direction': 'row', 'justify-content': 'space-between', 'margin-top': '4vh' }">
       <label class="label" for="teacherPeriod">Segunda-feira</label>
-      <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod" [style]="{ 'width': '15vw'}">
-        <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+      <select class="input-field" [(ngModel)]="monday" id="classPeriod" [style]="{ 'width': '15vw'}">
+        <option *ngFor="let teacherPeriod of teacherPeriods" [value]="teacherPeriod">{{ teacherPeriod }}</option>
       </select>
     </div>
     <div class="modal-form-item" [style]="{ 'flex-direction': 'row', 'justify-content': 'space-between'}">
       <label class="label" for="teacherPeriod">Terça-feira</label>
-      <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod" [style]="{ 'width': '15vw'}">
-        <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+      <select class="input-field" [(ngModel)]="tuesday" id="classPeriod" [style]="{ 'width': '15vw'}">
+        <option *ngFor="let teacherPeriod of teacherPeriods" [value]="teacherPeriod">{{ teacherPeriod }}</option>
       </select>
     </div>
     <div class="modal-form-item" [style]="{ 'flex-direction': 'row', 'justify-content': 'space-between'}">
       <label class="label" for="teacherPeriod">Quarta-feira</label>
-      <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod" [style]="{ 'width': '15vw'}">
-        <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+      <select class="input-field" [(ngModel)]="wednesday" id="classPeriod" [style]="{ 'width': '15vw'}">
+        <option *ngFor="let teacherPeriod of teacherPeriods" [value]="teacherPeriod">{{ teacherPeriod }}</option>
       </select>
     </div>
     <div class="modal-form-item" [style]="{ 'flex-direction': 'row', 'justify-content': 'space-between'}">
       <label class="label" for="teacherPeriod">Quinta-feira</label>
-      <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod" [style]="{ 'width': '15vw'}">
-        <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+      <select class="input-field" [(ngModel)]="thursday" id="classPeriod" [style]="{ 'width': '15vw'}">
+        <option *ngFor="let teacherPeriod of teacherPeriods" [value]="teacherPeriod">{{ teacherPeriod }}</option>
       </select>
     </div>
     <div class="modal-form-item" [style]="{ 'flex-direction': 'row', 'justify-content': 'space-between'}">
       <label class="label" for="teacherPeriod">Sexta-feira</label>
-      <select class="input-field" [(ngModel)]="classPeriod" id="classPeriod" [style]="{ 'width': '15vw'}">
-        <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+      <select class="input-field" [(ngModel)]="friday" id="classPeriod" [style]="{ 'width': '15vw'}">
+        <option *ngFor="let teacherPeriod of teacherPeriods" [value]="teacherPeriod">{{ teacherPeriod }}</option>
       </select>
     </div>
     <div class="modal-btn">

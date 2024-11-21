@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DataSaverService } from '../../../../services/tempDataSaver/data-saver.service';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass, NgIf, NgFor } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { ListboxModule } from 'primeng/listbox';
 import { ToastModule } from 'primeng/toast';
@@ -31,6 +31,7 @@ interface TeacherClass {
     InputMaskModule,
     MultiSelectModule,
     NgClass,
+    NgFor,
     ToastModule,
     DialogModule,
     ListboxModule,
@@ -66,10 +67,29 @@ export class TeacherEditComponent implements OnInit {
   classPeriod: string = '';
   periods: String[] = [];
 
+  teacherPeriod: String = ""
+  teacherPeriods: String[] = ["Matutino", "Vespertino", "Integral", "Noturno"]
+  monday: any = '';
+  tuesday: any = '';
+  wednesday: any = '';
+  thursday: any = '';
+  friday: any = '';
+  teacherWorkingDays: string = ''
+
+
+
   constructor(private router: Router, private dataSaverService: DataSaverService, private messageService: MessageService) {}
 
   async ngOnInit(): Promise<void> {
     const teacher = this.dataSaverService.getData();
+
+    if (teacher) {
+      this.teacherID = teacher.teacherID
+      this.teacherName = teacher.teacherName;
+      this.teacherEmail = teacher.teacherEmail;
+      this.teacherPassword = teacher.teacherPassword;
+      this.teacherCPF = teacher.teacherCPF;
+    }
 
     try {
       const getScheduleSettings = await fetch("http://localhost:8080/admin/schedule/getScheduleSettings",{
@@ -79,6 +99,12 @@ export class TeacherEditComponent implements OnInit {
         }
       })
 
+      const getWorkingDays = await fetch("http://localhost:8080/admin/teacherDataManager/getTeacherWorkingDays/" + this.teacherID,{
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      })
 
       const subjectsResponse = await fetch("http://localhost:8080/admin/subjectDataManager/getSubjects", {
         method: "GET",
@@ -86,6 +112,18 @@ export class TeacherEditComponent implements OnInit {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
       });
+
+      if(getWorkingDays.status == 200){
+          getWorkingDays.text().then(data =>{
+            this.teacherWorkingDays = data
+            this.monday = this.teacherPeriods.at(parseInt(data[0]))
+            this.tuesday = this.teacherPeriods.at(parseInt(data[1]))
+            this.wednesday = this.teacherPeriods.at(parseInt(data[2]))
+            this.thursday = this.teacherPeriods.at(parseInt(data[3]))
+            this.friday = this.teacherPeriods.at(parseInt(data[4]))
+            console.log(this.monday)
+          })
+      }
 
       if(getScheduleSettings.status == 200){
         getScheduleSettings.json().then(data =>{
@@ -170,14 +208,6 @@ export class TeacherEditComponent implements OnInit {
     } catch (error) {
       console.error("Erro na requisição:", error);
     }
-
-    if (teacher) {
-      this.teacherID = teacher.teacherID
-      this.teacherName = teacher.teacherName;
-      this.teacherEmail = teacher.teacherEmail;
-      this.teacherPassword = teacher.teacherPassword;
-      this.teacherCPF = teacher.teacherCPF;
-    }
   }
 
   toggleMenu() {
@@ -189,7 +219,8 @@ export class TeacherEditComponent implements OnInit {
   }
 
   confirmarPeriodos() {
-    
+    this.setWorkingDays();
+    this.selecionarPeriodosVisible = false
   }
 
   onClassChange(event:any){
@@ -283,7 +314,6 @@ export class TeacherEditComponent implements OnInit {
         }
       })
 
-
       let teacherData = {
         teacherID: this.teacherID,
         nome: this.teacherName,
@@ -292,7 +322,8 @@ export class TeacherEditComponent implements OnInit {
         subjects: subjects,
         teacherClasses: teacherClasses,
         removeTeacherClasses: removeTeacherClasses,
-        subjectsToRemove: this.subjectsToRemove
+        subjectsToRemove: this.subjectsToRemove,
+        teacherWorkingDays: this.teacherWorkingDays
       }
       
   
@@ -347,6 +378,15 @@ export class TeacherEditComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro na requisição.' });
       console.error("Erro na requisição:", error);
     }
+  }
+
+  setWorkingDays(){
+    this.teacherWorkingDays = ''
+    this.teacherWorkingDays += this.teacherPeriods.indexOf(this.monday)
+    this.teacherWorkingDays += this.teacherPeriods.indexOf(this.tuesday)
+    this.teacherWorkingDays += this.teacherPeriods.indexOf(this.wednesday)
+    this.teacherWorkingDays += this.teacherPeriods.indexOf(this.thursday)
+    this.teacherWorkingDays += this.teacherPeriods.indexOf(this.friday)
   }
 
   logout() {

@@ -11,6 +11,7 @@ interface Subject {
   id: string;
   name: string;
   teacher?: Teacher;
+  qtd: number
 }
 
 interface Teacher {
@@ -65,7 +66,8 @@ export class TeachersFromClassComponent implements OnInit {
             if(data[i].teacherID == "0"){
               let addSubject: Subject = {
                 id: data[i].subjectID,
-                name: data[i].subjectName
+                name: data[i].subjectName,
+                qtd: 0
              }
 
              this.subjects.push(addSubject)
@@ -80,6 +82,7 @@ export class TeachersFromClassComponent implements OnInit {
               let addSubject: Subject = {
                  id: data[i].subjectID,
                  name: data[i].subjectName,
+                 qtd: 0,
                  teacher: addTeacher
               }
 

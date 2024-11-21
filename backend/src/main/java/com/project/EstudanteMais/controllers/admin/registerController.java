@@ -89,7 +89,7 @@ public class registerController {
       String teacherRegistration = this.genRegistrationCodeService.genCode(registerTeacher.teacherName());
       teacher newTeacher = new teacher(
               registerTeacher.teacherEmail(),this.passwordEncoder.encode(registerTeacher.teacherPassword()), registerTeacher.teacherName()
-              , registerTeacher.teacherCPF(),registerTeacher.phoneNumber(), teacherRegistration, false, UserRoles.TEACHER
+              , registerTeacher.teacherCPF(),registerTeacher.phoneNumber(), teacherRegistration, false, UserRoles.TEACHER,registerTeacher.teacherWorkingDays()
       );
 
       this.teacherRepository.save(newTeacher);

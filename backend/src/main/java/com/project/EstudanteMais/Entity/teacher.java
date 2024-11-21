@@ -44,6 +44,10 @@ public class teacher implements UserDetails {
     @Column(name = "twoStepCode", nullable = true)
     String twoStepCode;
 
+    @Column(name = "teacherWorkingDays", nullable = true)
+    String teacherWorkingDays;
+
+
     public String getTeacherCPF() {
         return teacherCPF;
     }
@@ -124,10 +128,18 @@ public class teacher implements UserDetails {
         this.role = role;
     }
 
+    public String getTeacherWorkingDays() {
+        return teacherWorkingDays;
+    }
+
+    public void setTeacherWorkingDays(String teacherWorkingDays) {
+        this.teacherWorkingDays = teacherWorkingDays;
+    }
+
     public teacher(){
         super();
     }
-    public teacher(String teacherEmail, String teacherPassword, String teacherName,String teacherCPF, String phoneNumber, String teacherRegistration, boolean twostepverification, UserRoles role){
+    public teacher(String teacherEmail, String teacherPassword, String teacherName,String teacherCPF, String phoneNumber, String teacherRegistration, boolean twostepverification, UserRoles role, String teacherWorkingDays){
         this.teacherEmail = teacherEmail;
         this.teacherPassword = teacherPassword;
         this.teacherName = teacherName;
@@ -136,6 +148,7 @@ public class teacher implements UserDetails {
         this.teacherRegistration = teacherRegistration;
         this.twostepverification = twostepverification;
         this.role = role;
+        this.teacherWorkingDays = teacherWorkingDays;
     }
 
     @Override
