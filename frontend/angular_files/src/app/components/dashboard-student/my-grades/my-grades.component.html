@@ -5,16 +5,16 @@
     <div class="selects">
       <div class="selects">
         <p-dropdown 
-        [options]="subjects" 
-        [(ngModel)]="selectedSubject" 
-        [placeholder]="selectedSubject ? '' : 'Selecione a matéria'"
-        (onChange)="onSelectChange()">
-      </p-dropdown>
-        <p-dropdown 
           [options]="periods" 
           [(ngModel)]="selectedPeriod" 
           [placeholder]="selectedPeriod ? '' : 'Selecione o período'"
           (onChange)="onPeriodSelected()">
+        </p-dropdown>
+        <p-dropdown 
+        [options]="subjects" 
+        [(ngModel)]="selectedSubject" 
+        [placeholder]="selectedSubject ? '' : 'Selecione a matéria'"
+        (onChange)="onSelectChange()">
         </p-dropdown>
       </div>      
     </div>
