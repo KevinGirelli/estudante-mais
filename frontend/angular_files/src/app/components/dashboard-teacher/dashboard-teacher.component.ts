@@ -34,6 +34,7 @@ export class DashboardTeacherComponent implements OnInit {
     })
 
     if(response.status == 404){
+      this.isTwoFactorAuthenticated = true;
       this.messageService.add({ severity: 'info', summary: 'Verificação ativada', detail: 'Sua verificação de dois fatores já esta ativada.' })
     }
 

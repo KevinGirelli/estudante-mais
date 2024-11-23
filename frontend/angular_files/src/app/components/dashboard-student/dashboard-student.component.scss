@@ -50,8 +50,8 @@
         color: #FFFFFF;
         text-decoration: none;
         font-weight: 500;
-        width: 25vw;
-        height: 6vh;
+        width: 325px;
+        height: 40px;
         background-color: #9747FF;
         padding: 8px;
         text-align: center;
@@ -170,11 +170,13 @@
         }
 
         a {
-          width: 70vw;
-          height: 4.5vh;
+          width: 80%;
+          max-width: 300px;
+          height: auto;
           margin-bottom: 2vh;
-          padding: 4px;
+          padding: 10px 20px;
           font-size: 14px;
+          border-radius: 6px;
         }
       }
 
