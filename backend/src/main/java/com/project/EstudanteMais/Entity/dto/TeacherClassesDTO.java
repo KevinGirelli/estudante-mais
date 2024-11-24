@@ -5,5 +5,6 @@ public record TeacherClassesDTO(String classID,
                                 String teacherID,
                                 String teacherName,
                                 String subjectID,
-                                String subjectName) {
+                                String subjectName,
+                                int amountOfClasses) {
 }

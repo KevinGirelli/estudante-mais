@@ -23,4 +23,9 @@ public interface gradeRepository extends JpaRepository<grade, UUID> {
   @Transactional
   @Query(value = "UPDATE grade SET grade_value = ?1 WHERE student_studentid = ?2 AND assessment_assessmentid = ?3",nativeQuery = true)
   void updateStudentGradeValue(float gradeValue, UUID studentID, UUID assesID);
+
+  @Transactional
+  @Modifying
+  @Query(value = "DELETE FROM grade WHERE student_studentid = ?1", nativeQuery = true)
+  void deleteStudent(UUID studentID);
 }

@@ -56,7 +56,7 @@ public class passwordRecoveryController {
       return ResponseEntity.badRequest().build();
     }
 
-    if(getTeacher != null){
+    if(getTeacher != null && getTeacher.isTeacherEnable()){
       var code = this.randomCodeService.GenerateCode();
       code = this.randomCodeService.verifyCode(code);
       this.registerCodeTimer.StartTRegisterTimer(code);
@@ -77,7 +77,7 @@ public class passwordRecoveryController {
       return ResponseEntity.ok().build();
     }
 
-    if(getStudent != null){
+    if(getStudent != null && getStudent.isStudentEnable()){
       var code = this.randomCodeService.GenerateCode();
       code = this.randomCodeService.verifyCode(code);
       this.registerCodeTimer.StartTRegisterTimer(code);

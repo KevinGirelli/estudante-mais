@@ -26,7 +26,7 @@ import java.util.UUID;
 )
 @NamedNativeQuery(
         name = "Student.getAllStudentFromClass",
-        query = "SELECT studentid, student_fullname, student_email, studentcpf, student_age FROM student WHERE classes_classid = ?1",
+        query = "SELECT studentid, student_fullname, student_email, studentcpf, student_age FROM student WHERE classes_classid = ?1 AND student_enable = 1",
         resultSetMapping = "StudentDataMapping"
 )
 public class student implements UserDetails {
@@ -124,6 +124,14 @@ public class student implements UserDetails {
   @Column(name = "studentCPF",nullable = false)
   private String studentCPF;
 
+  public boolean isStudentEnable() {
+    return studentEnable;
+  }
+
+  public void setStudentEnable(boolean studentEnable) {
+    this.studentEnable = studentEnable;
+  }
+
   public String getStudentRegistration() {
     return studentRegistration;
   }
@@ -154,6 +162,9 @@ public class student implements UserDetails {
   @Column(name = "phoneNumber",unique = true,nullable = false)
   private String phoneNumber;
 
+  @Column(name = "studentEnable",nullable = false)
+  private boolean studentEnable;
+
   @ManyToOne
   classes classes;
 
@@ -171,13 +182,12 @@ public class student implements UserDetails {
   @Column(name = "twoStepCode", nullable = true)
   String twoStepCode;
 
-
   public student(){
     super();
   }
   public student(String studentEmail
   , String studentPassword,String studentFullname
-  ,String studentCPF, String studentAge, boolean twostepverification, UserRoles role, classes classes, String phoneNumber){
+  ,String studentCPF, String studentAge, boolean twostepverification, UserRoles role, classes classes, String phoneNumber, boolean studentEnable){
     this.studentEmail = studentEmail;
     this.studentPassword = studentPassword;
     this.studentFullname = studentFullname;
@@ -187,6 +197,7 @@ public class student implements UserDetails {
     this.classes = classes;
     this.phoneNumber = phoneNumber;
     this.role = role;
+    this.studentEnable = studentEnable;
   }
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -222,6 +233,6 @@ public class student implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return UserDetails.super.isEnabled();
+    return this.studentEnable;
   }
 }

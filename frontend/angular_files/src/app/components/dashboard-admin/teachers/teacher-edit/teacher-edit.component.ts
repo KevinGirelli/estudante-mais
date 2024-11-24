@@ -294,7 +294,7 @@ export class TeacherEditComponent implements OnInit {
       })
     }
 
-    if(this.amountOfClasses < this.maxClassesPerWeek){
+    if(this.amountOfClasses <= this.maxClassesPerWeek){
       let subjects: string[] = []
       this.selectedSubjects.forEach(t => {
         subjects.push(t.subjectID)
@@ -360,7 +360,7 @@ export class TeacherEditComponent implements OnInit {
 
   async deleteTeacher() {
     try {
-      const response = await fetch("http://localhost:8080/admin/teacherDataManager/deleteTeacher/" + this.teacherID, {
+      const response = await fetch("http://localhost:8080/admin/teacherDataManager/disableTeacher/" + this.teacherID, {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")

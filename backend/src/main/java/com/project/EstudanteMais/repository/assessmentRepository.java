@@ -27,4 +27,5 @@ public interface assessmentRepository extends JpaRepository<assessment, UUID> {
   @Query(value = "UPDATE assessment SET assessment_name = ?1, assessment_date = ?2," +
           "classes_classid = ?3, subjects_subjectid = ?4 WHERE assessmentid = ?5",nativeQuery = true)
   void updateAssessment(String name,String date,UUID classID, UUID subjectID, UUID id);
+
 }

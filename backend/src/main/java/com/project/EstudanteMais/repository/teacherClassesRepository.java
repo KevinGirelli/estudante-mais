@@ -28,4 +28,14 @@ public interface teacherClassesRepository extends JpaRepository<TeacherClasses, 
   @Query(value = "DELETE FROM teacher_classes WHERE classes_classid = ?1 AND teacher_teacherid = ?2 AND subjects_subjectid = ?3",
   nativeQuery = true)
   void deleteTeacherFromClass(UUID classID, UUID teacherID, UUID subjectID);
+
+  @Transactional
+  @Modifying
+  @Query(value = "DELETE FROM teacher_classes WHERE teacher_teacherid = ?1", nativeQuery = true)
+  void deleteTeacher(UUID teacherID);
+
+  @Transactional
+  @Modifying
+  @Query(value = "DELETE FROM teacher_classes WHERE classes_classid = ?1", nativeQuery = true)
+  void deleteClass(UUID classID);
 }

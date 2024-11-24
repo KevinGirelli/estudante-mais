@@ -23,4 +23,9 @@ public interface classes_subjectsRepository extends JpaRepository<classes_subjec
   @Transactional
   @Query(value = "UPDATE classes_subjects SET number_of_classes = ?1 WHERE class_subjectid = ?2",nativeQuery = true)
   void updateQuantityOfClasses(int number, UUID classSubjectID);
+
+  @Transactional
+  @Modifying
+  @Query(value = "DELETE FROM classes_subjects WHERE classes_classid = ?1", nativeQuery = true)
+  void deleteClass(UUID classID);
 }

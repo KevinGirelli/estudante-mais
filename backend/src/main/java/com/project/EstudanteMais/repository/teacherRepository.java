@@ -8,9 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface teacherRepository extends JpaRepository<teacher, UUID> {
+
+    @Query(value = "SELECT * FROM teacher WHERE teacher_enable = 1",nativeQuery = true)
+    List<teacher> findAllTeachersEnable();
 
     teacher findByteacherID(UUID id);
     UserDetails findByteacherEmail(String email);
@@ -40,4 +44,14 @@ public interface teacherRepository extends JpaRepository<teacher, UUID> {
     @Transactional
     @Query(value = "UPDATE teacher SET twostepverification = ?1 WHERE teacherid = ?2",nativeQuery = true)
     void updateTwoStepVerifyState(boolean state, UUID studentID);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE teacher SET teacher_enable = 0 WHERE teacherid = ?1", nativeQuery = true)
+    void disableTeacher(UUID teacherID);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE teacher SET teacher_enable = 1 WHERE teacherid = ?1", nativeQuery = true)
+    void enableTeacher(UUID teacherID);
 }

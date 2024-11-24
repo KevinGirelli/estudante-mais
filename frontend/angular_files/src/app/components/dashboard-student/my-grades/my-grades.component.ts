@@ -71,7 +71,7 @@ export class MyGradesComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.initializeGrades();
+    
   }
 
   initializeGrades(): void {

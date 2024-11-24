@@ -9,6 +9,7 @@ import com.project.EstudanteMais.services.UUIDformatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +60,7 @@ public class teacherDataManager {
 
     @GetMapping("/getAllTeachers")
     public ResponseEntity getAllTeachers() {
-        var teachers = this.teacherRepository.findAll();
+        var teachers = this.teacherRepository.findAllTeachersEnable();
         List<teachersDTO> allTeachers = new ArrayList<>();
 
         teachers.forEach(teacher -> {
@@ -123,11 +124,13 @@ public class teacherDataManager {
                         teacherAmountOfClasses.addAndGet(getClassSubject.getNumberOfClasses());
                     });
 
-                    if(teacherAmountOfClasses.get() < this.configPreferencesService.getMaxClassPeerWeek()){
-                        teachersDTO add = new teachersDTO(ts.getTeacher().getTeacherID().toString(),
-                                ts.getTeacher().getTeacherName(),"","",null);
+                    if(teacherAmountOfClasses.get() <= this.configPreferencesService.getMaxClassPeerWeek()){
+                        if(teacherAmountOfClasses.get() + classSubject.getNumberOfClasses() <= this.configPreferencesService.getMaxClassPeerWeek()){
+                            teachersDTO add = new teachersDTO(ts.getTeacher().getTeacherID().toString(),
+                                    ts.getTeacher().getTeacherName(),"","",null);
 
-                        returnTeachers.add(add);
+                            returnTeachers.add(add);
+                        }
                     }
                 }
             });
@@ -222,5 +225,33 @@ public class teacherDataManager {
         }
 
         return ResponseEntity.internalServerError().build();
+    }
+
+    @DeleteMapping("/disableTeacher/{teacherID}")
+    public ResponseEntity disableTeacher(@PathVariable(value = "teacherID")String teacherID){
+        var getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(teacherID));
+
+        if(getTeacher != null){
+            this.teacherSubjectRepository.deleteTeacher(getTeacher.getTeacherID());
+            this.teacherClassesRepository.deleteTeacher(getTeacher.getTeacherID());
+            this.teacherRepository.disableTeacher(getTeacher.getTeacherID());
+
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/enableTeacher/{teacherID}")
+    public ResponseEntity enableTeacher(@PathVariable(value = "teacherID")String teacherID){
+        var getTeacher = this.teacherRepository.findByteacherID(UUID.fromString(teacherID));
+
+        if(getTeacher != null){
+            this.teacherRepository.enableTeacher(getTeacher.getTeacherID());
+
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 }

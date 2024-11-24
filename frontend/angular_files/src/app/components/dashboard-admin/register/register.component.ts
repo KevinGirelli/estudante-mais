@@ -67,7 +67,8 @@ export class RegisterComponent implements OnInit {
   periods: String[] = [];
 
   allPeriods: String[] = ["Matutino","Vespertino","Integral","Noturno", "Matutino + Noturno", "Vespertino + Noturno", "Integral + Noturno"];
-
+  totalClasses: number = 0
+  maxClasses: number = 0
 
   ngOnInit(): void {
     fetch("http://localhost:8080/admin/subjectDataManager/getSubjects",{
@@ -102,7 +103,7 @@ export class RegisterComponent implements OnInit {
       }
     }).then(res => {
       if(res.status == 403){
-        console.log("REDIRECT")
+        this.router.navigate(["403"])
       }
 
       if(res.status == 200){
@@ -135,35 +136,42 @@ export class RegisterComponent implements OnInit {
           let toInt = parseInt(data)
             if(toInt > 3){
                 if(toInt == 4){
+                  this.maxClasses = 50
                   this.periods.push(this.allPeriods[0])
                   this.periods.push(this.allPeriods[3])
                 }
 
                 if(toInt == 5){
+                  this.maxClasses = 50
                   this.periods.push(this.allPeriods[1])
                   this.periods.push(this.allPeriods[3])
                 }
 
                 if(toInt == 6){
+                  this.maxClasses = 50
                   this.periods.push(this.allPeriods[0])
                   this.periods.push(this.allPeriods[1])
                   this.periods.push(this.allPeriods[3])
                 }
             }else{
               if(toInt == 0){
+                this.maxClasses = 25
                 this.periods.push(this.allPeriods[0])
               }
 
               if(toInt == 1){
+                this.maxClasses = 25
                 this.periods.push(this.allPeriods[1])
               }
 
               if(toInt == 2){
+                this.maxClasses = 50
                 this.periods.push(this.allPeriods[0])
                 this.periods.push(this.allPeriods[1])
               }
 
               if(toInt == 3){
+                this.maxClasses = 25
                 this.periods.push(this.allPeriods[3])
               }
             }
@@ -335,12 +343,25 @@ export class RegisterComponent implements OnInit {
   }
 
   selecionarMateria() {
-    this.visible = true;
-    this.classeAllSubjects = []
+    if(this.classPeriod == ""){
+      this.messageService.add({ severity: 'info', summary: 'Selecione o periodo de aula', detail: 'Selecione um periodo de aula para prosseguir.' });
+    }else{
+      this.visible = true;
+      this.classeAllSubjects = []
+    }
   }
 
   increaseQuantity(subject: Subject) {
-    subject.quantity++;
+    if(this.totalClasses+1 <= this.maxClasses){
+      subject.quantity++;
+      this.totalClasses++;
+    }else{
+      if(this.totalClasses == 50){
+        this.messageService.add({ severity: 'info', summary: 'Adição Bloqueada', detail: 'Limite de aulas por semana atingido (50)'});
+      }else{
+        this.messageService.add({ severity: 'info', summary: 'Adição Bloqueada', detail: 'O periodo selecionado permite apenas um limite de ' + this.maxClasses + " aulas por semana, modifique o periodo para integral caso seja necessário um maior limite" });
+      }
+    }
   }
 
   decreaseQuantity(subject: Subject) {

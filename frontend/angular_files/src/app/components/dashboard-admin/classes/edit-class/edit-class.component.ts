@@ -6,6 +6,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ListboxModule } from 'primeng/listbox';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 interface Subject {
   classSubjectID: string
@@ -22,7 +23,7 @@ interface Subject {
     NgClass, 
     ToastModule, 
     NgFor, 
-    NgIf, 
+    NgIf,
     DialogModule,
     ListboxModule
     
@@ -48,8 +49,10 @@ export class EditClassComponent implements OnInit {
   subjectsClasses: Subject[] = [];
   subjectName = '';
   allPeriods: string[] = ["Matutino","Vespertino","Integral","Noturno", "Matutino + Noturno", "Vespertino + Noturno", "Integral + Noturno"];
+  totalClasses: number = 0
+  maxClasses: number = 0
 
-  constructor(private messageService: MessageService, private route: ActivatedRoute) {}
+  constructor(private messageService: MessageService, private route: ActivatedRoute,private router: Router) {}
 
   async ngOnInit(): Promise<void> {
     this.classID = this.route.snapshot.paramMap.get('editClass');
@@ -88,7 +91,8 @@ export class EditClassComponent implements OnInit {
             name: split[4],
             quantity: split[5]
           }
-
+          this.totalClasses += parseInt(split[5])
+          
           this.subjects.push(subject)
         }
       })
@@ -97,6 +101,7 @@ export class EditClassComponent implements OnInit {
     if(getSchoolPeriodType.status == 200){
       getSchoolPeriodType.text().then(data =>{
         let toInt = parseInt(data)
+        
         if(toInt > 3){
             if(toInt == 4){
               this.periods.push(this.allPeriods[0])
@@ -125,6 +130,7 @@ export class EditClassComponent implements OnInit {
           if(toInt == 2){
             this.periods.push(this.allPeriods[0])
             this.periods.push(this.allPeriods[1])
+            this.periods.push(this.allPeriods[2])
           }
 
           if(toInt == 3){
@@ -141,6 +147,17 @@ export class EditClassComponent implements OnInit {
         this.gradeType = data.gradeType
         this.gradeNumber = data.gradeNumber
         this.updateGradeNumbers()
+        
+        let intSchoolType = this.allPeriods.indexOf(this.classPeriod)
+        
+        if(intSchoolType == 0 || intSchoolType == 1 || intSchoolType == 3 || intSchoolType == 4 || intSchoolType == 4 || intSchoolType == 5){
+          this.maxClasses = 25
+        }
+
+        if(intSchoolType == 2 ){
+          this.maxClasses = 50
+        }
+        
       })
     }
 
@@ -175,6 +192,18 @@ export class EditClassComponent implements OnInit {
   }
 
   async editarClasse() {
+    
+    let intSchoolType = this.allPeriods.indexOf(this.classPeriod)
+        
+    if(intSchoolType == 0 || intSchoolType == 1 || intSchoolType == 3 || intSchoolType == 4 || intSchoolType == 4 || intSchoolType == 5){
+        
+    }
+
+    if(intSchoolType != 2 && this.totalClasses > 25){
+      this.messageService.add({ severity: 'warn', summary: 'Edição cancelada', detail: `A quantidade máxima de aulas semanais do periodo selecionado (${this.classPeriod}) é menor do que a quantidade selecionada (${this.totalClasses}). Diminua a quantidade para até 25 aulas para prosseguir`});
+      return
+    }
+
     this.confirmEditVisible = true;
 
     let mainClassData = {
@@ -232,12 +261,22 @@ export class EditClassComponent implements OnInit {
   }
 
   increaseQuantity(subject: Subject) {
-    subject.quantity++;
+    if(this.totalClasses+1 <= this.maxClasses){
+      subject.quantity++;
+      this.totalClasses++;
+    }else{
+      if(this.totalClasses == 50){
+        this.messageService.add({ severity: 'info', summary: 'Adição Bloqueada', detail: 'Limite de aulas por semana atingido (50)'});
+      }else{
+        this.messageService.add({ severity: 'info', summary: 'Adição Bloqueada', detail: 'O periodo selecionado permite apenas um limite de ' + this.maxClasses + " aulas por semana, modifique o periodo para integral caso seja necessário um maior limite" });
+      }
+    }
   }
 
   decreaseQuantity(subject: Subject) {
     if (subject.quantity > 0) {
       subject.quantity--;
+      this.totalClasses--;
     }
   }
 
@@ -245,11 +284,25 @@ export class EditClassComponent implements OnInit {
     
   }
 
-  deleteClass() {
+  async deleteClass()  {
+    let response = await fetch("http://localhost:8080/admin/classesDataManager/deleteClass/" + this.classID,{
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+
+    if(response.status == 400){
+      this.messageService.add({ severity: 'info', summary: 'Remoção não autorizada', detail: 'Esta turma ainda possui alunos pendentes, remova-os antes de executar esta ação.' });
+    }
+
+    if(response.status == 200){
+      this.router.navigate(['admin/classes']);
+    }
 
   }
 
   back() {
-
+    this.router.navigate(['admin/classes']);
   }
 }

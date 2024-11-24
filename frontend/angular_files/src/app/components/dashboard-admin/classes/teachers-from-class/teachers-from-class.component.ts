@@ -62,16 +62,7 @@ export class TeachersFromClassComponent implements OnInit {
 
       if (response.status == 200) {
         response.json().then(data => {
-          for(let i = 0; i <= data.length; i++){
-            if(data[i].teacherID == "0"){
-              let addSubject: Subject = {
-                id: data[i].subjectID,
-                name: data[i].subjectName,
-                qtd: 0
-             }
-
-             this.subjects.push(addSubject)
-            }else{
+          for(let i = 0; i <= data.length-1; i++){
               let addTeacher: Teacher = {
                 teacherID: data[i].teacherID,
                 teacherName: data[i].teacherName,
@@ -82,14 +73,13 @@ export class TeachersFromClassComponent implements OnInit {
               let addSubject: Subject = {
                  id: data[i].subjectID,
                  name: data[i].subjectName,
-                 qtd: 0,
+                 qtd: data[i].amountOfClasses,
                  teacher: addTeacher
               }
 
               this.subjects.push(addSubject)
-            }
           }
-
+         console.log(this.subjects)
         });
       }
     } catch (error) {

@@ -44,12 +44,12 @@ public class internalFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
 
-        if(student != null){
+        if(student != null && student.isEnabled()){
             var auth = new UsernamePasswordAuthenticationToken(student.getUsername(), student.getUsername(),student.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
 
-        if(teacher != null){
+        if(teacher != null && teacher.isEnabled()){
             var auth = new UsernamePasswordAuthenticationToken(teacher.getUsername(), teacher.getUsername(),teacher.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }

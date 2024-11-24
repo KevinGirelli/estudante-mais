@@ -65,12 +65,23 @@ public class scheduleController {
         return ResponseEntity.badRequest().build();
       }
 
+      int getSchoolPeriod = this.schoolSettingsRepository.getConfig().getPeriod().ordinal();
+
+      if(getSchoolPeriod == 2 || getSchoolPeriod ==  4 || getSchoolPeriod == 5){
+        this.configPreferencesService.setMaxClassPeerWeek(50);
+        this.configPreferencesService.setMaxClassPerDay(10);
+      }else if(getSchoolPeriod == 6){
+        this.configPreferencesService.setMaxClassPeerWeek(75);
+        this.configPreferencesService.setMaxClassPerDay(15);
+      }
+
       //Creating json datamodel to send to scheduleGen
       datamodelDTO datamodel = new datamodelDTO();
       settingsDTO set = new settingsDTO(
               this.configPreferencesService.getMaxConsecutiveClass(),
               this.configPreferencesService.getMaxClassPeerWeek(),
-              this.configPreferencesService.getMaxClassPerDay()
+              this.configPreferencesService.getMaxClassPerDay(),
+              this.schoolSettingsRepository.getConfig().getPeriod().ordinal()
       );
       datamodel.setSettings(set);
       List<classes> allClasses = this.classesRepository.findAll();
@@ -79,7 +90,8 @@ public class scheduleController {
         classDTO addClass = new classDTO(
                 c.getClassName(),
                 Integer.toString(groupIndex.get()),
-                false
+                false,
+                c.getType().ordinal()
         );
         var currentClasses = datamodel.getClasses();
         currentClasses.add(addClass);

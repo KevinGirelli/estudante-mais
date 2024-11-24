@@ -64,18 +64,22 @@ public class registerController {
     if(studentAlreadyExist != null){
       return ResponseEntity.badRequest().body("User already exist");
     }else{
-      classes studentClass = this.classesRepository.findByclassID(UUID.fromString(registerStudent.classID()));
-      if(studentClass != null){
-        student newStudent = new student(
-                registerStudent.email(),this.passwordEncoder.encode(registerStudent.password()),
-                registerStudent.Fullname(), registerStudent.cpf(), registerStudent.age(),false, UserRoles.STUDENT, studentClass,
-                registerStudent.phoneNumber()
-        );
-        newStudent.setRegistration(this.genRegistrationCodeService.genCode(newStudent.getStudentFullname()));
-        this.studentRepository.save(newStudent);
-        return ResponseEntity.ok(this.SucessMessage);
+      if(studentAlreadyExist.isEnabled()){
+        classes studentClass = this.classesRepository.findByclassID(UUID.fromString(registerStudent.classID()));
+        if(studentClass != null){
+          student newStudent = new student(
+                  registerStudent.email(),this.passwordEncoder.encode(registerStudent.password()),
+                  registerStudent.Fullname(), registerStudent.cpf(), registerStudent.age(),false, UserRoles.STUDENT, studentClass,
+                  registerStudent.phoneNumber(),true
+          );
+          newStudent.setRegistration(this.genRegistrationCodeService.genCode(newStudent.getStudentFullname()));
+          this.studentRepository.save(newStudent);
+          return ResponseEntity.ok(this.SucessMessage);
+        }else{
+          return ResponseEntity.badRequest().body("class not found.");
+        }
       }else{
-        return ResponseEntity.badRequest().body("class not found.");
+        return ResponseEntity.badRequest().build();
       }
     }
   }
@@ -89,7 +93,7 @@ public class registerController {
       String teacherRegistration = this.genRegistrationCodeService.genCode(registerTeacher.teacherName());
       teacher newTeacher = new teacher(
               registerTeacher.teacherEmail(),this.passwordEncoder.encode(registerTeacher.teacherPassword()), registerTeacher.teacherName()
-              , registerTeacher.teacherCPF(),registerTeacher.phoneNumber(), teacherRegistration, false, UserRoles.TEACHER,registerTeacher.teacherWorkingDays()
+              , registerTeacher.teacherCPF(),registerTeacher.phoneNumber(), teacherRegistration, false, UserRoles.TEACHER,registerTeacher.teacherWorkingDays(),true
       );
 
       this.teacherRepository.save(newTeacher);

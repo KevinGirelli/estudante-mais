@@ -108,7 +108,7 @@ public class authController {
       }
     }
 
-    if(studentUser != null){
+    if(studentUser != null && studentUser.isStudentEnable()){
       if(this.passwordEncoder.matches(loginData.password(),studentUser.getPassword()) == true){
         if(studentUser.getTwostepverification() == true){
           String code = this.randomCodeService.GenerateCode();
@@ -147,7 +147,7 @@ public class authController {
       }
     }
 
-    if(teacherUser != null){
+    if(teacherUser != null && teacherUser.isTeacherEnable()){
       if(this.passwordEncoder.matches(loginData.password(),teacherUser.getPassword()) == true){
         if(teacherUser.getTwostepverification() == true){
           String code = this.randomCodeService.GenerateCode();
@@ -251,7 +251,7 @@ public class authController {
       return ResponseEntity.badRequest().build();
     }
 
-    if(getTeacher != null){
+    if(getTeacher != null && getTeacher.isTeacherEnable()){
       if(getTeacher.getTwostepverification()){
         return ResponseEntity.notFound().build();
       }
@@ -276,7 +276,7 @@ public class authController {
       return ResponseEntity.ok().build();
     }
 
-    if(getStudent != null){
+    if(getStudent != null && getStudent.isStudentEnable()){
       if(getStudent.getTwostepverification()){
         return ResponseEntity.notFound().build();
       }

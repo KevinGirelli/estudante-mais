@@ -150,7 +150,7 @@ export class StudentEditComponent implements OnInit {
 
       if (response.ok) {
         this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Aluno deletado com sucesso!' });
-        this.router.navigate(['admin/students']);
+        this.router.navigate(['admin/classes']);
       } else {
         this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível deletar o aluno.' });
       }

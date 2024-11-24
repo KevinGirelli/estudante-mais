@@ -95,6 +95,16 @@ export class ScheduleComponent implements OnInit {
           }
         }
       }
+
+      if(data.hours.length == 90){
+        for(let i = 1; i <= 17; i++){
+          for(let c = 0; c <= data.classes.length-1; c++){
+            if(data.classes[c].classSchedule[0]){
+              this.schedule[data.classes[c].classSchedule[0]][data.hours[i]] = data.classes[c].classSchedule[i]
+            }   
+          }
+        }
+      }
     }
     
     if(this.daySelected == 2){
@@ -115,6 +125,16 @@ export class ScheduleComponent implements OnInit {
 
       if(data.hours.length == 30){
         for(let i = 7; i <= 11; i++){
+          for(let c = 0; c <= data.classes.length-1; c++){
+            if(data.classes[c].classSchedule[0]){
+              this.schedule[data.classes[c].classSchedule[0]][data.hours[i]] = data.classes[c].classSchedule[i]
+            }   
+          }
+        }
+      }
+
+      if(data.hours.length == 90){
+        for(let i = 19; i <= 35; i++){
           for(let c = 0; c <= data.classes.length-1; c++){
             if(data.classes[c].classSchedule[0]){
               this.schedule[data.classes[c].classSchedule[0]][data.hours[i]] = data.classes[c].classSchedule[i]
@@ -149,6 +169,16 @@ export class ScheduleComponent implements OnInit {
           }
         }
       }
+
+      if(data.hours.length == 90){
+        for(let i = 37; i <= 53; i++){
+          for(let c = 0; c <= data.classes.length-1; c++){
+            if(data.classes[c].classSchedule[0]){
+              this.schedule[data.classes[c].classSchedule[0]][data.hours[i]] = data.classes[c].classSchedule[i]
+            }   
+          }
+        }
+      }
     }
 
     if(this.daySelected == 4){
@@ -176,6 +206,16 @@ export class ScheduleComponent implements OnInit {
           }
         }
       }
+
+      if(data.hours.length == 90){
+        for(let i = 55; i <= 71; i++){
+          for(let c = 0; c <= data.classes.length-1; c++){
+            if(data.classes[c].classSchedule[0]){
+              this.schedule[data.classes[c].classSchedule[0]][data.hours[i]] = data.classes[c].classSchedule[i]
+            }   
+          }
+        }
+      }
     }
 
     if(this.daySelected == 5){
@@ -196,6 +236,16 @@ export class ScheduleComponent implements OnInit {
 
       if(data.hours.length == 30){
         for(let i = 25; i <= 29; i++){
+          for(let c = 0; c <= data.classes.length-1; c++){
+            if(data.classes[c].classSchedule[0]){
+              this.schedule[data.classes[c].classSchedule[0]][data.hours[i]] = data.classes[c].classSchedule[i]
+            }   
+          }
+        }
+      }
+
+      if(data.hours.length == 90){
+        for(let i = 73; i <= 89; i++){
           for(let c = 0; c <= data.classes.length-1; c++){
             if(data.classes[c].classSchedule[0]){
               this.schedule[data.classes[c].classSchedule[0]][data.hours[i]] = data.classes[c].classSchedule[i]

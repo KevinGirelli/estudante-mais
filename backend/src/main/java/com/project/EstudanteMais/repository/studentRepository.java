@@ -16,7 +16,9 @@ import java.util.UUID;
 
 public interface studentRepository extends JpaRepository<student, UUID> {
 
+    @Query(value = "SELECT * FROM student WHERE student_enable = 1 AND studentid = ?1",nativeQuery = true)
     student findBystudentID(UUID id);
+
     UserDetails findBystudentEmailOrStudentRegistration(String email, String registration);
 
     UserDetails findBytwoStepCode(String code);
@@ -27,8 +29,12 @@ public interface studentRepository extends JpaRepository<student, UUID> {
     @Transactional
     @Query(value = "UPDATE student set two_step_code = ?1 WHERE studentID = ?2",nativeQuery = true)
     void updateTwoStepCode(String code,UUID studentID);
+
     @Query(name = "Student.getAllStudentFromClass",nativeQuery = true)
     List<studentDataDTO> getAllStudentFromClass(UUID classID);
+
+    @Query(value = "SELECT * FROM student WHERE student_enable = 1 AND classes_classid = ?1",nativeQuery = true)
+    List<student> findByClass(UUID classID);
 
     @Modifying
     @Transactional
@@ -49,4 +55,9 @@ public interface studentRepository extends JpaRepository<student, UUID> {
     @Transactional
     @Query(value = "UPDATE student SET twostepverification = ?1 WHERE studentid = ?2",nativeQuery = true)
     void updateTwoStepVerifyState(boolean state, UUID studentID);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE student SET student_enable = 0 WHERE studentid = ?1",nativeQuery = true)
+    void disableStudent(UUID studentID);
 }

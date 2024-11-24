@@ -138,7 +138,8 @@ public class classesDataManager {
                     tc.getTeacher().getTeacherID().toString(),
                     tc.getTeacher().getTeacherName(),
                     tc.getSubjects().getSubjectID().toString(),
-                    tc.getSubjects().getSubjectname()
+                    tc.getSubjects().getSubjectname(),
+                    cs.getNumberOfClasses()
             );
             allTCs.add(add);
           }
@@ -151,7 +152,8 @@ public class classesDataManager {
                   "0",
                   "0",
                   cs.getSubjects().getSubjectID().toString(),
-                  cs.getSubjects().getSubjectname()
+                  cs.getSubjects().getSubjectname(),
+                  cs.getNumberOfClasses()
           );
           allTCs.add(add);
         }
@@ -287,7 +289,24 @@ public class classesDataManager {
     return ResponseEntity.ok().build();
   }
 
+  @DeleteMapping("/deleteClass/{classID}")
+  public ResponseEntity deleteClass(@PathVariable(value = "classID")String classID){
+    var getClass = this.classesRepository.findByclassID(UUID.fromString(classID));
 
+    if(getClass != null){
+      var studentFromClass = this.studentRepository.findByClass(getClass.getClassID());
+      if(!studentFromClass.isEmpty()){
+        return ResponseEntity.badRequest().build();
+      }else{
+        this.teacherClassesRepository.deleteClass(getClass.getClassID());
+        this.classesSubjectsRepository.deleteClass(getClass.getClassID());
+        this.classesRepository.delete(getClass);
+        return ResponseEntity.ok().build();
+      }
+    }
+
+    return ResponseEntity.internalServerError().build();
+  }
 }
 
 

@@ -76,6 +76,8 @@
 </p-dialog>
 
 <p-dialog header="Estudante+" [(visible)]="visibleSubjects" draggable="false" [modal]="true" [style]="{ 'width': '35vw' }">
+  <label class="label" for="numberOfClasses">Total: </label>
+  <span>{{ totalClasses }}</span>
   <p-listbox [options]="subjects" [(ngModel)]="subjectsClasses" optionLabel="name">
     <ng-template let-subject pTemplate="item">
       <div class="subject-item">

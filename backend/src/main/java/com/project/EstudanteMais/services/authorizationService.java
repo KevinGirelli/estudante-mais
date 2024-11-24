@@ -32,10 +32,11 @@ public class authorizationService implements UserDetailsService {
     if (admin != null) {
       return admin;
     }
-    if (student != null) {
+    if (student != null && student.isEnabled()) {
       return student;
-    }else{
+    }else if(teacher != null && teacher.isEnabled()){
       return teacher;
     }
+    return null;
   }
 }

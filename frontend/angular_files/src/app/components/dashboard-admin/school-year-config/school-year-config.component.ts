@@ -83,6 +83,7 @@ export class SchoolYearConfigComponent implements OnInit {
 
      if(getSettings.status == 200){
       getSettings.json().then(data =>{
+        console.log(data)
         const bi = this.formatarDataParaInput(data.biDate)
         const tri  = this.formatarDataParaInput(data.triDate)
         const sem = this.formatarDataParaInput(data.semDate)
@@ -105,6 +106,7 @@ export class SchoolYearConfigComponent implements OnInit {
   }
 
   async saveConfig() {
+    console.log(this.selectedPeriodType)
     let formatedBoletimDateBi = this.boletimDateBi?.toLocaleDateString("pt-BR")
     let formatedBoletimDateTri = this.boletimDateTri?.toLocaleDateString("pt-BR")
     let formatedBoletimDateSem = this.boletimDateSem?.toLocaleDateString("pt-BR")
@@ -126,6 +128,7 @@ export class SchoolYearConfigComponent implements OnInit {
 
   
    if(this.generationType == 25){
+    console.log
     const response2 = await fetch("http://localhost:8080/admin/schedule/setScheduleSettings/"
       + this.generationType + "," + "5" + "," + this.consecType + "/" + formatedBoletimDateBi + "/" + formatedBoletimDateTri
       + "/" + formatedBoletimDateSem
