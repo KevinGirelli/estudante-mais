@@ -18,7 +18,7 @@ public class periodManagerService {
     @Autowired
     schoolPeriodRepository schoolPeriodRepository;
 
-    @Scheduled(cron = "0 31 19 * * ?")
+    @Scheduled(cron = "0 1 0 * * ?")
     public void checkDates(){
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -59,7 +59,7 @@ public class periodManagerService {
             int biNumber = config.getBimestralNumber();
 
             biNumber++;
-            if(biNumber > 6) biNumber = 1;
+            if(biNumber > 5) biNumber = 1;
 
             this.schoolSettingsRepository.updateBimestralNumber(biNumber);
         }
@@ -85,7 +85,7 @@ public class periodManagerService {
             int triNumber = config.getTrimestralNumber();
 
             triNumber++;
-            if(triNumber > 4) triNumber = 1;
+            if(triNumber > 3) triNumber = 1;
 
             this.schoolSettingsRepository.updateTrimestralNumber(triNumber);
         }

@@ -15,8 +15,12 @@ interface Grade {
   absences2: number | null;
   trimester3: number | null;
   absences3: number | null;
-  finalAverage: number | null;
-  totalAbsences: number | null;
+  finalAverage: any
+  totalAbsences: number
+}
+
+interface Grade2 {
+  label: string;
 }
 
 interface Period {
@@ -46,172 +50,259 @@ export class MyGradesComponent implements OnInit {
   periods: Period[] = [];
   selectedPeriod!: number;
 
+  periodTypes: string[] = ["Trimestral","Bimestral","Semestral"]
+  periods2: Period[] = [];
+  selectedPeriod2!: number;
+  selectedType: string = ''
+  type  = 0
+  periodSelected!: number;
+
   subjects: Subject[] = [];
   selectedSubject!: string;
 
-  onPeriodSelected() {
+  grades: Grade[] = [];
+  grades2: Grade2[] = []
+  totalGradeAverage: number = 7.5;
+  amountOfGrades: any[] = []
 
+  totalAbsencesSum: number = 0;
+  amountOfClasses: number = 0
+
+  studentData = {
+    name: '',
+    shift: '',
+    class: '',
+    stage: '',
+    year: 0
+  };
+  
+  async onPeriodTypeSelected(){
+    this.periodSelected = 1
+    this.periods2 = []
+    if(this.selectedType == "Trimestral"){
+      this.type = 3
+      this.periods2.push({label: "1°", value: 1})
+      this.periods2.push({label: "2°", value: 2})
+      this.periods2.push({label: "3°", value: 3})
+    } 
+    if(this.selectedType == "Semestral"){
+      this.type = 6
+      this.periods2.push({label: "1°", value: 1})
+      this.periods2.push({label: "2°", value: 2})
+    } 
+    if(this.selectedType == "Bimestral"){
+      this.type = 2
+      this.periods2.push({label: "1°", value: 1})
+      this.periods2.push({label: "2°", value: 2})
+      this.periods2.push({label: "3°", value: 3})
+      this.periods2.push({label: "4°", value: 4})
+      this.periods2.push({label: "5°", value: 5})
+    } 
+  }
+
+  async onPeriodSelected() {
+    this.grades2 = []
+    const response = await fetch("http://localhost:8080/grades/viewGrades/" + localStorage.getItem("userID") + "," + this.selectedSubject + "," + this.selectedPeriod,{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+
+    if(response.status == 200){
+      response.json().then(data => {
+        console.log(data)
+          for(let i = 0; i <= data.length-1; i++){
+            const add: Grade2 = {
+              label: `${data[i].date}: ${data[i].gradeValue}`,
+            }
+            this.grades2.push(add)
+          }
+
+      })
+    }
+  }
+
+  async onPeriodSelected2(){
+    const response = await fetch("http://localhost:8080/student/generateBoletim/" + localStorage.getItem("userID") + "/" +this.selectedPeriod2 + "/" + this.type,{
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    }).then(response =>{
+      if(response.status == 200){
+        response.json().then(data =>{
+          console.log(data)
+          this.studentData.name = data.studentName
+          this.studentData.class = data.className,
+          this.studentData.shift = data.shift,
+          this.studentData.stage = data.stage,
+          this.studentData.year = data.year
+          this.amountOfClasses = data.amountOfClasses
+
+          this.grades = []
+
+          let subjectGrades = data.subjectsGrades
+          for(let i = 0; i <= subjectGrades.length-1;i++){
+            if(this.selectedPeriod2 == 1){
+              let average = 0
+              if(subjectGrades[i].grades[0] != undefined){
+                average += parseFloat(subjectGrades[i].grades[0])
+              }
+
+              let newGrade: Grade = {
+                subject: subjectGrades[i].subjectName,
+                trimester1: subjectGrades[i].grades[0],
+                absences1: subjectGrades[i].absences[0],
+                trimester2: null,
+                absences2: null,
+                trimester3: null,
+                absences3: null,
+                finalAverage: average,
+                totalAbsences: subjectGrades[i].totalAbsences
+              }
+              this.totalAbsencesSum += newGrade.totalAbsences
+              this.amountOfGrades.push(newGrade.finalAverage)
+              this.grades.push(newGrade)
+            }
+
+            if(this.selectedPeriod2 == 2){
+              let average = 0
+              if(subjectGrades[i].grades[0] != undefined){
+                average += parseFloat(subjectGrades[i].grades[0])
+              }
+
+              if(subjectGrades[i].grades[1] != undefined){
+                average += parseFloat(subjectGrades[i].grades[1])
+              }
+
+              let newGrade: Grade = {
+                subject: subjectGrades[i].subjectName,
+                trimester1: subjectGrades[i].grades[0],
+                absences1: subjectGrades[i].absences[0],
+                trimester2: subjectGrades[i].grades[1],
+                absences2: subjectGrades[i].absences[1],
+                trimester3: null,
+                absences3: null,
+                finalAverage: average,
+                totalAbsences: subjectGrades[i].totalAbsences
+              }
+              this.totalAbsencesSum += newGrade.totalAbsences
+              this.amountOfGrades.push(newGrade.finalAverage)
+              this.grades.push(newGrade)
+            }
+
+            if(this.selectedPeriod2 == 3){
+              let average = 0
+              if(subjectGrades[i].grades[0] != undefined){
+                average += parseFloat(subjectGrades[i].grades[0])
+              }
+
+              if(subjectGrades[i].grades[1] != undefined){
+                average += parseFloat(subjectGrades[i].grades[1])
+              }
+
+              if(subjectGrades[i].grades[2] != undefined){
+                average += parseFloat(subjectGrades[i].grades[2])
+              }
+
+              let newGrade: Grade = {
+                subject: subjectGrades[i].subjectName,
+                trimester1: subjectGrades[i].grades[0],
+                absences1: subjectGrades[i].absences[0],
+                trimester2: subjectGrades[i].grades[1],
+                absences2: subjectGrades[i].absences[1],
+                trimester3: subjectGrades[i].grades[2],
+                absences3: subjectGrades[i].absences[2],
+                finalAverage: average,
+                totalAbsences: subjectGrades[i].totalAbsences
+              }
+
+              this.totalAbsencesSum += newGrade.totalAbsences
+              this.amountOfGrades.push(newGrade.finalAverage)
+              this.grades.push(newGrade)
+            }
+            
+          }
+        })
+      }
+    })
   }
 
   onSelectChange() {
-
+    this.periods = []
+    this.subjects.forEach(s =>{
+     if(s.value == this.selectedSubject){
+       if(s.type == 2){
+         this.periods.push({label: "1°", value: 1})
+         this.periods.push({label: "2°", value: 2})
+         this.periods.push({label: "3°", value: 3})
+         this.periods.push({label: "4°", value: 4})
+         this.periods.push({label: "5°", value: 5})
+       }
+ 
+       if(s.type == 3){
+         this.periods.push({label: "1°", value: 1})
+         this.periods.push({label: "2°", value: 2})
+         this.periods.push({label: "3°", value: 3})
+       }
+ 
+       if(s.type == 6){
+         this.periods.push({label: "1°", value: 1})
+         this.periods.push({label: "2°", value: 2})
+       }
+     }
+    })
   }
 
-  grades: Grade[] = [];
-  totalGradeAverage: number = 7.5;
-  totalAbsencesSum: number = 93;
-  
-  studentData = {
-    name: 'Kévin Girelli',
-    shift: 'Integral',
-    class: '3-51',
-    stage: '3° Ano - Ensino Médio',
-    year: 2024
-  };
-  
-
-  ngOnInit(): void {
-    
-  }
-
-  initializeGrades(): void {
-    this.grades = [
-      {
-        subject: 'Biologia',
-        trimester1: 10,
-        absences1: 10,
-        trimester2: 9,
-        absences2: 14,
-        trimester3: 5,
-        absences3: 10,
-        finalAverage: 8,
-        totalAbsences: 34
-      },
-      {
-        subject: 'Matemática',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
-      },
-      {
-        subject: 'Geografia',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
-      },
-      {
-        subject: 'História',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
-      },
-      {
-        subject: 'Educação Física',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
-      },
-      {
-        subject: 'Inglês',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
-      },
-      {
-        subject: 'Português',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
-      },
-      {
-        subject: 'Sociologia',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
-      },
-      {
-        subject: 'Física',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
-      },
-      {
-        subject: 'Química',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
-      },
-      {
-        subject: 'Filosofia',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
-      },
-      {
-        subject: 'Arte',
-        trimester1: null,
-        absences1: null,
-        trimester2: null,
-        absences2: null,
-        trimester3: null,
-        absences3: null,
-        finalAverage: null,
-        totalAbsences: null
+ 
+  async ngOnInit(): Promise<void> {
+    const response1 = await fetch("http://localhost:8080/student/getSubjectsFromClasses/" + localStorage.getItem("userID"),{
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
       }
-    ];
+    })
+
+    if(response1.status == 200){
+      response1.json().then(data =>{
+        for(let i = 0; i <= data.length-1; i++){
+          let subject = {
+            label: data[i].split(",")[1],
+            value: data[i].split(",")[0],
+            type: data[i].split(",")[2]
+          }
+
+          this.subjects.push(subject)
+        }
+      })
+    }
   }
 
+  calcularMediaNotas(){
+    let soma = 0
+    this.amountOfGrades.forEach(grade =>{
+        soma += grade
+    })
+
+    return this.roundNumber(soma / this.amountOfGrades.length, 2)
+  }
+
+  calcularFrequencia(){
+    let aulasAnuais = this.amountOfClasses * 200
+    let porcentagem = this.roundNumber((this.totalAbsencesSum / aulasAnuais) * 100,2)
+    return 100 - porcentagem
+  }
+
+  roundNumber(numero: number, casasDecimais: number): number {
+    const fator = Math.pow(10, casasDecimais);
+    return Math.round(numero * fator) / fator;
+  }
+ 
   async generateBoletim(): Promise<void> {
+     this.totalGradeAverage = this.calcularMediaNotas()
+     this.totalAbsencesSum = this.calcularFrequencia()
+    
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Boletim Escolar');
     
@@ -240,7 +331,7 @@ export class MyGradesComponent implements OnInit {
 
     // Configurar larguras das colunas
     worksheet.columns = [
-      { width: 25 }, // Disciplina
+      { width: 30 }, // Disciplina
       { width: 12 }, // Nota T1
       { width: 12 }, // Faltas T1
       { width: 12 }, // Nota T2
@@ -248,7 +339,7 @@ export class MyGradesComponent implements OnInit {
       { width: 12 }, // Nota T3
       { width: 12 }, // Faltas T3
       { width: 17 }, // Média Final
-      { width: 20 }  // Total Faltas
+      { width: 25 }  // Total Faltas
     ];
 
     // Cabeçalho com logo
@@ -393,27 +484,42 @@ export class MyGradesComponent implements OnInit {
     worksheet.mergeCells('B4:C4');
     worksheet.mergeCells('D4:E4');
     worksheet.mergeCells('F4:G4');
-
     const trimesterRow = worksheet.getRow(4);
-    trimesterRow.getCell(2).value = 'Trimestre 1';
-    trimesterRow.getCell(4).value = 'Trimestre 2';
-    trimesterRow.getCell(6).value = 'Trimestre 3';
-    trimesterRow.getCell(8).value = 'Média Final';
-    trimesterRow.getCell(9).value = 'Total de Faltas';
-
-    // Adicionar cabeçalhos Nota/Faltas
     const subHeaderRow = worksheet.getRow(5);
-    subHeaderRow.getCell(2).value = 'Nota';
-    subHeaderRow.getCell(3).value = 'Faltas';
-    subHeaderRow.getCell(4).value = 'Nota';
-    subHeaderRow.getCell(5).value = 'Faltas';
-    subHeaderRow.getCell(6).value = 'Nota';
-    subHeaderRow.getCell(7).value = 'Faltas';
+
+    if(this.type == 6){
+      trimesterRow.getCell(2).value = 'Semestre 1';
+      trimesterRow.getCell(4).value = 'Semestre 2';
+      trimesterRow.getCell(8).value = 'Soma Final';
+      trimesterRow.getCell(9).value = 'Total de Faltas';
+
+      subHeaderRow.getCell(2).value = 'Nota';
+      subHeaderRow.getCell(3).value = 'Faltas';
+      subHeaderRow.getCell(4).value = 'Nota';
+      subHeaderRow.getCell(5).value = 'Faltas';
+      subHeaderRow.getCell(6).value = '';
+      subHeaderRow.getCell(7).value = '';
+      }else{
+        trimesterRow.getCell(2).value = 'Trimestre 1';
+        trimesterRow.getCell(4).value = 'Trimestre 2';
+        trimesterRow.getCell(6).value = 'Trimestre 3';
+        trimesterRow.getCell(8).value = 'Soma Final';
+        trimesterRow.getCell(9).value = 'Total de Faltas';
+  
+        subHeaderRow.getCell(2).value = 'Nota';
+        subHeaderRow.getCell(3).value = 'Faltas';
+        subHeaderRow.getCell(4).value = 'Nota';
+        subHeaderRow.getCell(5).value = 'Faltas';
+        subHeaderRow.getCell(6).value = 'Nota';
+        subHeaderRow.getCell(7).value = 'Faltas';
+      }
+
+     
 
     // Estilo para ambas as linhas de cabeçalho
     [trimesterRow, subHeaderRow].forEach(row => {
       row.eachCell((cell) => {
-        if (cell.value) {
+        if (cell.value || cell.value == "") {
           cell.font = { 
             name: 'Poppins',
             bold: true,
@@ -475,7 +581,7 @@ export class MyGradesComponent implements OnInit {
     ]);
 
     const absencesRow = worksheet.addRow([
-      'Média Total das Faltas',
+      'Frequência Total de Faltas',
       '',
       '',
       '',
@@ -483,7 +589,7 @@ export class MyGradesComponent implements OnInit {
       '',
       '',
       '',
-      this.totalAbsencesSum
+      this.totalAbsencesSum + "%"
     ]);
 
     [totalRow, absencesRow].forEach(row => {

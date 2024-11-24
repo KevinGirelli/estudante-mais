@@ -108,7 +108,6 @@ export class MyAbsencesComponent implements OnInit{
          this.periods.push({label: "1°", value: 1})
          this.periods.push({label: "2°", value: 2})
          this.periods.push({label: "3°", value: 3})
-         this.periods.push({label: "4°", value: 4})
        }
  
        if(s.type == 6){

@@ -5,28 +5,48 @@
     <div class="selects">
       <div class="selects">
         <p-dropdown 
-          [options]="periods" 
-          [(ngModel)]="selectedPeriod" 
-          [placeholder]="selectedPeriod ? '' : 'Selecione o período'"
-          (onChange)="onPeriodSelected()">
-        </p-dropdown>
-        <p-dropdown 
         [options]="subjects" 
         [(ngModel)]="selectedSubject" 
         [placeholder]="selectedSubject ? '' : 'Selecione a matéria'"
         (onChange)="onSelectChange()">
         </p-dropdown>
+        <p-dropdown 
+          [options]="periods" 
+          [(ngModel)]="selectedPeriod" 
+          [placeholder]="selectedPeriod ? '' : 'Selecione o período'"
+          (onChange)="onPeriodSelected()">
+        </p-dropdown>
+
+        <div class="grades-list" *ngIf="grades2.length > 0">
+          <p-listbox [options]="grades2" optionLabel="label"></p-listbox>
+        </div>
+
+        <h1>Boletim</h1>
+        
+        <p-dropdown 
+        [options]="periodTypes" 
+        [(ngModel)]="selectedType" 
+        [placeholder]="selectedType ? '' : 'Selecione o tipo (Visualizar Boletim)'"
+        (onChange)="onPeriodTypeSelected()">
+      </p-dropdown>
+
+      <p-dropdown 
+          [options]="periods2" 
+          [(ngModel)]="selectedPeriod2" 
+          [placeholder]="selectedPeriod2 ? '' : 'Selecione o período'"
+          [disabled]="!periodSelected"
+          (onChange)="onPeriodSelected2()"
+          >
+        </p-dropdown>
       </div>      
     </div>
+    
     <button 
       class="generate-boletim" 
       (click)="generateBoletim()" 
-      [disabled]="!selectedPeriod">
+      [disabled]="!selectedPeriod2 || !selectedType">
       Baixar Boletim
     </button>
-    <div class="grades-list" *ngIf="grades.length > 0">
-      <p-listbox [options]="grades" optionLabel="label"></p-listbox>
-    </div>
   </div>
   <div class="image">
     <img src="../../../../assets/images/student/myGrades.png" alt="">

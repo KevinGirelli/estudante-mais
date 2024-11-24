@@ -1,22 +1,23 @@
 package com.project.EstudanteMais.controllers.admin.dataManager;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.project.EstudanteMais.Entity.dto.studentDataDTO;
+import com.project.EstudanteMais.Entity.attendenceStatus;
+import com.project.EstudanteMais.Entity.dto.boletim.boletimDTO;
+import com.project.EstudanteMais.Entity.dto.boletim.subjectBoletim;
 import com.project.EstudanteMais.Entity.dto.updateStudentDataDTO;
-import com.project.EstudanteMais.repository.attendenceHistoryRepository;
-import com.project.EstudanteMais.repository.attendenceRepository;
-import com.project.EstudanteMais.repository.gradeRepository;
-import com.project.EstudanteMais.repository.studentRepository;
-import jakarta.persistence.PostUpdate;
+import com.project.EstudanteMais.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping("/admin/studentDataManager")
@@ -34,6 +35,13 @@ public class studentDataManager {
   @Autowired
   gradeRepository gradeRepository;
 
+  @Autowired
+  subjectsRepository subjectsRepository;
+
+  @Autowired
+  classesRepository classesRepository;
+
+
   //Students crud
   @GetMapping("/getStudent/{studentID}")
   public ResponseEntity selectStudent(@PathVariable(value = "studentID") String ID){
@@ -45,6 +53,8 @@ public class studentDataManager {
       return ResponseEntity.badRequest().body("user not found");
     }
   }
+
+
 
   @PatchMapping("/updateStudentPrimaryData")
   public ResponseEntity updateStudentPrimaryData(@RequestBody updateStudentDataDTO studentData){

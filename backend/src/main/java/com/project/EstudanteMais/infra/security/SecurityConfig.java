@@ -54,6 +54,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/assess/updateAssessment").hasAnyAuthority("TEACHER", "ADMIN")
                     .requestMatchers(HttpMethod.POST, "/assess/postStudentGrade").hasAuthority("TEACHER")
                     .requestMatchers(HttpMethod.POST, "/CrisAssistant/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/student/**").hasAnyAuthority("STUDENT")
                     .requestMatchers(HttpMethod.GET, "/CrisAssistant/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/grades/viewGrades").hasAuthority("STUDENT")
                     .requestMatchers(HttpMethod.POST, "/student/viewSchedule").hasAuthority("STUDENT")
