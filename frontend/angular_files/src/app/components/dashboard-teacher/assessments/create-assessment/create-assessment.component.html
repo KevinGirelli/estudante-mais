@@ -14,14 +14,20 @@
     <div class="form-item">
       <label class="label" for="classes">Turma</label>
       <select class="input-field" [(ngModel)]="classesSelected" id="classes">
-        <option *ngFor="let class of allClasses" [value]="class.id">{{class.name}}</option>
+        <option *ngFor="let class of allClasses" [value]="class.id">{{ class.name }}</option>
       </select>
     </div>
-
     <div class="form-item">
       <label class="label" for="subjects">Matéria</label>
-      <select class="input-field" [(ngModel)]="subjectSelected" id="sub">
-        <option *ngFor="let subject of allSubjects" [value]="subject.id">{{subject.subjectName}}</option>
+      <select class="input-field" [(ngModel)]="subjectSelected" id="subjects">
+        <option *ngFor="let subject of allSubjects" [value]="subject.id">{{ subject.subjectName }}</option>
+      </select>
+    </div>
+    <div class="form-item recovery-section">
+      <label class="label" for="isRecovery">É uma recuperação?</label>
+      <input type="checkbox" id="isRecovery" [(ngModel)]="isRecovery" (change)="toggleRecovery()">
+      <select *ngIf="isRecovery" class="input-field recovery-select" [(ngModel)]="recoveryAssessmentSelected">
+        <option *ngFor="let assessment of previousAssessments" [value]="assessment.id">{{ assessment.name }}</option>
       </select>
     </div>
     <button (click)="registerAssessment()">Cadastrar Avaliação</button>

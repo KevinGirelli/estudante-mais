@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CalendarModule } from 'primeng/calendar';
 import { Router } from '@angular/router';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { DataSaverService } from '../../../../services/tempDataSaver/data-saver.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -18,6 +18,11 @@ interface subject {
   subjectName: string
 }
 
+interface Assessment {
+  id: string;
+  name: string;
+}
+
 @Component({
   selector: 'app-create-assessment',
   standalone: true,
@@ -26,7 +31,8 @@ interface subject {
     MultiSelectModule,
     CalendarModule,
     NgFor,
-    ToastModule
+    ToastModule,
+    NgIf
   ],
   providers: [MessageService],
   templateUrl: './create-assessment.component.html',
@@ -43,6 +49,11 @@ export class CreateAssessmentComponent implements OnInit {
 
   subjectSelected: subject[] = [];
   allSubjects: subject[] = [];
+
+  isRecovery: boolean = false;
+  recoveryAssessmentSelected: string = '';
+  previousAssessments: Assessment[] = [];
+
 
   async ngOnInit(): Promise<void> {
     const response = await fetch("http://localhost:8080/teacher/getAllClassesFromTeacher/" + localStorage.getItem("userID"),{
@@ -102,6 +113,12 @@ export class CreateAssessmentComponent implements OnInit {
           }
         }
       })
+    }
+  }
+
+  toggleRecovery(): void {
+    if (!this.isRecovery) {
+      this.recoveryAssessmentSelected = '';
     }
   }
 
